@@ -1,8 +1,6 @@
 # CBAPI-OperationalReportsClientApp
 
-======================================
-How to instructions.
-======================================
+## How to instructions.
 
 This sample application will allow you to use the Cloudbeds APIs to:
 1.	Query reservations data
