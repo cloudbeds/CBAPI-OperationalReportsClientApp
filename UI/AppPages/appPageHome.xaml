@@ -1,0 +1,23 @@
+﻿<Grid x:Class="OnSiteCompanion.appPageHome"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:OnSiteCompanion"
+      VerticalAlignment="Stretch" Height="Auto" 
+      HorizontalAlignment="Stretch" Width="Auto" 
+      Background="#F1F3F4" >
+    <Grid.RowDefinitions>
+        <RowDefinition ></RowDefinition>
+        <RowDefinition Height="*"></RowDefinition>
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"></ColumnDefinition>
+    </Grid.ColumnDefinitions>
+    <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" >
+        <local:uiReservationsInfoTile x:Name="infoTileReservations" MouseUp="infoTileReservations_MouseUp" ></local:uiReservationsInfoTile>
+        <local:uiGuestsInfoTile x:Name="infoTileGuests" MouseUp="uiGuestsInfoTile_MouseUp"></local:uiGuestsInfoTile>
+    </StackPanel>
+    <local:uiCacheAgeInfoTile VerticalAlignment="Bottom" x:Name="infoTileCacheAge" Grid.Row="1" Grid.Column="0"></local:uiCacheAgeInfoTile>
+</Grid>
+

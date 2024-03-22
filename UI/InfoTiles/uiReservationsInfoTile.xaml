@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="OnSiteCompanion.uiReservationsInfoTile"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:OnSiteCompanion"
+             mc:Ignorable="d" 
+             >
+    <Border Style="{StaticResource InfoTileBorder}"  MinWidth="250" Height="Auto" BorderBrush="#c0c0c0" BorderThickness="1" CornerRadius="4">
+        <StackPanel Orientation="Vertical" Margin="10,10,10,10">
+            <TextBlock 
+                x:Name="txtNumberReservations" 
+                Foreground="#404040" 
+                HorizontalAlignment="Left" 
+                FontSize="18" 
+                FontWeight="Heavy" Margin="0, 0, 0, 5">RESERVATIONS
+            </TextBlock>
+            <StackPanel Orientation="Vertical" x:Name="spLineItems">
+                <!-- Line items go here-->
+            </StackPanel>
+        </StackPanel>
+    </Border>
+
+</UserControl>

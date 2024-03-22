@@ -1,0 +1,31 @@
+﻿<StackPanel x:Class="OnSiteCompanion.appPageStatusLogs"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:OnSiteCompanion"
+             Orientation="Vertical" HorizontalAlignment="Stretch" Background="#ffffff">
+    <Grid HorizontalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        
+        <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left">Status logs</TextBlock>
+        <ScrollViewer Grid.Row="1" Grid.Column="0" VerticalScrollBarVisibility="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#ffffff">
+            <TextBlock HorizontalAlignment="Stretch" TextWrapping="Wrap"  x:Name="txtStatusLogs"></TextBlock>
+        </ScrollViewer>
+
+        <Border Grid.Row="0" Grid.Column="1" Background="#ffc0c0"  HorizontalAlignment="Stretch">
+            <TextBlock HorizontalAlignment="Left" >Error logs</TextBlock>
+        </Border>
+        <ScrollViewer Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#ffc0c0">
+            <TextBlock HorizontalAlignment="Stretch" TextWrapping="Wrap" x:Name="txtErrorLogs"></TextBlock>
+        </ScrollViewer>
+
+        </Grid>
+</StackPanel>

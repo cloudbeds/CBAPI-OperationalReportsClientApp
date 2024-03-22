@@ -1,0 +1,2 @@
+﻿<!-- This file will get overwritten by the auth bootstrap process -->
+<?xml version="1.0" encoding="utf-8"?><CBOauthToken oauthRefreshToken="xxxxxxxx" oauthAccessToken="yyyyyy" expectedExpireTimeUtc="03/21/2024 19:02:41" />

@@ -1,0 +1,60 @@
+﻿<UserControl x:Class="OnSiteCompanion.uiDailyOccupancyChangesListItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:OnSiteCompanion"
+             mc:Ignorable="d" 
+             d:DesignHeight="20" d:DesignWidth="500" 
+             Cursor="Hand" 
+             Loaded="UserControl_Loaded" 
+             MouseLeftButtonUp="UserControl_MouseLeftButtonUp" Background="#ffffff" >
+    <Border HorizontalAlignment="Stretch" >
+        <Border.Style>
+            <Style>
+                <Setter Property="Border.Background" Value="#FFFFFF"/>
+                <Style.Triggers>
+                    <Trigger Property="Border.IsMouseOver" Value="True">
+                        <Setter Property="Border.Background" Value="#F0F0F0" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </Border.Style>
+        <Border HorizontalAlignment="Stretch" Margin="5,5,5,5" >
+            <StackPanel Orientation="Vertical">
+                <Grid TextElement.FontSize="18" HorizontalAlignment="Stretch" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="150"></ColumnDefinition>
+                        <ColumnDefinition Width="150"></ColumnDefinition>
+                        <ColumnDefinition Width="150"></ColumnDefinition>
+                        <ColumnDefinition Width="150"></ColumnDefinition>
+                        <ColumnDefinition Width="250"></ColumnDefinition>
+                        <ColumnDefinition Width="200"></ColumnDefinition>
+                        <ColumnDefinition Width="150"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock x:Name="txtDate" Grid.Row="0" Grid.Column="0">DATE</TextBlock>
+                    <TextBlock x:Name="txtNumberCheckIns" Grid.Row="1" Grid.Column="1">Check Ins</TextBlock>
+                    <TextBlock x:Name="txtNumberCheckOuts" Grid.Row="0" Grid.Column="2">Check Outs </TextBlock>
+                    <TextBlock x:Name="txtNumberStayOvers" Grid.Row="0" Grid.Column="3">Stay Overs</TextBlock>
+                    <TextBlock x:Name="txtUnassignedCheckins" Grid.Row="0" Grid.Column="4">Unassigned checkins</TextBlock>
+                    <TextBlock x:Name="txtRoomTurnovers" Grid.Row="0" Grid.Column="5">Room Turnovers</TextBlock>
+                </Grid>
+
+                <!--
+                <StackPanel Visibility="Collapsed" x:Name="areaExpandDetails" Orientation="Horizontal">
+                    <TextBlock>
+                        <Hyperlink NavigateUri="https://cloudbeds.com" RequestNavigate="Hyperlink_RequestNavigate">
+                            Open in Cloudbeds.com
+                        </Hyperlink>
+                    </TextBlock>
+                </StackPanel>
+                -->
+            </StackPanel>
+        </Border>
+    </Border>
+
+</UserControl>
