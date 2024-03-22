@@ -1,12 +1,12 @@
 # CBAPI-OperationalReportsClientApp
 
-## How to instructions.
-
 This sample application will allow you to use the Cloudbeds APIs to:
 <br>
 1. Query reservations data
 2. Produce a report showing check-ins/check-outs/stayovers for 60 (or more if desired) days
 <br>
+
+# How to setup authentication
 
 ## Option 1: Set up the application using API Access tokens (preferred)
 <br>
