@@ -23,7 +23,7 @@ This sample application will allow you to use the Cloudbeds APIs to:
 
 ## Option 2: Set up the application using OAUTH Token API access
 <br>
-1.	Get Cloudbeds APIs access and access tokens.   These should be placed into a “Cloudbeds_AppConfig.xml” file (See example: “_ExampleSecrets\Example_CloudbedsOAuth_AppConfig.xml”)
+1.	Get Cloudbeds APIs OAuth Application ID and Access token.   These should be placed into a “Cloudbeds_AppConfig.xml” file (See example: “_ExampleSecrets\Example_CloudbedsOAuth_AppConfig.xml”)
 <br>
 2.	Have a placeholder “Cloudbeds_UserAccessTokens.xml” file.  (This will get overwritten when you authenticate to the application.  See example: “_ExampleSecrets\Example_CloudbedsOAuth_TransientTokensStorage.xml” )
 <br>
