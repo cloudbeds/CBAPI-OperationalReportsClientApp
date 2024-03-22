@@ -5,30 +5,37 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:OnSiteCompanion"
              Orientation="Vertical" HorizontalAlignment="Stretch" Background="#ffffff">
-
-    <Grid HorizontalAlignment="Stretch" Margin="10 10 10 10">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="25"></RowDefinition>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="120"></ColumnDefinition>
-            <ColumnDefinition Width="10"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <TextBlock Grid.Row="0" Grid.Column="0">App Config</TextBlock>
-        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="2">
-            <Button Click="ButtonEditConfigPath_Click">Edit...</Button>
-            <TextBox x:Name="txtConfigPath" IsReadOnly="True">xxxxxx</TextBox>
-        </StackPanel>
-
-    </Grid>
-
     <Border BorderBrush="Black" BorderThickness="2" Padding="10 10 30 0" Margin="10 0 10 0" Background="#f0f0f0" >
         <StackPanel Orientation="Vertical">
+
+            <TextBlock><Bold>This step is required for all authentication methods (both "API Key" and "OAuth Token")</Bold>
+            </TextBlock>
+            
+            <Grid HorizontalAlignment="Stretch" Margin="10 10 10 10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="120"></ColumnDefinition>
+                    <ColumnDefinition Width="10"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0">App Config</TextBlock>
+                <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="2">
+                    <Button Click="ButtonEditConfigPath_Click">Edit...</Button>
+                    <TextBox x:Name="txtConfigPath" IsReadOnly="True">xxxxxx</TextBox>
+                </StackPanel>
+
+            </Grid>            
+        </StackPanel>
+    </Border>
+    
+    <Border BorderBrush="Black" BorderThickness="2" Padding="10 10 30 0" Margin="10 10 10 0" Background="#f0f0f0" >
+        <StackPanel Orientation="Vertical">
         
-            <TextBlock><Bold>These extra steps below are ONLY required if you are using OAuth TOKEN based authentication</Bold>
+            <TextBlock><Bold>These extra steps are ONLY required if you are using OAuth TOKEN based authentication</Bold>
             <LineBreak></LineBreak>
-                If API Key based authentication is being used (preferred), then all that is required is the AppConfig file above
+                If API Key based authentication is being used (preferred), these steps are not required.
             </TextBlock>
             <Grid HorizontalAlignment="Stretch" Margin="10 10 10 10">
                 <Grid.RowDefinitions>
