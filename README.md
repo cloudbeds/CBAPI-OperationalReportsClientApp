@@ -43,7 +43,7 @@ NOTE: The browser will now be navigated to a MISSING PAGE (this is OK).  You jus
 4d. Click the “Finish Auth Bootstrap” button.
 <br>
 
-### RESULT: You will now have Cloudbeds API access tokens stored on your local machine.  
+RESULT: You will now have Cloudbeds API access tokens stored on your local machine.  
 These are refreshed as needed and are stored in the “Cloudbeds_UserAccessTokens.xml” file.  
 <br>
 5. Go to the “Operational Report” screen.  This will query the Cloudbeds API and download current and future reservations data and produce the report you see
