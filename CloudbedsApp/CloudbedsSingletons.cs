@@ -335,27 +335,27 @@ static internal partial class CloudbedsSingletons
         var appConfigAndSecrets = CloudbedsAppConfig.FromFile(filePathToAppSecrets);
         s_currentServerInfo = appConfigAndSecrets;
 
-        //================================================================================
-        //Load the authentication secrets from storage
-        //================================================================================
-        var filePathToPersistedToken = AppSettings.LoadPreference_PathUserAccessTokens();
-        if (!System.IO.File.Exists(filePathToPersistedToken))
+        ICloudbedsAuthSessionBase authSession = null;
+        switch (appConfigAndSecrets.AuthenticationType)
         {
-            statusLogs.AddError("220825-805: Auth token file does not exist: " + filePathToPersistedToken);
-            throw new Exception("220825-805: Auth token file does not exist: " + filePathToPersistedToken);
-        }
-        CloudbedsTransientSecretStorageManager authSecretsStorageManager =
-            CloudbedsTransientSecretStorageManager.LoadAuthTokensFromFile(
-                filePathToPersistedToken, 
-                appConfigAndSecrets, 
-                true, 
-                statusLogs);
+            case CloudbedsAppAuthenticationType.OAuthToken:
+                //The secret needs to be an OAuth refresh/session token pair
+                authSession = helper_EnsureAuthSessionAndSeverInfo_GetOAuthSession(appConfigAndSecrets, statusLogs);
+                break;
 
-        var authSession = authSecretsStorageManager.AuthSession;
+            case CloudbedsAppAuthenticationType.ApiAccessKey:
+                //The secret is just the API secret in the config file
+                authSession = new CloudbedsAuthSession_ApiToken(appConfigAndSecrets.CloudbedsAppClientSecret, statusLogs);
+                break;
+
+            default:
+                throw new Exception("240322-213: Unknown authentication mode: " + appConfigAndSecrets.ToString());
+        }
+
         //Sanity test
         if (authSession == null)
         {
-            statusLogs.AddError("220725-229: No auth session returned");
+            statusLogs.AddError("240322-217: No auth session returned");
         }
         else
         {
@@ -368,6 +368,41 @@ static internal partial class CloudbedsSingletons
         s_currentAuthSession = authSession;
     }
 
+
+    /// <summary>
+    /// Load an OAuth authenticaiton session
+    /// </summary>
+    /// <param name="appConfig"></param>
+    /// <param name="statusLogs"></param>
+    /// <returns></returns>
+    /// <exception cref="Exception"></exception>
+    private static ICloudbedsAuthSessionBase helper_EnsureAuthSessionAndSeverInfo_GetOAuthSession(CloudbedsAppConfig appConfig, TaskStatusLogs statusLogs)
+    {
+        //================================================================================
+        //Load the authentication secrets from storage
+        //================================================================================
+        var filePathToPersistedToken = AppSettings.LoadPreference_PathUserAccessTokens();
+        if (!System.IO.File.Exists(filePathToPersistedToken))
+        {
+            statusLogs.AddError("220825-805: Auth token file does not exist: " + filePathToPersistedToken);
+            throw new Exception("220825-805: Auth token file does not exist: " + filePathToPersistedToken);
+        }
+        CloudbedsTransientSecretStorageManager authSecretsStorageManager =
+            CloudbedsTransientSecretStorageManager.LoadAuthTokensFromFile(
+                filePathToPersistedToken,
+                appConfig,
+                true,
+                statusLogs);
+
+        var authSession = authSecretsStorageManager.AuthSession;
+        //Sanity test
+        if (authSession == null)
+        {
+            statusLogs.AddError("220725-229: No auth session returned");
+        }
+
+        return authSession;
+    }
 
 
 

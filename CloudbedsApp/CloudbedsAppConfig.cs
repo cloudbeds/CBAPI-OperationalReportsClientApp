@@ -12,14 +12,38 @@ using System.Xml.Linq;
 /// </summary>
 internal partial class CloudbedsAppConfig : ICloudbedsServerInfo
 {
-
-
     //ID/Password to sign into the Online Site
     public readonly string CloudbedsServerUrl;
     public readonly string CloudbedsAppOAuthRedirectUri;
     public readonly string CloudbedsAppClientId;
     public readonly string CloudbedsAppClientSecret;
-    
+    public readonly CloudbedsAppAuthenticationType AuthenticationType;
+
+    /// <summary>
+    /// Parse the authentication type value
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="Exception"></exception>
+    public static CloudbedsAppAuthenticationType Parse_AppAuthenticationType(string value)
+    {
+
+        if(value == "OAuthToken")
+        {
+            return CloudbedsAppAuthenticationType.OAuthToken;
+        }
+
+        if (value == "ApiAccessKey")
+        {
+            return CloudbedsAppAuthenticationType.ApiAccessKey;
+        }
+
+        if(value == null)
+        {
+            value = "";
+        }
+        throw new Exception("240322-127: Unknown App Authentication type: " + value);
+    }
 
 
     /// <summary>
@@ -31,6 +55,7 @@ internal partial class CloudbedsAppConfig : ICloudbedsServerInfo
         return new CloudbedsAppConfig(
             "FAKE Server URL",
             "FAKE CLIENT ID",
+            CloudbedsAppAuthenticationType.SimulationModeNoAuth,
             "FAKE CLIENT SECRET",
             "FAKE OAUTH Redirect Uri");
     }
@@ -42,9 +67,10 @@ internal partial class CloudbedsAppConfig : ICloudbedsServerInfo
     /// <param name="clientId"></param>
     /// <param name="clientSecret"></param>
     /// <param name="authRedirectUri"></param>
-    private CloudbedsAppConfig(string serverUrl, string clientId, string clientSecret, string authRedirectUri)
+    private CloudbedsAppConfig(string serverUrl, string clientId, CloudbedsAppAuthenticationType authType, string clientSecret = "", string authRedirectUri = "")
     {
         this.CloudbedsServerUrl = serverUrl;
+        this.AuthenticationType = authType;
         this.CloudbedsAppClientId = clientId;
         this.CloudbedsAppClientSecret = clientSecret;
         this.CloudbedsAppOAuthRedirectUri = authRedirectUri;
@@ -85,11 +111,22 @@ internal partial class CloudbedsAppConfig : ICloudbedsServerInfo
         string cloudbedsServerUrl = xNode.Attributes["serverUrl"].Value;
         string cloudbedsAppClientId = xNode.Attributes["clientId"].Value;
         string cloudbedsAppClientSecret = xNode.Attributes["secret"].Value;
-        string cloudbedsAppOAuthRedirectUri = xNode.Attributes["oAuthRedirectUri"].Value;
+
+        string authModeText = xNode.Attributes["authMode"].Value;
+        var parsedAuthMode = CloudbedsAppConfig.Parse_AppAuthenticationType(authModeText);
+
+        //We only need a redirect URL attribute if it is an OAuth authentication key
+        string cloudbedsAppOAuthRedirectUri = "";
+        if (parsedAuthMode == CloudbedsAppAuthenticationType.OAuthToken)
+        {
+            cloudbedsAppOAuthRedirectUri = xNode.Attributes["oAuthRedirectUri"].Value;
+        }
+
 
         return new CloudbedsAppConfig(
             cloudbedsServerUrl,
             cloudbedsAppClientId,
+            parsedAuthMode,
             cloudbedsAppClientSecret,
             cloudbedsAppOAuthRedirectUri);
     }

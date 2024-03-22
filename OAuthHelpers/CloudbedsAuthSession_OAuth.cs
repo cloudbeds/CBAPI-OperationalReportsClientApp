@@ -103,6 +103,17 @@ class CloudbedsAuthSession_OAuth : ICloudbedsAuthSessionBase
     }
 
     /// <summary>
+    /// The type of authentication we are performing
+    /// </summary>
+    CloudbedsAppAuthenticationType ICloudbedsAuthSessionId.AuthenticationType
+    {
+        get
+        {
+            return CloudbedsAppAuthenticationType.OAuthToken;
+        }
+    }
+
+    /// <summary>
     /// TRUE of the authentication token is past its need-to-renew-by date/time
     /// </summary>
     public bool IsAuthTokenPastRenewalDateTime {

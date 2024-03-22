@@ -17,4 +17,10 @@ interface ICloudbedsAuthSessionId
     /// </summary>
     /// <returns></returns>
     string DebugStatusText();
+
+
+    /// <summary>
+    /// What type of authentication is this?
+    /// </summary>
+    CloudbedsAppAuthenticationType AuthenticationType { get; }
 }

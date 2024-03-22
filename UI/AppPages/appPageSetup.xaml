@@ -5,52 +5,73 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:OnSiteCompanion"
              Orientation="Vertical" HorizontalAlignment="Stretch" Background="#ffffff">
+
     <Grid HorizontalAlignment="Stretch" Margin="10 10 10 10">
         <Grid.RowDefinitions>
             <RowDefinition Height="25"></RowDefinition>
-            <RowDefinition Height="25"></RowDefinition>
-            <RowDefinition Height="25"></RowDefinition>
-            <RowDefinition Height="120"></RowDefinition>
-            <RowDefinition Height="10"></RowDefinition>
-            <RowDefinition Height="60"></RowDefinition>
-            <RowDefinition Height="40"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="120"></ColumnDefinition>
             <ColumnDefinition Width="10"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-
         <TextBlock Grid.Row="0" Grid.Column="0">App Config</TextBlock>
-        <TextBlock Grid.Row="1" Grid.Column="0">User Access Tokens</TextBlock>
         <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="2">
             <Button Click="ButtonEditConfigPath_Click">Edit...</Button>
             <TextBox x:Name="txtConfigPath" IsReadOnly="True">xxxxxx</TextBox>
         </StackPanel>
 
-        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="2">
-            <Button Click="ButtonEditAuthTokensPath_Click">Edit...</Button>
-
-            <TextBox x:Name="txtSecretsPath"  IsReadOnly="True">xxxxxx</TextBox>
-        </StackPanel>
-
-        <Button Height="25" Grid.Row="3" Grid.Column="0" Click="ButtonStartAuthenticationBootstrap_Click" VerticalAlignment="Top">Start Auth Bootstrap</Button>
-        <StackPanel Orientation="Vertical" Grid.Row="3" Grid.Column="2">
-            <TextBlock TextWrapping="Wrap"><Bold>Copy/paste URL into browser to bootstrap the authentication process...</Bold>
-            <LineBreak></LineBreak>
-                <Bold>Note: </Bold> You will be shown a Cloudbeds permissions authorization screen.  
-                <LineBreak></LineBreak>When you AGREE to grant permissions, it will navigate you to another page - that page happens to be a "missing page" and you will see an error in the browser.  
-                <LineBreak></LineBreak>This is OK, we just need the contents from the URL of the page (see next step below)
-            </TextBlock>
-            <TextBox x:Name="txtUrlBootstrapAuth" IsReadOnly="True">xxxxxx</TextBox>
-        </StackPanel>
-
-        <Button Height="25" Grid.Row="5" Grid.Column="0" Click="ButtonFinishAuthBoostrap_Click"  VerticalAlignment="Top">Finish Auth Bootstrap</Button>
-        <StackPanel Orientation="Vertical" Grid.Row="5" Grid.Column="2">
-            <TextBlock><Bold>Copy/Paste URL FROM browser response here and click FINISH</Bold></TextBlock>
-            <TextBox x:Name="txtUrlBootstrapResult">--url from browser goes here --</TextBox>
-        </StackPanel>
     </Grid>
+
+    <Border BorderBrush="Black" BorderThickness="2" Padding="10 10 30 0" Margin="10 0 10 0" Background="#f0f0f0" >
+        <StackPanel Orientation="Vertical">
+        
+            <TextBlock><Bold>These extra steps below are ONLY required if you are using OAuth TOKEN based authentication</Bold>
+            <LineBreak></LineBreak>
+                If API Key based authentication is being used (preferred), then all that is required is the AppConfig file above
+            </TextBlock>
+            <Grid HorizontalAlignment="Stretch" Margin="10 10 10 10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25"></RowDefinition>
+                    <RowDefinition Height="25"></RowDefinition>
+                    <RowDefinition Height="25"></RowDefinition>
+                    <RowDefinition Height="120"></RowDefinition>
+                    <RowDefinition Height="10"></RowDefinition>
+                    <RowDefinition Height="60"></RowDefinition>
+                    <RowDefinition Height="40"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="120"></ColumnDefinition>
+                    <ColumnDefinition Width="10"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+
+                <TextBlock Grid.Row="1" Grid.Column="0">User Access Tokens</TextBlock>
+                <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="2">
+                    <Button Click="ButtonEditAuthTokensPath_Click">Edit...</Button>
+                    <TextBox x:Name="txtSecretsPath"  IsReadOnly="True">xxxxxx</TextBox>
+                </StackPanel>
+
+                <Button Height="25" Grid.Row="3" Grid.Column="0" Click="ButtonStartAuthenticationBootstrap_Click" VerticalAlignment="Top">Start Auth Bootstrap</Button>
+                <StackPanel Orientation="Vertical" Grid.Row="3" Grid.Column="2">
+                    <TextBlock TextWrapping="Wrap"><Bold>Copy/paste URL into browser to bootstrap the authentication process...</Bold>
+                    <LineBreak></LineBreak>
+                        <Bold>Note: </Bold> You will be shown a Cloudbeds permissions authorization screen.  
+                        <LineBreak></LineBreak>When you AGREE to grant permissions, it will navigate you to another page - that page happens to be a "missing page" and you will see an error in the browser.  
+                        <LineBreak></LineBreak>This is OK, we just need the contents from the URL of the page (see next step below)
+                    </TextBlock>
+                    <TextBox x:Name="txtUrlBootstrapAuth" IsReadOnly="True">xxxxxx</TextBox>
+                </StackPanel>
+
+                <Button Height="25" Grid.Row="5" Grid.Column="0" Click="ButtonFinishAuthBoostrap_Click"  VerticalAlignment="Top">Finish Auth Bootstrap</Button>
+                <StackPanel Orientation="Vertical" Grid.Row="5" Grid.Column="2">
+                    <TextBlock><Bold>Copy/Paste URL FROM browser response here and click FINISH</Bold></TextBlock>
+                    <TextBox x:Name="txtUrlBootstrapResult">--url from browser goes here --</TextBox>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+    </Border>
 
 </StackPanel>

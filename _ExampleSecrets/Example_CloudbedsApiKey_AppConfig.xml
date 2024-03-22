@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Configuration>
+  
+    <!--========================================================================================================================= 
+        clientId : Does not matter
+        authMode : We are using an API access token (not OAuth)
+        secret   : The secret given to you by the Cloudbeds API Access UI
+        =========================================================================================================================-->
+    <CloudbedsApp  serverUrl="https://hotels.cloudbeds.com" authMode="ApiAccessKey" clientId="Does Not Matter" secret="****SecretGoesHere****" />
+
+</Configuration>
