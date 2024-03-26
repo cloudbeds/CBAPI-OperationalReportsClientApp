@@ -255,5 +255,23 @@ namespace OnSiteCompanion
             //=========================================================================
             CloudbedsSingletons.SetCloudbedsAuthSession(currentAuthSession, true);
         }
+
+        private void ButtonTest1_Click(object sender, RoutedEventArgs e)
+        {
+            var cbHotelDetails = new CloudbedsRequestHotelDetails(
+                CloudbedsSingletons.CloudbedsServerInfo,
+                CloudbedsSingletons.CloudbedsAuthSession,
+                CloudbedsSingletons.StatusLogs);
+
+            try
+            {
+                var boolResult = cbHotelDetails.ExecuteRequest();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error making request");
+            }
+
+        }
     }
 }

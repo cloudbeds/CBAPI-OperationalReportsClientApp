@@ -160,12 +160,12 @@ abstract class CloudbedsRequestReservationsWithRoomRatesBase : CloudbedsAuthenti
         //========================================================================
         //Get the response
         //========================================================================
-        var response = GetWebResponseLogErrors(httpRequest, "request hotel reservations list");
+        var response = GetWebResponseLogErrors(httpRequest, "request hotel reservations list, page #" + pageNumber.ToString());
 
         //https://docs.microsoft.com/en-us/dotnet/standard/serialization/system-text-json-use-dom-utf8jsonreader-utf8jsonwriter?pivots=dotnet-6-0
         using (response)
         {
-            var jsonOut = GetWebResponseAsJson(response, true);
+            var jsonOut = GetWebResponseAsJson(response, false);
             _commandResultJson = jsonOut;
 
             //----------------------------------------------------------------

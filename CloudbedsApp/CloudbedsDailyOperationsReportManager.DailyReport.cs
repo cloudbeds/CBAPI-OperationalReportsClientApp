@@ -48,24 +48,25 @@ internal partial class CloudbedsDailyOperationsReportManager
         /// <summary>
         /// Looks for overlap
         /// </summary>
-        /// <param name="checkInRoomIds"></param>
-        /// <param name="checkOutsRoomIds"></param>
+        /// <param name="set1"></param>
+        /// <param name="set2"></param>
         /// <returns></returns>
-        private int CalculateSetOverlap(ICollection<string> checkInRoomIds, ICollection<string> checkOutsRoomIds)
+        private static int CalculateSetOverlap(ICollection<string> set1, ICollection<string> set2)
         {
             //Empty set?
-            if ((checkInRoomIds == null) || (checkInRoomIds.Count == 0))
+            if ((set1 == null) || (set1.Count == 0))
             {  return 0; }
 
 
             //Empty set?
-            if ((checkOutsRoomIds == null) || (checkOutsRoomIds.Count == 0))
+            if ((set2 == null) || (set2.Count == 0))
             { return 0; }
 
             int overlap = 0;
-            foreach(var thisRoomId in checkInRoomIds)
+            foreach(var thisMember_set1 in set1)
             {
-                if(checkInRoomIds.Contains(thisRoomId))
+
+                if(set2.Contains(thisMember_set1))
                 {
                     overlap++;
                 }

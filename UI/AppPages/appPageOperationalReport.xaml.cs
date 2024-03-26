@@ -21,7 +21,7 @@ namespace OnSiteCompanion
     public partial class appPageOperationalReport : StackPanel, IRequestUiDataRefresh
     {
 
-        readonly uiOccupancyChangesList _ctlUiReport;
+        private uiOccupancyChangesList _ctlUiReport;
         /// <summary>
         /// Constructor
         /// </summary>
@@ -29,15 +29,20 @@ namespace OnSiteCompanion
         {
             InitializeComponent();
 
-            /*
-            //this.Children.Clear();
-            ctlUiReport = new uiReservationList(CloudbedsSingletons.CloudbedsReservationManager.Reservations);
-            //this.Children.Add(_ctlUiReservationsList);
-            spContent.Children.Add(_ctlUiReport);
-            */
+
+            //If we have the data cached, then generate the report...
+            if(CloudbedsSingletons.IsDataAvailableForDailyOperationsReport())
+            {
+                FillDataArea_QueryDataIfNeeded();
+            }
+        }
 
 
-
+        /// <summary>
+        /// Fill the UI with data
+        /// </summary>
+        private void FillDataArea_QueryDataIfNeeded()
+        {
             //========================================================================================
             //Add the occupancy changes report
             //========================================================================================
@@ -45,6 +50,9 @@ namespace OnSiteCompanion
             spContent.Children.Add(ctlOccupancyChanges);
 
             _ctlUiReport = ctlOccupancyChanges;
+
+            //Clear out the query for data UI
+            spQueryForDataIfNeeded.Children.Clear();
         }
 
         /// <summary>
@@ -91,6 +99,11 @@ namespace OnSiteCompanion
             //Generate the file output
             csvReport.GenerateCSVFile(fileOutputTo);
 
+        }
+
+        private void ButtonQueryForData_Click(object sender, RoutedEventArgs e)
+        {
+            FillDataArea_QueryDataIfNeeded();
         }
     }
 }

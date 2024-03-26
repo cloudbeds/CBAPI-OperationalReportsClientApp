@@ -51,7 +51,7 @@ internal static class XmlHelper
     /// <param name="attributeName"></param>
     /// <param name="defaultValue"></param>
     /// <returns></returns>
-    public static string SafeParseXmlAttribute(XmlNode xNode, string attributeName, string defaultValue)
+    public static string SafeParseXmlAttribute(XmlNode xNode, string attributeName, string? defaultValue)
     {
         var attr = xNode.Attributes[attributeName];
         if ((attr == null) || (string.IsNullOrWhiteSpace(attr.Value)))

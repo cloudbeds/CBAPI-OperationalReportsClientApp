@@ -14,9 +14,12 @@
     <Grid.ColumnDefinitions>
         <ColumnDefinition Width="*"></ColumnDefinition>
     </Grid.ColumnDefinitions>
-    <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" >
-        <local:uiReservationsInfoTile x:Name="infoTileReservations" MouseUp="infoTileReservations_MouseUp" ></local:uiReservationsInfoTile>
-        <local:uiGuestsInfoTile x:Name="infoTileGuests" MouseUp="uiGuestsInfoTile_MouseUp"></local:uiGuestsInfoTile>
+    <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="0" >
+        <TextBlock>Home page</TextBlock>
+        <StackPanel Orientation="Horizontal" Visibility="Collapsed">
+            <local:uiReservationsInfoTile x:Name="infoTileReservations" MouseUp="infoTileReservations_MouseUp" ></local:uiReservationsInfoTile>
+            <local:uiGuestsInfoTile x:Name="infoTileGuests" MouseUp="uiGuestsInfoTile_MouseUp"></local:uiGuestsInfoTile>
+        </StackPanel>
     </StackPanel>
     <local:uiCacheAgeInfoTile VerticalAlignment="Bottom" x:Name="infoTileCacheAge" Grid.Row="1" Grid.Column="0"></local:uiCacheAgeInfoTile>
 </Grid>

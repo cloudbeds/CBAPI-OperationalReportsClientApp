@@ -5,9 +5,9 @@ using System.Web;
 
 static partial class CloudbedsUris
 {
-    /*const string TemplateUrl_RequestOAuthAccess =
-        "{{iwsServerUrl}}/api/v1.1/oauth?client_id={{iwsClientId}}&redirect_uri={{iwsOAuthResponseUri}}&response_type=code&scope=read:dashboard";
-    */
+    //===========================================================================================
+    //OAUTH requests....
+    //===========================================================================================
     const string TemplateUrl_RequestOAuthAccess =
         "{{iwsServerUrl}}/api/v1.1/oauth?client_id={{iwsClientId}}&redirect_uri={{iwsOAuthResponseUri}}&response_type=code&"
         + "scope="
@@ -16,28 +16,6 @@ static partial class CloudbedsUris
         + "%20read:guest"
         + "%20read:reservation"
         ;
-
-    const string TemplateUrl_RequestOAuthRefreshToken =
-        "{{iwsServerUrl}}/api/v1.1/access_token";
-
-    const string TemplateUrl_CustomItemToReservation =
-        "{{iwsServerUrl}}/api/v1.1/postCustomItem";
-
-    const string TemplateUrl_CustomItemToReservation_PostContents =
-        "reservationID={{iwsReservationId}}" +
-        "&guestID={{iwsGuestId}}" +
-        "&referenceID={{iwsReferenceId}}" +
-        "{{iwsOrderItems}}" +
-        "";
-
-
-
-    const string TemplateUrl_PostAdjustmentToReservation =
-        "{{iwsServerUrl}}/api/v1.1/postAdjustment";
-
-    const string Template_PostAdjustmentToReservation_PostContents =
-        "reservationID={{iwsReservationId}}&type={{iwsAdjustmentType}}&amount={{iwsAdjustmentAmount}}&notes={{iwsNotes}}";
-
     const string TemplateUrl_RequestOAuthRefreshToken_PostContents =
         "grant_type=refresh_token&client_id={{iwsClientId}}&client_secret={{iwsClientSecret}}&refresh_token={{iwsOAuthRefreshToken}}";
 
@@ -48,25 +26,45 @@ static partial class CloudbedsUris
     const string TemplateUrl_RequestOAuthAccessToken_PostContents =
        "grant_type=authorization_code&client_id={{iwsClientId}}&client_secret={{iwsClientSecret}}&redirect_uri={{iwsOAuthResponseUri}}&code={{iwsOAuthCode}}";
 
-
-    const string TemplateUrl_HotelDashboard = "{{iwsServerUrl}}/api/v1.1/getDashboard";
-    const string TemplateUrl_HotelDetails= "{{iwsServerUrl}}/api/v1.1/getHotelDetails";
-    const string TemplateUrl_RequestAuthUserInfo = "{{iwsServerUrl}}/api/v1.1/userinfo";
-    const string TemplateUrl_GetCurrentGuestsList = "{{iwsServerUrl}}/api/v1.1/getGuestsByStatus?status=in_house&pageNumber={{iwsPageNumber}}&pageSize={{iwsPageSize}}";
-//    const string TemplateUrl_GetCheckedInReservationsList = "{{iwsServerUrl}}/api/v1.1/getReservations?status=checked_in&includeGuestsDetails=true&pageNumber={{iwsPageNumber}}&pageSize={{iwsPageSize}}";
-//    const string TemplateUrl_GetDateWindowReservationsList_FilterCheckInStatus = "{{iwsServerUrl}}/api/v1.1/getReservations?status={{iwsReservationStatus}}&checkInFrom={{iwsCheckInFrom}}&checkInTo={{iwsCheckInTo}}&pageNumber={{iwsPageNumber}}&pageSize={{iwsPageSize}}";
-//    const string TemplateUrl_GetDateWindowReservationsList = "{{iwsServerUrl}}/api/v1.1/getReservations?checkInFrom={{iwsCheckInFrom}}&checkInTo={{iwsCheckInTo}}&includeGuestsDetails=true&pageNumber={{iwsPageNumber}}&pageSize={{iwsPageSize}}";
-    const string TemplateUrl_GetCheckedInReservationsList = "{{iwsServerUrl}}/api/v1.1/getReservations?status=checked_in&pageNumber={{iwsPageNumber}}&pageSize={{iwsPageSize}}";
-    const string TemplateUrl_GetDateWindowReservationsList_FilterCheckInStatus = "{{iwsServerUrl}}/api/v1.1/getReservations?status={{iwsReservationStatus}}&checkInFrom={{iwsCheckInFrom}}&checkInTo={{iwsCheckInTo}}&pageNumber={{iwsPageNumber}}&pageSize={{iwsPageSize}}";
-    const string TemplateUrl_GetDateWindowReservationsList = "{{iwsServerUrl}}/api/v1.1/getReservations?checkInFrom={{iwsCheckInFrom}}&checkInTo={{iwsCheckInTo}}&pageNumber={{iwsPageNumber}}&pageSize={{iwsPageSize}}";
-    
-    
-    const string TemplateUrl_ReservationsWithRates_GetDateWindow=
-        "{{iwsServerUrl}}/api/v1.1/getReservationsWithRateDetails?reservationCheckOutFrom={{iwsCheckOutFrom}}&reservationCheckOutTo={{iwsCheckOutTo}}&pageNumber={{iwsPageNumber}}&pageSize={{iwsPageSize}}";
+    const string TemplateUrl_RequestOAuthRefreshToken =
+        "{{iwsServerUrl}}/api/v1.1/access_token";
 
 
 
+
+    //===========================================================================================
+    //API requests
+    //===========================================================================================
     const string TemplateUrl_BrowserGuestDetailsUrl = "{{iwsServerUrl}}/connect/{{iwsPropertyId}}#/guests/{{iwsGuestId}}/details";
+
+    const string TemplateUrl_CustomItemToReservation =
+        "{{iwsServerUrl}}/api/v1.1/postCustomItem?{{iwsPropertyIdSegment}}";
+
+    const string TemplateUrl_CustomItemToReservation_PostContents =
+        "reservationID={{iwsReservationId}}" +
+        "&guestID={{iwsGuestId}}" +
+        "&referenceID={{iwsReferenceId}}" +
+        "{{iwsOrderItems}}" +
+        "";
+
+    const string TemplateUrl_PostAdjustmentToReservation =
+        "{{iwsServerUrl}}/api/v1.1/postAdjustment?{{iwsPropertyIdSegment}}";
+
+    const string Template_PostAdjustmentToReservation_PostContents =
+        "reservationID={{iwsReservationId}}&type={{iwsAdjustmentType}}&amount={{iwsAdjustmentAmount}}&notes={{iwsNotes}}";
+
+
+    const string TemplateUrl_HotelDashboard = "{{iwsServerUrl}}/api/v1.1/getDashboard?{{iwsPropertyIdSegment}}";
+    const string TemplateUrl_HotelDetails= "{{iwsServerUrl}}/api/v1.1/getHotelDetails?{{iwsPropertyIdSegment}}";
+    const string TemplateUrl_RequestAuthUserInfo = "{{iwsServerUrl}}/api/v1.1/userinfo?{{iwsPropertyIdSegment}}";
+    const string TemplateUrl_GetCurrentGuestsList = "{{iwsServerUrl}}/api/v1.1/getGuestsByStatus?{{iwsPropertyIdSegment}}status=in_house&pageNumber={{iwsPageNumber}}&pageSize={{iwsPageSize}}";
+    const string TemplateUrl_GetCheckedInReservationsList = "{{iwsServerUrl}}/api/v1.1/getReservations?{{iwsPropertyIdSegment}}status=checked_in&pageNumber={{iwsPageNumber}}&pageSize={{iwsPageSize}}";
+    const string TemplateUrl_GetDateWindowReservationsList_FilterCheckInStatus = "{{iwsServerUrl}}/api/v1.1/getReservations?{{iwsPropertyIdSegment}}status={{iwsReservationStatus}}&checkInFrom={{iwsCheckInFrom}}&checkInTo={{iwsCheckInTo}}&pageNumber={{iwsPageNumber}}&pageSize={{iwsPageSize}}";
+    const string TemplateUrl_GetDateWindowReservationsList = "{{iwsServerUrl}}/api/v1.1/getReservations?{{iwsPropertyIdSegment}}checkInFrom={{iwsCheckInFrom}}&checkInTo={{iwsCheckInTo}}&pageNumber={{iwsPageNumber}}&pageSize={{iwsPageSize}}";
+    
+    
+    const string TemplateUrl_ReservationsWithRates_GetDateWindow =
+        "{{iwsServerUrl}}/api/v1.1/getReservationsWithRateDetails?{{iwsPropertyIdSegment}}reservationCheckOutFrom={{iwsCheckOutFrom}}&reservationCheckOutTo={{iwsCheckOutTo}}&pageNumber={{iwsPageNumber}}&pageSize={{iwsPageSize}}";
 
     /// <summary>
     /// 2023-02-06: Interestingly the URL for showing a reservations details DOES NOT use the ReservationId that is returned in JSON,
@@ -74,6 +72,41 @@ static partial class CloudbedsUris
     ///             the JSON returned ReservationId and shows the web page
     /// </summary>
     const string TemplateUrl_BrowserReservationDetailsUrl = "{{iwsServerUrl}}/connect/{{iwsPropertyId}}#/reservations";
+
+    //===========================================================================================
+    //URL segment that contians the property id (which is often optional)
+    //===========================================================================================
+    const string Template_UrlSegment_PropertyId = "propertyID={{iwsPropertyId}}&";
+
+    /// <summary>
+    /// Generate the PropertyId segment
+    /// </summary>
+    /// <param name="cbServerInfo"></param>
+    /// <returns></returns>
+    private static string UrlSegment_PropertyIdOrBlank(ICloudbedsServerInfo cbServerInfo)
+    {
+        string propertyId = cbServerInfo.PropertyIdOrNull;
+
+        //No property ID, then the segment shoudl be blank
+        if (string.IsNullOrEmpty(propertyId))
+        {
+            return "";
+        }
+
+        StringBuilder sb;
+        sb = new StringBuilder(Template_UrlSegment_PropertyId);
+
+        //===================================================================
+        //Perform the replacements
+        //===================================================================
+        sb.Replace("{{iwsPropertyId}}", propertyId);
+        //Make sure we replaced all the tokens
+        var outText = sb.ToString();
+        AssertTemplateCompleted(outText);
+        return outText;
+
+    }
+
     //    const string TemplateUrl_BrowserReservationDetailsUrl = "{{iwsServerUrl}}/connect/{{iwsPropertyId}}#/reservations/{{iwsReservationId}}";
 
 
@@ -95,19 +128,6 @@ static partial class CloudbedsUris
         StringBuilder sb;
         sb = new StringBuilder(TemplateUrl_ReservationsWithRates_GetDateWindow);
 
-        /*
-        //Choose whether or not we are filtering by check in status
-        if (string.IsNullOrWhiteSpace(reservationStatus))
-        {
-            sb = new StringBuilder(TemplateUrl_ReservationsWithRates_GetDateWindow);
-        }
-        else
-        {
-            sb = new StringBuilder(TemplateUrl_GetDateWindowReservationsList_FilterCheckInStatus);
-            sb.Replace("{{iwsReservationStatus}}", reservationStatus);
-        }
-        */
-
         //===================================================================
         //Perform the replacements
         //===================================================================
@@ -117,6 +137,13 @@ static partial class CloudbedsUris
 
         sb.Replace("{{iwsPageNumber}}", pageNumber.ToString());
         sb.Replace("{{iwsPageSize}}", pageSize.ToString());
+
+        //===================================================================================
+        //If there is a Property ID we explicitly have, put it in...
+        //===================================================================================
+        sb.Replace("{{iwsPropertyIdSegment}}",
+            UrlSegment_PropertyIdOrBlank(cbServerInfo));
+
 
         //Make sure we replaced all the tokens
         var outText = sb.ToString();
@@ -140,7 +167,6 @@ static partial class CloudbedsUris
         //===================================================================
         sb.Replace("{{iwsServerUrl}}", serverInfo.ServerUrl);
         sb.Replace("{{iwsPropertyId}}", hotelDetails.Property_Id);
-//        sb.Replace("{{iwsGuestId}}", guest.Guest_Id);
 
         //Make sure we replaced all the tokens
         var outText = sb.ToString();
@@ -185,6 +211,13 @@ static partial class CloudbedsUris
         //Perform the replacements
         //===================================================================
         sb.Replace("{{iwsServerUrl}}", cbServerInfo.ServerUrl);
+
+        //===================================================================================
+        //If there is a Property ID we explicitly have, put it in...
+        //===================================================================================
+        sb.Replace("{{iwsPropertyIdSegment}}",
+            UrlSegment_PropertyIdOrBlank(cbServerInfo));
+
         //Make sure we replaced all the tokens
         var outText = sb.ToString();
         AssertTemplateCompleted(outText);
@@ -204,6 +237,14 @@ static partial class CloudbedsUris
         //Perform the replacements
         //===================================================================
         sb.Replace("{{iwsServerUrl}}", cbServerInfo.ServerUrl);
+
+        //===================================================================================
+        //If there is a Property ID we explicitly have, put it in...
+        //===================================================================================
+        sb.Replace("{{iwsPropertyIdSegment}}",
+            UrlSegment_PropertyIdOrBlank(cbServerInfo));
+
+
         //Make sure we replaced all the tokens
         var outText = sb.ToString();
         AssertTemplateCompleted(outText);
@@ -230,6 +271,14 @@ static partial class CloudbedsUris
         sb.Replace("{{iwsServerUrl}}", cbServerInfo.ServerUrl);
         sb.Replace("{{iwsPageNumber}}", pageNumber.ToString());
         sb.Replace("{{iwsPageSize}}", pageSize.ToString());
+
+
+        //===================================================================================
+        //If there is a Property ID we explicitly have, put it in...
+        //===================================================================================
+        sb.Replace("{{iwsPropertyIdSegment}}",
+            UrlSegment_PropertyIdOrBlank(cbServerInfo));
+
         //Make sure we replaced all the tokens
         var outText = sb.ToString();
         AssertTemplateCompleted(outText);
@@ -256,6 +305,13 @@ static partial class CloudbedsUris
         sb.Replace("{{iwsServerUrl}}", cbServerInfo.ServerUrl);
         sb.Replace("{{iwsPageNumber}}", pageNumber.ToString());
         sb.Replace("{{iwsPageSize}}", pageSize.ToString());
+
+        //===================================================================================
+        //If there is a Property ID we explicitly have, put it in...
+        //===================================================================================
+        sb.Replace("{{iwsPropertyIdSegment}}",
+            UrlSegment_PropertyIdOrBlank(cbServerInfo));
+
         //Make sure we replaced all the tokens
         var outText = sb.ToString();
         AssertTemplateCompleted(outText);
@@ -312,6 +368,14 @@ static partial class CloudbedsUris
 
         sb.Replace("{{iwsPageNumber}}", pageNumber.ToString());
         sb.Replace("{{iwsPageSize}}", pageSize.ToString());
+
+
+        //===================================================================================
+        //If there is a Property ID we explicitly have, put it in...
+        //===================================================================================
+        sb.Replace("{{iwsPropertyIdSegment}}",
+            UrlSegment_PropertyIdOrBlank(cbServerInfo));
+
         //Make sure we replaced all the tokens
         var outText = sb.ToString();
         AssertTemplateCompleted(outText);
@@ -334,6 +398,13 @@ static partial class CloudbedsUris
         //Perform the replacements
         //===================================================================
         sb.Replace("{{iwsServerUrl}}", cbServerInfo.ServerUrl);
+
+        //===================================================================================
+        //If there is a Property ID we explicitly have, put it in...
+        //===================================================================================
+        sb.Replace("{{iwsPropertyIdSegment}}",
+            UrlSegment_PropertyIdOrBlank(cbServerInfo));
+
         //Make sure we replaced all the tokens
         var outText = sb.ToString();
         AssertTemplateCompleted(outText);
@@ -382,6 +453,14 @@ static partial class CloudbedsUris
         //Perform the replacements
         //===================================================================
         sb.Replace("{{iwsServerUrl}}", cbServerInfo.ServerUrl);
+
+
+        //===================================================================================
+        //If there is a Property ID we explicitly have, put it in...
+        //===================================================================================
+        sb.Replace("{{iwsPropertyIdSegment}}",
+            UrlSegment_PropertyIdOrBlank(cbServerInfo));
+
         //Make sure we replaced all the tokens
         var outText = sb.ToString();
         AssertTemplateCompleted(outText);
@@ -432,6 +511,14 @@ static partial class CloudbedsUris
         //Perform the replacements
         //===================================================================
         sb.Replace("{{iwsServerUrl}}", cbServerInfo.ServerUrl);
+
+        //===================================================================================
+        //If there is a Property ID we explicitly have, put it in...
+        //===================================================================================
+        sb.Replace("{{iwsPropertyIdSegment}}",
+            UrlSegment_PropertyIdOrBlank(cbServerInfo));
+
+
         //Make sure we replaced all the tokens
         var outText = sb.ToString();
         AssertTemplateCompleted(outText);
@@ -560,31 +647,6 @@ static partial class CloudbedsUris
         return outText;
     }
 
-    /*
-    /// <summary>
-    /// UNDONE: This does NOT work yet
-    /// </summary>
-    /// <param name="cbAppConfig"></param>
-    /// <param name="oauthCode"></param>
-    /// <returns></returns>
-    public static string UriGenerate_RequestOAuthRefreshToken(CloudbedsAppConfig cbAppConfig, string oauthCode)
-    {
-        var sb = new StringBuilder(TemplateUrl_RequestOAuthRefreshToken);
-
-        //===================================================================
-        //Perform the replacements
-        //===================================================================
-        sb.Replace("{{iwsServerUrl}}", cbAppConfig.CloudbedsServerUrl);
-        sb.Replace("{{iwsClientId}}", cbAppConfig.CloudbedsAppClientId);
-        sb.Replace("{{iwsClientSecret}}", cbAppConfig.CloudbedsAppClientSecret);
-        sb.Replace("{{iwsOAuthCode}}", oauthCode);
-
-        //Make sure we replaced all the tokens
-        var outText = sb.ToString();
-        AssertTemplateCompleted(outText);
-        return outText;
-    }
-    */
 
     /// <summary>
     /// URI to use for requesting an application key

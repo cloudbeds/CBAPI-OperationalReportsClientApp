@@ -191,9 +191,18 @@ partial class CloudbedsReservationWithRoomsManager
         return true;
     }
     */
+    /// <summary>
+    /// TRUE: The data has already been querued
+    /// </summary>
+    /// <exception cref="Exception"></exception>
+    public bool IsDataCached()
+    {
+        return( _cachedData != null );
+    }
+
 
     /// <summary>
-    /// Queries for guests, if needed
+    /// Queries for reservations, if needed
     /// </summary>
     /// <exception cref="Exception"></exception>
     public void EnsureCachedData()

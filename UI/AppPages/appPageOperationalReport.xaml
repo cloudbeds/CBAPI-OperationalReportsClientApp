@@ -10,5 +10,10 @@
         <TextBlock>Generate CSV</TextBlock>
     </Button>
     <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" Background="#ffffff" Name="spContent"></StackPanel>
+
+    <StackPanel Orientation="Vertical" Name="spQueryForDataIfNeeded" Margin="0 10 0 10">
+        <TextBlock>Note: Querying for data may take 1+ minutes (UI will be unresponsive during query)</TextBlock>
+        <Button HorizontalAlignment="Left" Width="170" Click="ButtonQueryForData_Click">Query server for data</Button>
+    </StackPanel>
     
 </StackPanel>

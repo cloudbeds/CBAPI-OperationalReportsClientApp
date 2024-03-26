@@ -20,12 +20,22 @@ static internal partial class CloudbedsSingletons
     private static CloudbedsHotelDetails s_hotelDetails;
 
 
+    public static bool IsDataAvailableForDailyOperationsReport()
+    {
+        var reservationsManager = EnsureReservationWithRoomsManager();
+        return reservationsManager.IsDataCached();
+
+    }
+
     /// <summary>
     /// Genrate the daily operations report
     /// </summary>
     /// <returns></returns>
     public static CloudbedsDailyOperationsReportManager GenerateDailyOperationsReports()
     {
+        var reservationsManager = EnsureReservationWithRoomsManager();
+        reservationsManager.EnsureCachedData();
+
         //=============================================================
         //UNDONE: We will want this function to take a DATE-RANGE in
         //to ensure we have data for the known dates.
@@ -33,8 +43,6 @@ static internal partial class CloudbedsSingletons
         DateTime dateReportStart = DateTime.Today;
         DateTime dateReportEnd = dateReportStart.AddDays(60);
 
-        var reservationsManager = EnsureReservationWithRoomsManager();
-        reservationsManager.EnsureCachedData();
 
         var reservationsSet = reservationsManager.Reservations;
 

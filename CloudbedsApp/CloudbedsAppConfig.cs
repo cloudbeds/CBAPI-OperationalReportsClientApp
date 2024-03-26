@@ -18,6 +18,7 @@ internal partial class CloudbedsAppConfig : ICloudbedsServerInfo
     public readonly string CloudbedsAppClientId;
     public readonly string CloudbedsAppClientSecret;
     public readonly CloudbedsAppAuthenticationType AuthenticationType;
+    public readonly string CloudbedsPropertyIdOrNull; //May be NULL
 
     /// <summary>
     /// Parse the authentication type value
@@ -67,13 +68,21 @@ internal partial class CloudbedsAppConfig : ICloudbedsServerInfo
     /// <param name="clientId"></param>
     /// <param name="clientSecret"></param>
     /// <param name="authRedirectUri"></param>
-    private CloudbedsAppConfig(string serverUrl, string clientId, CloudbedsAppAuthenticationType authType, string clientSecret = "", string authRedirectUri = "")
+    private CloudbedsAppConfig(string serverUrl, string clientId, CloudbedsAppAuthenticationType authType, string clientSecret = "", string authRedirectUri = "", string propertyId = null)
     {
         this.CloudbedsServerUrl = serverUrl;
         this.AuthenticationType = authType;
         this.CloudbedsAppClientId = clientId;
         this.CloudbedsAppClientSecret = clientSecret;
         this.CloudbedsAppOAuthRedirectUri = authRedirectUri;
+
+        //Cannonicalize
+        if(string.IsNullOrWhiteSpace(propertyId))
+        {
+            propertyId = null;
+        }
+
+        this.CloudbedsPropertyIdOrNull = propertyId;
 
     }
 
@@ -115,6 +124,8 @@ internal partial class CloudbedsAppConfig : ICloudbedsServerInfo
         string authModeText = xNode.Attributes["authMode"].Value;
         var parsedAuthMode = CloudbedsAppConfig.Parse_AppAuthenticationType(authModeText);
 
+        string propertyIdOrNull = XmlHelper.SafeParseXmlAttribute(xNode, "propertyId", null);
+
         //We only need a redirect URL attribute if it is an OAuth authentication key
         string cloudbedsAppOAuthRedirectUri = "";
         if (parsedAuthMode == CloudbedsAppAuthenticationType.OAuthToken)
@@ -128,13 +139,22 @@ internal partial class CloudbedsAppConfig : ICloudbedsServerInfo
             cloudbedsAppClientId,
             parsedAuthMode,
             cloudbedsAppClientSecret,
-            cloudbedsAppOAuthRedirectUri);
+            cloudbedsAppOAuthRedirectUri,
+            propertyIdOrNull);
     }
 
 
     string ICloudbedsServerInfo.ServerUrl
     {
         get { return this.CloudbedsServerUrl; } 
+    }
+
+    string ICloudbedsServerInfo.PropertyIdOrNull
+    {
+        get
+        {
+            return this.CloudbedsPropertyIdOrNull;
+        }
     }
 }
 
