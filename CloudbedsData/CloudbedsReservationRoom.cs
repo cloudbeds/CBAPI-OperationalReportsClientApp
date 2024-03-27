@@ -4,7 +4,7 @@ using System.Text;
 /// <summary>
 /// Cloudbeds CloudbedsReservationRoom
 /// </summary>
-class CloudbedsReservationRoom
+partial class CloudbedsReservationRoom
 {
     public readonly string Room_TypeId;
     public readonly string Room_TypeName;
@@ -13,6 +13,8 @@ class CloudbedsReservationRoom
     public readonly string Guest_Id;
     public readonly string Room_Id;
     public readonly string Room_Name;
+    public readonly string Room_Status;
+    public readonly string SubReservationId;
 
     /// <summary>
     /// String we will use for wildcard searches for guests
@@ -30,15 +32,36 @@ class CloudbedsReservationRoom
     /// <param name="dateCheckIn"></param>
     /// <param name="dateCheckOut"></param>
     public CloudbedsReservationRoom(
+        string subReservationId,
         string roomTypeId,
         string roomTypeName,
         DateTime dateCheckIn,
         DateTime dateCheckOut,
         string guest_Id,
         string roomId,
-        string roonName
+        string roonName,
+        string roomStatus
         )
     {
+        //Cannonicalize
+        if(string.IsNullOrWhiteSpace(subReservationId))
+        {
+            subReservationId = "";
+        }
+        if (string.IsNullOrWhiteSpace(roomStatus))
+        {
+            roomStatus = "";
+        }
+
+        //Sanity test...
+        if (!IsRoomStatusKnownState(roomStatus)) 
+        {
+            IwsDiagnostics.Assert(false, "240327-240: Unknown room status: " + roomStatus + ", sub-reservation: " + subReservationId);
+            CloudbedsSingletons.StatusLogs.AddError("Unknown room status: " + roomStatus + ", sub-reservation: " + subReservationId);
+        }
+
+        this.SubReservationId = subReservationId;
+
         this.Room_TypeId = roomTypeId;
         this.Room_CheckIn = dateCheckIn;
         this.Room_CheckOut = dateCheckOut;
@@ -47,6 +70,8 @@ class CloudbedsReservationRoom
 
         this.Room_Id = roomId;
         this.Room_Name = roonName;
+
+        this.Room_Status = roomStatus;
     }
 
 }

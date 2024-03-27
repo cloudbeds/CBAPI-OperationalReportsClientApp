@@ -163,19 +163,23 @@ internal  partial class CloudbedsDailyOperationsReportManager
         int numberCheckIns = 0;
         foreach(var thisRoom in thisReservation.ReservationRooms)
         {
-            if(thisRoom.Room_CheckIn == dateTarget)
-            {
-                numberCheckIns++;
 
-                string roomIdAssigned = thisRoom.Room_Id;
-                //If the room id is not yet assigned, note that
-                if (string.IsNullOrWhiteSpace(roomIdAssigned))
+            if(thisRoom.Room_Status != CloudbedsReservationRoom.RoomStatus_Cancelled)
+            {
+                if (thisRoom.Room_CheckIn == dateTarget)
                 {
-                    countUnassignedRooms++;
-                }
-                else 
-                {
-                    listRoomIds.Add(roomIdAssigned);
+                    numberCheckIns++;
+
+                    string roomIdAssigned = thisRoom.Room_Id;
+                    //If the room id is not yet assigned, note that
+                    if (string.IsNullOrWhiteSpace(roomIdAssigned))
+                    {
+                        countUnassignedRooms++;
+                    }
+                    else
+                    {
+                        listRoomIds.Add(roomIdAssigned);
+                    }
                 }
             }
         }
@@ -204,21 +208,24 @@ internal  partial class CloudbedsDailyOperationsReportManager
         var listRoomIds = new List<string>();
         foreach (var thisRoom in thisReservation.ReservationRooms)
         {
-            if (thisRoom.Room_CheckOut == dateTarget)
+            if (thisRoom.Room_Status != CloudbedsReservationRoom.RoomStatus_Cancelled)
             {
-                numberCheckOuts++;
 
-                string roomIdAssigned = thisRoom.Room_Id;
-                //If the room id is not yet assigned, note that
-                if (string.IsNullOrWhiteSpace(roomIdAssigned))
+                if (thisRoom.Room_CheckOut == dateTarget)
                 {
-                    //countUnassignedRooms++;
-                }
-                else
-                {
-                    listRoomIds.Add(roomIdAssigned);
-                }
+                    numberCheckOuts++;
 
+                    string roomIdAssigned = thisRoom.Room_Id;
+                    //If the room id is not yet assigned, note that
+                    if (string.IsNullOrWhiteSpace(roomIdAssigned))
+                    {
+                        //countUnassignedRooms++;
+                    }
+                    else
+                    {
+                        listRoomIds.Add(roomIdAssigned);                    }
+
+                }
             }
         }
 
@@ -245,10 +252,15 @@ internal  partial class CloudbedsDailyOperationsReportManager
         int numberStayOvers = 0;
         foreach (var thisRoom in thisReservation.ReservationRooms)
         {
-            if ((compareDate > thisRoom.Room_CheckIn) &&
-                (compareDate < thisRoom.Room_CheckOut))
+            //If it is NOT a cacelled reservation
+            if (thisRoom.Room_Status != CloudbedsReservationRoom.RoomStatus_Cancelled)
             {
-                numberStayOvers++;
+
+                if ((compareDate > thisRoom.Room_CheckIn) &&
+                (compareDate < thisRoom.Room_CheckOut))
+                {
+                    numberStayOvers++;
+                }
             }
         }
 

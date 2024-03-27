@@ -301,6 +301,16 @@ abstract class CloudbedsRequestReservationsWithRoomRatesBase : CloudbedsAuthenti
         string roomName =
             JsonParseHelpers.FindJasonAttributeValue_String(jsonRoom, "roomName");
 
-        return new CloudbedsReservationRoom(roomTypeId, roomTypeName, checkInDate, checkOutDate, guestId, roomId, roomName);
+        string roomStatus =
+            JsonParseHelpers.FindJasonAttributeValue_String(jsonRoom, "roomStatus");
+
+        IwsDiagnostics.Assert(!string.IsNullOrWhiteSpace(roomStatus), "240327-224: no room status found" + jsonRoom.ToString());
+
+        string subReservationId =
+            JsonParseHelpers.FindJasonAttributeValue_String(jsonRoom, "subReservationID");
+
+        IwsDiagnostics.Assert(!string.IsNullOrWhiteSpace(roomStatus), "240327-225: no sub-reservation id found" + jsonRoom.ToString());
+
+        return new CloudbedsReservationRoom(subReservationId, roomTypeId, roomTypeName, checkInDate, checkOutDate, guestId, roomId, roomName, roomStatus);
     }
 }
