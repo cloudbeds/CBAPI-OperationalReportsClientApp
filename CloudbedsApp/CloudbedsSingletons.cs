@@ -312,6 +312,18 @@ static internal partial class CloudbedsSingletons
     }
 
     /// <summary>
+    /// Throws out the existing server configuration data and reloads it
+    /// </summary>
+    internal static void ResetAndReloadConfigurationFiles()
+    {
+        //Throw out the old configuration
+        s_cloudbedsAppConfig_Set = null;
+
+        //Load a new configuration
+        EnsureValidConfigurationFilesExist();
+    }
+
+    /// <summary>
     /// Throws error if something is wrong with the configuration
     /// </summary>
     internal static void EnsureValidConfigurationFilesExist()

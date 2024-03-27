@@ -53,12 +53,12 @@ namespace OnSiteCompanion
         private void ButtonEditConfigPath_Click(object sender, RoutedEventArgs e)
         {
             var fileDialog = new Microsoft.Win32.OpenFileDialog();
-            var startingFilePath = AppSettings.LoadPreference_PathAppSecretsConfig();
+            var previousFilePath = AppSettings.LoadPreference_PathAppSecretsConfig();
 
             //If the file exists, start in that dirctory 
-            if(System.IO.File.Exists(startingFilePath))
+            if(System.IO.File.Exists(previousFilePath))
             {
-                fileDialog.InitialDirectory = System.IO.Path.GetDirectoryName(startingFilePath);
+                fileDialog.InitialDirectory = System.IO.Path.GetDirectoryName(previousFilePath);
             }
 
             fileDialog.DefaultExt = ".xml";
@@ -71,10 +71,26 @@ namespace OnSiteCompanion
             }
 
             var newFilePath = fileDialog.FileName;
+            //If the file path did not change, then there is nothing we ned to do
+            if(previousFilePath == newFilePath) 
+            {
+                return;
+            }
+
             AppSettings.SavePreference_PathAppSecretsConfig(newFilePath);
 
             //Update the UI
             UpdateConfigPathsUI();
+
+            //Tell the system to reload the system configuration
+            try
+            {
+                CloudbedsSingletons.ResetAndReloadConfigurationFiles();
+            }
+            catch (Exception exReloadConfiguration) 
+            {
+                MessageBox.Show("Error loading new configuration: " + exReloadConfiguration.Message, "Cloudbeds app error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
 
