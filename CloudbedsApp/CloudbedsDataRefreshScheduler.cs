@@ -193,12 +193,8 @@ internal partial class CloudbedsDataRefreshScheduler
     {
         CloudbedsSingletons.ForceRefreshOfCloudbedsDataCache();
 
-        //Notify the app that a refresh occured (usually so UI can be updated
-        var notificationTarget = _refreshOccuredNotificationTarget;
-        if (notificationTarget != null)
-        {
-            notificationTarget.DataRefreshOccured();
-        }
+        //Notify the app that a refresh occured (usually so UI can be updated)
+        SendDataRefreshSignal();
     }
 
     /// <summary>
@@ -242,6 +238,19 @@ internal partial class CloudbedsDataRefreshScheduler
         }
     }
 
+    /// <summary>
+    /// Broadcast a data refresh signal
+    /// </summary>
+    internal void SendDataRefreshSignal()
+    {
+        //Notify the app that a refresh occured (usually so UI can be updated
+        var notificationTarget = _refreshOccuredNotificationTarget;
+        if (notificationTarget != null)
+        {
+            notificationTarget.DataRefreshOccured();
+        }
+    }
+
     /*
 
     /// <summary>
@@ -258,5 +267,5 @@ internal partial class CloudbedsDataRefreshScheduler
 
     }
     */
-    
+
 }

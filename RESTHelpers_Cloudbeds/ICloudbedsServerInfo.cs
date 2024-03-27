@@ -7,6 +7,8 @@
 /// </summary>
 interface ICloudbedsServerInfo
 {
+    string Name { get; }
+
     /// <summary>
     /// This is the server URL we are calling the APIs on
     /// </summary>
@@ -16,4 +18,10 @@ interface ICloudbedsServerInfo
     /// If specified, this will be the property id
     /// </summary>
     string PropertyIdOrNull { get; }
+
+
+    /// <summary>
+    /// Authentication to server
+    /// </summary>
+    CloudbedsAppAuthenticationType AppAuthenticationType { get; }
 }

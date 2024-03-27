@@ -1,4 +1,4 @@
-﻿
+﻿/*
 using System;
 using System.IO;
 using System.Text;
@@ -20,3 +20,4 @@ internal partial class CloudbedsServerConnectInfoUsingSingleton : CloudbedsServe
         return CloudbedsSingletons.CloudbedsServerInfo;
     }
 }
+*/

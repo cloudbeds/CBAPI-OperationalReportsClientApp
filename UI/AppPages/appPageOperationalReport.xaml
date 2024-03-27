@@ -6,6 +6,12 @@
              xmlns:local="clr-namespace:OnSiteCompanion"
              Orientation="Vertical" HorizontalAlignment="Stretch" Background="#ffffff">
 
+    <Border Margin="0 5 0 5" Background="#f0f0f0">
+        <StackPanel Orientation="Vertical">
+            <local:uiCBPropertyPicker></local:uiCBPropertyPicker>
+        </StackPanel>    
+    </Border>
+    
     <Button Click="ButtonGenerateOperationalReportCsv_Click" Width="100" Background="#5050ff" Foreground="#ffffff" BorderThickness="0" HorizontalAlignment="Left">
         <TextBlock>Generate CSV</TextBlock>
     </Button>

@@ -29,7 +29,6 @@ namespace OnSiteCompanion
         {
             InitializeComponent();
 
-            //this.Children.Clear();
             _ctlList = new uiOccupancyChangesList(CloudbedsSingletons.GenerateDailyOperationsReports());
             this.Children.Add(_ctlList);
         }

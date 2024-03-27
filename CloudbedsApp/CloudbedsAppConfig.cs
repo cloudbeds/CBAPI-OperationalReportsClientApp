@@ -19,6 +19,7 @@ internal partial class CloudbedsAppConfig : ICloudbedsServerInfo
     public readonly string CloudbedsAppClientSecret;
     public readonly CloudbedsAppAuthenticationType AuthenticationType;
     public readonly string CloudbedsPropertyIdOrNull; //May be NULL
+    public readonly string Name;
 
     /// <summary>
     /// Parse the authentication type value
@@ -54,6 +55,7 @@ internal partial class CloudbedsAppConfig : ICloudbedsServerInfo
     internal static CloudbedsAppConfig TESTING_CreateSimulatedAppConfig()
     {
         return new CloudbedsAppConfig(
+            "Simulated Config 1",
             "FAKE Server URL",
             "FAKE CLIENT ID",
             CloudbedsAppAuthenticationType.SimulationModeNoAuth,
@@ -68,8 +70,9 @@ internal partial class CloudbedsAppConfig : ICloudbedsServerInfo
     /// <param name="clientId"></param>
     /// <param name="clientSecret"></param>
     /// <param name="authRedirectUri"></param>
-    private CloudbedsAppConfig(string serverUrl, string clientId, CloudbedsAppAuthenticationType authType, string clientSecret = "", string authRedirectUri = "", string propertyId = null)
+    private CloudbedsAppConfig(string name, string serverUrl, string clientId, CloudbedsAppAuthenticationType authType, string clientSecret = "", string authRedirectUri = "", string propertyId = null)
     {
+        this.Name = name;
         this.CloudbedsServerUrl = serverUrl;
         this.AuthenticationType = authType;
         this.CloudbedsAppClientId = clientId;
@@ -92,7 +95,7 @@ internal partial class CloudbedsAppConfig : ICloudbedsServerInfo
     /// <param name="filePathConfig"></param>
     /// <returns></returns>
     /// <exception cref="Exception"></exception>
-    public static CloudbedsAppConfig FromFile(string filePathConfig)
+    public static List<CloudbedsAppConfig> FromFile(string filePathConfig)
     {
         if (!System.IO.File.Exists(filePathConfig))
         {
@@ -105,7 +108,75 @@ internal partial class CloudbedsAppConfig : ICloudbedsServerInfo
         var xmlConfigTargetProperty = new System.Xml.XmlDocument();
         xmlConfigTargetProperty.Load(filePathConfig);
 
-        return FromXmlDocument(xmlConfigTargetProperty);
+        return FromXmlDocument_Multiple(xmlConfigTargetProperty);
+    }
+
+    /// <summary>
+    /// Create the config
+    /// </summary>
+    /// <param name="filePathConfig"></param>
+    /// <returns></returns>
+    /// <exception cref="Exception"></exception>
+    public static List<CloudbedsAppConfig> FromXmlDocument_Multiple(XmlDocument xmlConfigTargetProperty)
+    {
+        var listOut = new List<CloudbedsAppConfig>();
+
+        var xNodes = xmlConfigTargetProperty.SelectNodes("//Configuration/CloudbedsApp");
+        int idxProperty = 1;
+        foreach(var thisNode in xNodes)
+        {
+            var thisConfig = CloudbedsAppConfig_FromXmlNode((XmlNode) thisNode, "Property " + idxProperty.ToString());
+
+            listOut.Add(thisConfig);
+            idxProperty++;
+        }
+
+        return listOut;
+    }
+
+
+
+
+    /// <summary>
+    /// Create a config from a single node
+    /// </summary>
+    /// <param name="xNode"></param>
+    /// <returns></returns>
+    private static CloudbedsAppConfig CloudbedsAppConfig_FromXmlNode(XmlNode xNode, string defaultName = "")
+    {
+        if(defaultName == null)
+        {
+            defaultName = "";
+        }
+
+
+        string cloudbedsServerUrl = xNode.Attributes["serverUrl"].Value;
+        string cloudbedsAppClientId = xNode.Attributes["clientId"].Value;
+        string cloudbedsAppClientSecret = xNode.Attributes["secret"].Value;
+
+        string authModeText = xNode.Attributes["authMode"].Value;
+        var parsedAuthMode = CloudbedsAppConfig.Parse_AppAuthenticationType(authModeText);
+
+        string propertyIdOrNull = XmlHelper.SafeParseXmlAttribute(xNode, "propertyId", null);
+        string name = XmlHelper.SafeParseXmlAttribute(xNode, "name", defaultName);
+
+        //We only need a redirect URL attribute if it is an OAuth authentication key
+        string cloudbedsAppOAuthRedirectUri = "";
+        if (parsedAuthMode == CloudbedsAppAuthenticationType.OAuthToken)
+        {
+            cloudbedsAppOAuthRedirectUri = xNode.Attributes["oAuthRedirectUri"].Value;
+        }
+
+
+        return new CloudbedsAppConfig(
+            name,
+            cloudbedsServerUrl,
+            cloudbedsAppClientId,
+            parsedAuthMode,
+            cloudbedsAppClientSecret,
+            cloudbedsAppOAuthRedirectUri,
+            propertyIdOrNull);
+
     }
 
     /// <summary>
@@ -117,30 +188,7 @@ internal partial class CloudbedsAppConfig : ICloudbedsServerInfo
     public static CloudbedsAppConfig FromXmlDocument(XmlDocument xmlConfigTargetProperty)
     {
         var xNode = xmlConfigTargetProperty.SelectSingleNode("//Configuration/CloudbedsApp");
-        string cloudbedsServerUrl = xNode.Attributes["serverUrl"].Value;
-        string cloudbedsAppClientId = xNode.Attributes["clientId"].Value;
-        string cloudbedsAppClientSecret = xNode.Attributes["secret"].Value;
-
-        string authModeText = xNode.Attributes["authMode"].Value;
-        var parsedAuthMode = CloudbedsAppConfig.Parse_AppAuthenticationType(authModeText);
-
-        string propertyIdOrNull = XmlHelper.SafeParseXmlAttribute(xNode, "propertyId", null);
-
-        //We only need a redirect URL attribute if it is an OAuth authentication key
-        string cloudbedsAppOAuthRedirectUri = "";
-        if (parsedAuthMode == CloudbedsAppAuthenticationType.OAuthToken)
-        {
-            cloudbedsAppOAuthRedirectUri = xNode.Attributes["oAuthRedirectUri"].Value;
-        }
-
-
-        return new CloudbedsAppConfig(
-            cloudbedsServerUrl,
-            cloudbedsAppClientId,
-            parsedAuthMode,
-            cloudbedsAppClientSecret,
-            cloudbedsAppOAuthRedirectUri,
-            propertyIdOrNull);
+        return CloudbedsAppConfig_FromXmlNode(xNode);
     }
 
 
@@ -156,6 +204,17 @@ internal partial class CloudbedsAppConfig : ICloudbedsServerInfo
             return this.CloudbedsPropertyIdOrNull;
         }
     }
+
+    CloudbedsAppAuthenticationType ICloudbedsServerInfo.AppAuthenticationType
+    {
+        get
+        {
+            return this.AuthenticationType;
+        }
+    }
+
+    string ICloudbedsServerInfo.Name
+    { get { return this.Name; } }
 }
 
     

@@ -29,12 +29,28 @@ namespace OnSiteCompanion
         {
             InitializeComponent();
 
+            ResetUiBasedOnDataAvailability();
 
+        }
+
+        private void ResetUiBasedOnDataAvailability()
+        {
             //If we have the data cached, then generate the report...
-            if(CloudbedsSingletons.IsDataAvailableForDailyOperationsReport())
+            if (CloudbedsSingletons.IsDataAvailableForDailyOperationsReport())
             {
                 FillDataArea_QueryDataIfNeeded();
+
+                //Hide the query data UI
+                spQueryForDataIfNeeded.Visibility = Visibility.Collapsed;
             }
+            else
+            {
+                spContent.Children.Clear(); //Hide any list data
+                //Show the query data UI
+                spQueryForDataIfNeeded.Visibility = Visibility.Visible;
+
+            }
+
         }
 
 
@@ -51,8 +67,6 @@ namespace OnSiteCompanion
 
             _ctlUiReport = ctlOccupancyChanges;
 
-            //Clear out the query for data UI
-            spQueryForDataIfNeeded.Children.Clear();
         }
 
         /// <summary>
@@ -60,6 +74,8 @@ namespace OnSiteCompanion
         /// </summary>
         void IRequestUiDataRefresh.RefreshUiFromData()
         {
+            ResetUiBasedOnDataAvailability();
+            /*
             var ctl = _ctlUiReport;
             if(ctl == null)
             {
@@ -68,6 +84,7 @@ namespace OnSiteCompanion
             }
 
             ctl.FillDailyReportsList(CloudbedsSingletons.GenerateDailyOperationsReports());
+            */
         }
 
         /// <summary>
