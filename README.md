@@ -15,7 +15,7 @@ While the source code for this tool is included and is open-source (feel free to
 <br>
 Notes:
 <br>
-- Please keep track of the file-path that you install the tool to (you will need to go there to run it)
+- The setup should add an "CBOperationsReportTool" icon to your Windows desktop and start menu. You can use this to easily run the tool. You can also right click on it to see a menu that allows uninstall.
 <br>
 - The first attempt to run the application is LIKELY to prompt you to install the “Microsoft .NET Runtime”, go ahead and do that.
 <br>
