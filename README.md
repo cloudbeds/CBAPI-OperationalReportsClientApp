@@ -6,6 +6,22 @@ This sample application will allow you to use the Cloudbeds APIs to:
 2. Produce a report showing check-ins/check-outs/stayovers for 60 (or more if desired) days
 <br>
 
+# Installing this tool
+While the source code for this tool is included and is open-source (feel free to modify), we have provided a setup/installer for people who "just want to use the tool"
+<br>
+1. Go the latest release: https://github.com/cloudbeds/CBAPI-OperationalReportsClientApp/releases
+2. Download the *.zip file, and uncompress it on your local machine (it will contain only a few file)
+3. Run the setup program
+<br>
+Notes:
+<br>
+- Please keep track of the file-path that you install the tool to (you will need to go there to run it)
+<br>
+- The first attempt to run the application is LIKELY to prompt you to install the “Microsoft .NET Runtime”, go ahead and do that.
+<br>
+- When the application starts for the first time it will indicate that it cannot locate the application configuration files.  This is as expected.  It will take you to a setup screen, and you can point it the the *.xml file that has your Cloudbeds' property's access key (an example XML file is shown in the _ExampleSecrets folder in this Github project)
+
+
 # How to setup authentication
 
 ## Option 1: Set up the application using API Access tokens (preferred)
