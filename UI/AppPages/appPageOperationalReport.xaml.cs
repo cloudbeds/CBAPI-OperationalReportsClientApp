@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -75,16 +76,6 @@ namespace OnSiteCompanion
         void IRequestUiDataRefresh.RefreshUiFromData()
         {
             ResetUiBasedOnDataAvailability();
-            /*
-            var ctl = _ctlUiReport;
-            if(ctl == null)
-            {
-                IwsDiagnostics.Assert(false, "24020-120: No UI report control to refresh");
-                return;
-            }
-
-            ctl.FillDailyReportsList(CloudbedsSingletons.GenerateDailyOperationsReports());
-            */
         }
 
         /// <summary>
@@ -115,12 +106,27 @@ namespace OnSiteCompanion
 
             //Generate the file output
             csvReport.GenerateCSVFile(fileOutputTo);
-
         }
+
+//        const string QueryButtonText_ready = "Query server for data";
+//        const string QueryButtonText_queryUnderway = "(Query underway...)";
 
         private void ButtonQueryForData_Click(object sender, RoutedEventArgs e)
         {
-            FillDataArea_QueryDataIfNeeded();
+            //Since this may run a while, show the wait cursor
+            this.Cursor = Cursors.Wait;
+            
+            try
+            {
+                FillDataArea_QueryDataIfNeeded();
+            }
+            catch(Exception ex) 
+            {
+                CloudbedsSingletons.StatusLogs.AddError("Error running query: " + ex.Message);
+            }
+            
+            this.Cursor = null;  //revert to default
+
         }
     }
 }
