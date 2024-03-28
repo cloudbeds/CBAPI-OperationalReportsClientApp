@@ -10,7 +10,7 @@ This sample application will allow you to use the Cloudbeds APIs to:
 While the source code for this tool is included and is open-source (feel free to modify), we have provided a setup/installer for people who "just want to use the tool"
 <br>
 1. Go the latest release: https://github.com/cloudbeds/CBAPI-OperationalReportsClientApp/releases
-2. Download the *.zip file, and unpackage it on your local drive
+2. Download the *.zip file, and uncompress it on your local machine (it will contain only a few file)
 3. Run the setup program
 <br>
 Notes:
