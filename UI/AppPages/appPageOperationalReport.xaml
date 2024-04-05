@@ -12,20 +12,23 @@
         </StackPanel>    
     </Border>
 
-    <StackPanel Orientation="Horizontal">
-        <Button Click="ButtonGenerateOperationalReportCsv_Click" Width="150" Margin="0 0 10 0" Background="#5050ff" Foreground="#ffffff" BorderThickness="0" HorizontalAlignment="Left">
-            <TextBlock>Daily Summary CSV</TextBlock>
-        </Button>
- 
-        <Button Click="ButtonGenerateOperationalReportWithReservationDetailsCsv_Click" Width="140" Margin="0 0 10 0" Background="#5050ff" Foreground="#ffffff" BorderThickness="0" HorizontalAlignment="Left">
-            <TextBlock>Daily/Reservations CSV</TextBlock>
-        </Button>
-    </StackPanel>
-    <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" Background="#ffffff" Name="spContent"></StackPanel>
-
     <StackPanel Orientation="Vertical" Name="spQueryForDataIfNeeded" Margin="0 10 0 10">
         <TextBlock>Note: Querying for data may take 1+ minutes (UI will be unresponsive during query)</TextBlock>
-        <Button HorizontalAlignment="Left" Width="170" Click="ButtonQueryForData_Click" Name="btnRunQuery">Query server for data</Button>
+        <Button Background="#2020ff"  Foreground="#ffffff" Padding="2" HorizontalAlignment="Left" Width="170" Click="ButtonQueryForData_Click" Name="btnRunQuery">Query server for data</Button>
     </StackPanel>
-    
+
+    <StackPanel Orientation="Horizontal">
+        <Button Click="ButtonGenerateOperationalReportCsv_Click" Width="180" Margin="0 0 10 0" Padding="2" Background="#7070ff"  Foreground="#ffffff" BorderThickness="0" HorizontalAlignment="Left">
+            <TextBlock>Save Daily Summary CSV...</TextBlock>
+        </Button>
+
+        <Button Click="ButtonGenerateOperationalReportWithReservationDetailsCsv_Click" Width="180" Margin="0 0 10 0" Background="#7070ff"  Foreground="#ffffff" BorderThickness="0" HorizontalAlignment="Left">
+            <TextBlock>Save Daily/Reservations CSV...</TextBlock>
+        </Button>
+    </StackPanel>
+
+    <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" Background="#ffffff" Name="spContent">
+        <TextBlock Foreground="#a0a0a0" FontStyle="Italic">Query results shown here...</TextBlock>
+    </StackPanel>
+
 </StackPanel>

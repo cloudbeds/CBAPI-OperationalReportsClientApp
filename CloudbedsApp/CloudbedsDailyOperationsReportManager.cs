@@ -44,7 +44,16 @@ internal  partial class CloudbedsDailyOperationsReportManager
         var csvManager = new CsvDataGenerator();
 
 
-        string[] keys = { "DATE", "CHECK-INS", "CHECK-OUTS", "STAY-OVERS", "ROOM-TURNOVERS", "UNASSIGNED-CHECKINS" };
+        string[] keys = 
+        { 
+              "DATE"                     //[0]
+            , "CHECK-INS"                //[1]
+            , "CHECK-OUTS"               //[2]
+            , "STAYOVERS"                //[3]
+            , "STAYOVERS-NOT-CHECKINS"   //[4]
+            , "ROOM-TURNOVERS"           //[5]
+            , "UNASSIGNED-CHECKINS"      //[6]
+        };
 
 
         //Add a CSV row for each of the days
@@ -55,8 +64,9 @@ internal  partial class CloudbedsDailyOperationsReportManager
             values[1] = singleDayReport.NumberCheckIns.ToString();
             values[2] = singleDayReport.NumberCheckOuts.ToString();
             values[3] = singleDayReport.NumberStayOvers.ToString();
-            values[4] = singleDayReport.NumberRoomTurnoversRequired.ToString();
-            values[5] = singleDayReport.NumberCheckIns_RoomNotAssigned.ToString();
+            values[4] = (singleDayReport.NumberStayOvers - singleDayReport.NumberCheckIns).ToString();
+            values[5] = singleDayReport.NumberRoomTurnoversRequired.ToString();
+            values[6] = singleDayReport.NumberCheckIns_RoomNotAssigned.ToString();
 
             csvManager.AddKeyValuePairs(keys, values);
         }
