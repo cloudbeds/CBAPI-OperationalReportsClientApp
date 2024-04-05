@@ -256,7 +256,8 @@ internal  partial class CloudbedsDailyOperationsReportManager
             if (thisRoom.Room_Status != CloudbedsReservationRoom.RoomStatus_Cancelled)
             {
 
-                if ((compareDate > thisRoom.Room_CheckIn) &&
+                //if ((compareDate > thisRoom.Room_CheckIn) &&
+                if ((compareDate >= thisRoom.Room_CheckIn) &&  //2024-04-05: Include today's check ins
                 (compareDate < thisRoom.Room_CheckOut))
                 {
                     numberStayOvers++;
