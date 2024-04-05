@@ -22,6 +22,13 @@ internal  partial class CloudbedsDailyOperationsReportManager
     }
 
     private ReadOnlyCollection<DailyReport> _dailyReports;
+
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="dateStart"></param>
+    /// <param name="dateEnd"></param>
+    /// <param name="reservationSet"></param>
     public CloudbedsDailyOperationsReportManager(DateTime dateStart, DateTime dateEnd, 
         ICollection<CloudbedsReservationWithRooms> reservationSet)
     {

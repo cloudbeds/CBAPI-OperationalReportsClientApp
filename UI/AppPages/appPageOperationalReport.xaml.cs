@@ -128,5 +128,36 @@ namespace OnSiteCompanion
             this.Cursor = null;  //revert to default
 
         }
+
+        /// <summary>
+        /// Generate reservation details for each day
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ButtonGenerateOperationalReportWithReservationDetailsCsv_Click(object sender, RoutedEventArgs e)
+        {
+            //=====
+            var fileDialog = new Microsoft.Win32.SaveFileDialog();
+            fileDialog.DefaultExt = ".csv";
+            fileDialog.Filter = "CSV Files *.csv|*.csv";
+            var result = fileDialog.ShowDialog();
+
+            if (result != true)
+            {
+                return;
+            }
+
+            string fileOutputTo = fileDialog.FileName;
+
+            //Generate the daily operations #s
+            var dailyOperationsReports = CloudbedsSingletons.GenerateDailyOperationsReports_ResRoomDetails();
+
+            //Turn it into a CSV file
+            var csvReport = dailyOperationsReports.GenerateCsvReport();
+
+            //Generate the file output
+            csvReport.GenerateCSVFile(fileOutputTo);
+
+        }
     }
 }

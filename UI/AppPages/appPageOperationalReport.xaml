@@ -11,10 +11,16 @@
             <local:uiCBPropertyPicker></local:uiCBPropertyPicker>
         </StackPanel>    
     </Border>
-    
-    <Button Click="ButtonGenerateOperationalReportCsv_Click" Width="100" Background="#5050ff" Foreground="#ffffff" BorderThickness="0" HorizontalAlignment="Left">
-        <TextBlock>Generate CSV</TextBlock>
-    </Button>
+
+    <StackPanel Orientation="Horizontal">
+        <Button Click="ButtonGenerateOperationalReportCsv_Click" Width="150" Margin="0 0 10 0" Background="#5050ff" Foreground="#ffffff" BorderThickness="0" HorizontalAlignment="Left">
+            <TextBlock>Daily Summary CSV</TextBlock>
+        </Button>
+ 
+        <Button Click="ButtonGenerateOperationalReportWithReservationDetailsCsv_Click" Width="140" Margin="0 0 10 0" Background="#5050ff" Foreground="#ffffff" BorderThickness="0" HorizontalAlignment="Left">
+            <TextBlock>Daily/Reservations CSV</TextBlock>
+        </Button>
+    </StackPanel>
     <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" Background="#ffffff" Name="spContent"></StackPanel>
 
     <StackPanel Orientation="Vertical" Name="spQueryForDataIfNeeded" Margin="0 10 0 10">

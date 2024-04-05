@@ -70,6 +70,28 @@ internal partial class CloudbedsSessionState
         return new CloudbedsDailyOperationsReportManager(dateReportStart, dateReportEnd, reservationsSet);
     }
 
+    /// <summary>
+    /// Genrate the daily operations report
+    /// </summary>
+    /// <returns></returns>
+    public CloudbedsDailyOperationsReportManager_ResRoomDetails GenerateDailyOperationsReports_ResRoomDetails()
+    {
+        var reservationsManager = EnsureReservationWithRoomsManager();
+        reservationsManager.EnsureCachedData();
+
+        //=============================================================
+        //UNDONE: We will want this function to take a DATE-RANGE in
+        //to ensure we have data for the known dates.
+        //=============================================================
+        DateTime dateReportStart = DateTime.Today;
+        DateTime dateReportEnd = dateReportStart.AddDays(60);
+
+
+        var reservationsSet = reservationsManager.Reservations;
+
+        return new CloudbedsDailyOperationsReportManager_ResRoomDetails(dateReportStart, dateReportEnd, reservationsSet);
+    }
+
     /*
     /// <summary>
     /// Refresh scheduler

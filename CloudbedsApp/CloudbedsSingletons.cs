@@ -62,6 +62,17 @@ static internal partial class CloudbedsSingletons
         return s_selectedCBSessionState.GenerateDailyOperationsReports();
     }
 
+
+    /// <summary>
+    /// Genrate the daily operations report
+    /// </summary>
+    /// <returns></returns>
+    public static CloudbedsDailyOperationsReportManager_ResRoomDetails GenerateDailyOperationsReports_ResRoomDetails()
+    {
+        EnsureServerInfo();
+
+        return s_selectedCBSessionState.GenerateDailyOperationsReports_ResRoomDetails();
+    }
     /// <summary>
     /// Refresh scheduler
     /// </summary>

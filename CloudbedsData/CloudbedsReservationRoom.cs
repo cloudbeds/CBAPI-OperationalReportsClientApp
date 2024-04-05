@@ -11,10 +11,12 @@ partial class CloudbedsReservationRoom
     public readonly DateTime Room_CheckIn;
     public readonly DateTime Room_CheckOut;
     public readonly string Guest_Id;
+    public readonly string Guest_Name;
     public readonly string Room_Id;
     public readonly string Room_Name;
     public readonly string Room_Status;
     public readonly string SubReservationId;
+    public readonly string ParentReservationId;
 
     /// <summary>
     /// String we will use for wildcard searches for guests
@@ -32,27 +34,19 @@ partial class CloudbedsReservationRoom
     /// <param name="dateCheckIn"></param>
     /// <param name="dateCheckOut"></param>
     public CloudbedsReservationRoom(
+        string parentReservationId,
         string subReservationId,
         string roomTypeId,
         string roomTypeName,
         DateTime dateCheckIn,
         DateTime dateCheckOut,
         string guest_Id,
+        string guest_Name,
         string roomId,
         string roonName,
         string roomStatus
         )
     {
-        //Cannonicalize
-        if(string.IsNullOrWhiteSpace(subReservationId))
-        {
-            subReservationId = "";
-        }
-        if (string.IsNullOrWhiteSpace(roomStatus))
-        {
-            roomStatus = "";
-        }
-
         //Sanity test...
         if (!IsRoomStatusKnownState(roomStatus)) 
         {
@@ -60,18 +54,20 @@ partial class CloudbedsReservationRoom
             CloudbedsSingletons.StatusLogs.AddError("Unknown room status: " + roomStatus + ", sub-reservation: " + subReservationId);
         }
 
-        this.SubReservationId = subReservationId;
+        this.ParentReservationId = StringHelpers.CannonicalizeBlankString(parentReservationId);
+        this.SubReservationId = StringHelpers.CannonicalizeBlankString(subReservationId);
 
-        this.Room_TypeId = roomTypeId;
+        this.Room_TypeId = StringHelpers.CannonicalizeBlankString(roomTypeId);
         this.Room_CheckIn = dateCheckIn;
         this.Room_CheckOut = dateCheckOut;
 
-        this.Guest_Id = guest_Id;
+        this.Guest_Id = StringHelpers.CannonicalizeBlankString(guest_Id);
+        this.Guest_Name = StringHelpers.CannonicalizeBlankString(guest_Name);
 
-        this.Room_Id = roomId;
-        this.Room_Name = roonName;
+        this.Room_Id = StringHelpers.CannonicalizeBlankString(roomId);
+        this.Room_Name = StringHelpers.CannonicalizeBlankString(roonName);
 
-        this.Room_Status = roomStatus;
+        this.Room_Status = StringHelpers.CannonicalizeBlankString(roomStatus);
     }
 
 }

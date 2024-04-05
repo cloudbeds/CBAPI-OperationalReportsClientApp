@@ -255,7 +255,7 @@ abstract class CloudbedsRequestReservationsWithRoomRatesBase : CloudbedsAuthenti
         var resRooms = new List<CloudbedsReservationRoom>();
         foreach(var jsonSingleRoom in jsonArrRooms)
         {
-            var parsedSingleRooms = ParseSingleRoomFromJSon(jsonSingleRoom);
+            var parsedSingleRooms = ParseSingleRoomFromJSon(jsonSingleRoom, reservationId);
             resRooms.Add(parsedSingleRooms);
         }
 
@@ -275,7 +275,7 @@ abstract class CloudbedsRequestReservationsWithRoomRatesBase : CloudbedsAuthenti
     /// </summary>
     /// <param name="jsonRoom"></param>
     /// <returns></returns>
-    private CloudbedsReservationRoom ParseSingleRoomFromJSon(JsonElement jsonRoom)
+    private CloudbedsReservationRoom ParseSingleRoomFromJSon(JsonElement jsonRoom, string reservationId)
     {
         string roomTypeId =
             JsonParseHelpers.FindJasonAttributeValue_String(jsonRoom, "roomTypeID");
@@ -295,6 +295,9 @@ abstract class CloudbedsRequestReservationsWithRoomRatesBase : CloudbedsAuthenti
         string guestId =
             JsonParseHelpers.FindJasonAttributeValue_String(jsonRoom, "guestID");
 
+        string guestName=
+            JsonParseHelpers.FindJasonAttributeValue_String(jsonRoom, "guestName");
+
         string roomId =
             JsonParseHelpers.FindJasonAttributeValue_String(jsonRoom, "roomID");
 
@@ -311,6 +314,12 @@ abstract class CloudbedsRequestReservationsWithRoomRatesBase : CloudbedsAuthenti
 
         IwsDiagnostics.Assert(!string.IsNullOrWhiteSpace(roomStatus), "240327-225: no sub-reservation id found" + jsonRoom.ToString());
 
-        return new CloudbedsReservationRoom(subReservationId, roomTypeId, roomTypeName, checkInDate, checkOutDate, guestId, roomId, roomName, roomStatus);
+        return new CloudbedsReservationRoom(
+            reservationId,
+            subReservationId, 
+            roomTypeId, roomTypeName, 
+            checkInDate, checkOutDate, 
+            guestId, guestName,
+            roomId, roomName, roomStatus);
     }
 }
