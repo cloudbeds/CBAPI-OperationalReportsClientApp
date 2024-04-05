@@ -62,4 +62,6 @@ NOTE: The browser will now be navigated to a MISSING PAGE (this is OK).  You jus
 RESULT: You will now have Cloudbeds API access tokens stored on your local machine.  
 These are refreshed as needed and are stored in the “Cloudbeds_UserAccessTokens.xml” file.  
 <br>
-5. Go to the “Operational Report” screen.  This will query the Cloudbeds API and download current and future reservations data and produce the report you see
+5. Go to the “Operational Report” screen.  This will query the Cloudbeds API and download current and future reservations data and produce the report you see. There are 2 export to CSV options:
+* "Daily Summary CSV" - This will  save a CSV of what you see on the screen (a daily summary counts for check-ins/check-outs/turnovers)
+* "Daily/Reservations CSV" - This will save a more detailed CSV. For every calendar date it will show each reservations/sub-reservations that are active in the hotel 
