@@ -165,6 +165,11 @@ abstract class CloudbedsRequestReservationsWithRoomRatesBase : CloudbedsAuthenti
         //https://docs.microsoft.com/en-us/dotnet/standard/serialization/system-text-json-use-dom-utf8jsonreader-utf8jsonwriter?pivots=dotnet-6-0
         using (response)
         {
+            if(response.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                throw new Exception("0415-833: Server request returned 'unauthorized' for " + url);
+            }
+
             var jsonOut = GetWebResponseAsJson(response, false);
             _commandResultJson = jsonOut;
 

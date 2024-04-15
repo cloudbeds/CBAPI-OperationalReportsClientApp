@@ -338,7 +338,7 @@ partial class CloudbedsReservationWithRoomsManager
 
         if (!querySuccessProximateCheckIn)
         {
-            throw new Exception("240320-848: CloudbedsReservationWithRoomsManager, query failure for filter: " + reservationStatus);
+            throw new Exception("240415-831: CloudbedsReservationWithRoomsManager, query failure for filter: " + reservationStatus);
         }
 
         helper_appendUniqueItemsToDictionary(buildSet, cbQueryProximateCheckIn.CommandResults_Reservations);
