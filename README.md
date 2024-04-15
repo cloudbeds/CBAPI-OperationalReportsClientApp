@@ -26,8 +26,12 @@ Notes:
 
 ## Option 1: Set up the application using API Access tokens (preferred)
 <br>
-1. Follow the instructions to create an API Access token: https://integrations.cloudbeds.com/hc/en-us/articles/18746883407387-Quickstart-Guide-API-Authentication-for-property-level-users
-<br>
+1. Follow the instructions to create an API Access token: https://integrations.cloudbeds.com/hc/en-us/articles/18746883407387-Quickstart-Guide-API-Authentication-for-property-level-users . Permissions required are:
+<br>* Read access: Hotel
+<br>* Read access: Reservations
+<br>* Read access: Guest
+<br>* Read access: Dashboard
+<br><br>
 2. Copy/paste that token into an Cloudbeds_AppConfig.xml file  
 (See example: "_ExampleSecrets\Example_CloudbedsApiKey_AppConfig.xml")
 <br>
