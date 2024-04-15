@@ -26,8 +26,12 @@ Notes:
 
 ## Option 1: Set up the application using API Access tokens (preferred)
 <br>
-1. Follow the instructions to create an API Access token: https://integrations.cloudbeds.com/hc/en-us/articles/18746883407387-Quickstart-Guide-API-Authentication-for-property-level-users
-<br>
+1. Follow the instructions to create an API Access token: https://integrations.cloudbeds.com/hc/en-us/articles/18746883407387-Quickstart-Guide-API-Authentication-for-property-level-users . Permissions required are:
+<br>* Read access: Hotel
+<br>* Read access: Reservations
+<br>* Read access: Guest
+<br>* Read access: Dashboard
+<br><br>
 2. Copy/paste that token into an Cloudbeds_AppConfig.xml file  
 (See example: "_ExampleSecrets\Example_CloudbedsApiKey_AppConfig.xml")
 <br>
@@ -63,5 +67,5 @@ RESULT: You will now have Cloudbeds API access tokens stored on your local machi
 These are refreshed as needed and are stored in the “Cloudbeds_UserAccessTokens.xml” file.  
 <br>
 5. Go to the “Operational Report” screen.  This will query the Cloudbeds API and download current and future reservations data and produce the report you see. There are 2 export to CSV options:
-* "Daily Summary CSV" - This will  save a CSV of what you see on the screen (a daily summary counts for check-ins/check-outs/turnovers)
-* "Daily/Reservations CSV" - This will save a more detailed CSV. For every calendar date it will show each reservations/sub-reservations that are active in the hotel 
+* "Save Daily Summary CSV..." - This will  save a CSV of what you see on the screen (a daily summary counts for check-ins/check-outs/turnovers)
+* "Save Daily/Reservations CSV..." - This will save a more detailed CSV. For every calendar date it will show each reservations/sub-reservations that are active in the hotel 
