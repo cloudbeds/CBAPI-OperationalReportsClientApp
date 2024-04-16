@@ -13,7 +13,6 @@ partial class CloudbedsReservationWithRoomsManager
     private readonly TaskStatusLogs _statusLog;
     const int NumberDaysFutureReservations = 120;
 
-
     /// <summary>
     /// If true - we will save the data locally after re-querying it
     /// </summary>
@@ -134,63 +133,6 @@ partial class CloudbedsReservationWithRoomsManager
     object _syncLockForCacheQuery = new object();
 
 
-    /*
-    /// <summary>
-    /// Store the cached data in a local file system file
-    /// </summary>
-    public void PersistToLocalStorage()
-    {
-        var persister = new Persistence_Save(this);
-
-        string pathXml = AppSettings.LocalFileSystemPath_CachedReservationsList;
-
-        var xmlWriter = System.Xml.XmlWriter.Create(pathXml);
-
-        using(xmlWriter)
-        {
-            persister.SaveAsXml(xmlWriter);
-            xmlWriter.Close();
-        }
-    }
-    */
-
-    /*
-    /// <summary>
-    /// Load from XML file
-    /// </summary>
-    /// <returns></returns>
-    public bool DepersistFromLocalStorageIfExists()
-    {
-        var statusLogs = CloudbedsSingletons.StatusLogs;
-
-        statusLogs.AddStatusHeader("Attempt load from local cache: Reservations list");
-
-        string pathXml = AppSettings.LocalFileSystemPath_CachedReservationsList;
-        //Not fatal... just note if no file exists
-        if(!System.IO.File.Exists(pathXml))
-        {
-            statusLogs.AddStatus("0128-1013: Skipping. No local reservations cache file exists at: " + pathXml);
-            return false;
-        }
-
-        var xmlDoc = new System.Xml.XmlDocument();
-        xmlDoc.Load(pathXml);
-        var loadResults = Persistence_Load.LoadFromXml(xmlDoc);
-        if(loadResults != null)
-        {
-            _cachedData = loadResults;
-            statusLogs.AddStatus("Successfully loaded reservation list from local cache");
-        }
-        else
-        {
-            CloudbedsSingletons.StatusLogs.AddError("0205-540: Internal error. No results returned from XML Guests cache load");
-            return false;
-        }
-
-
-        return true;
-    }
-    */
     /// <summary>
     /// TRUE: The data has already been querued
     /// </summary>
@@ -233,25 +175,6 @@ partial class CloudbedsReservationWithRoomsManager
         }//end: Lock
     }
 
-    /*
-    /// <summary>
-    /// Try to persist the data locally
-    /// </summary>
-    private void TryPersistToLocalStorage()
-    {
-        
-        try
-        {
-            PersistToLocalStorage();
-        }
-        catch(Exception ex)
-        {
-            CloudbedsSingletons.StatusLogs.AddError("0205-422: Error persisting Reservations data locally: " + ex.Message);
-        }
-        
-    }
-    */
-
     /// <summary>
     /// Get the latest data in the cache
     /// </summary>
@@ -265,14 +188,6 @@ partial class CloudbedsReservationWithRoomsManager
 
         //Store the cached results
         _cachedData = new CachedData(queriedItems, queryTime);
-
-        /*
-        //Save to to local storage...
-        if (this.LocalPersistDataAfterQuery)
-        {
-            TryPersistToLocalStorage();
-        }
-        */
     }
 
     /// <summary>

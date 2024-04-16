@@ -51,6 +51,36 @@ static internal partial class CloudbedsSingletons
         }
     }
 
+
+    /// <summary>
+    /// Clear a cache
+    /// </summary>
+    public static void ReservationsWithRooms_ClearCache()
+    {
+        var session = s_selectedCBSessionState;
+        if(session != null) 
+        {
+            session.ReservationsWithRooms_ClearCache();
+        }
+    }
+
+    /// <summary>
+    /// The time the cache was last updated
+    /// </summary>
+    public static DateTime? ReservationsWithRooms_CacheLastUpdatedTimeUtc
+    {
+        get
+        {
+            var session = s_selectedCBSessionState;
+            if(session == null)
+            {
+                return null;
+            }
+
+            return session.ReservationsWithRooms_CacheLastUpdatedTimeUtc;
+        }
+    }
+
     /// <summary>
     /// Genrate the daily operations report
     /// </summary>

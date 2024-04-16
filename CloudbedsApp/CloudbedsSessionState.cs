@@ -48,6 +48,24 @@ internal partial class CloudbedsSessionState
         return reservationsManager.IsDataCached();
     }
 
+
+    /// <summary>
+    /// The time the cache was last updated
+    /// </summary>
+    public DateTime? ReservationsWithRooms_CacheLastUpdatedTimeUtc
+    {
+        get
+        {
+            var resCache = _reservationWithRoomsManager;
+            if (resCache == null)
+            {
+                return null;
+            }
+
+            return resCache.CacheLastUpdatedTimeUtc;
+        }
+    }
+
     /// <summary>
     /// Genrate the daily operations report
     /// </summary>
@@ -420,10 +438,18 @@ internal partial class CloudbedsSessionState
     }
 
     /// <summary>
+    /// Clear a cache...
+    /// </summary>
+    public void ReservationsWithRooms_ClearCache()
+    {
+        _reservationWithRoomsManager = null;
+    }
+
+    /// <summary>
     /// Creates a reservation manager object if necessary
     /// </summary>
     /// <returns></returns>
-    public  CloudbedsReservationWithRoomsManager EnsureReservationWithRoomsManager()
+    public CloudbedsReservationWithRoomsManager EnsureReservationWithRoomsManager()
     {
         var reservationManager = _reservationWithRoomsManager;
         if (reservationManager != null)

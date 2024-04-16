@@ -17,7 +17,12 @@
         <Button Background="#2020ff"  Foreground="#ffffff" Padding="2" HorizontalAlignment="Left" Width="170" Click="ButtonQueryForData_Click" Name="btnRunQuery">Query server for data</Button>
     </StackPanel>
 
-    <StackPanel Orientation="Horizontal">
+    <StackPanel Orientation="Vertical" Margin="0 10 0 10" Name="spLocalCacheInfo">
+        <TextBlock x:Name="txtCacheAge">Fill me: Cache age goes here...</TextBlock>
+        <Button Background="#ff2020"  Foreground="#ffffff" Padding="2" HorizontalAlignment="Left" Width="170" Click="btnClearCache_Click" Name="btnClearCache">Clear Cache</Button>
+    </StackPanel>
+
+    <StackPanel Orientation="Horizontal" x:Name="spGenerateCSVsOptions">
         <Button Click="ButtonGenerateOperationalReportCsv_Click" Width="180" Margin="0 0 10 0" Padding="2" Background="#7070ff"  Foreground="#ffffff" BorderThickness="0" HorizontalAlignment="Left">
             <TextBlock>Save Daily Summary CSV...</TextBlock>
         </Button>

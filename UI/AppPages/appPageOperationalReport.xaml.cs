@@ -34,6 +34,28 @@ namespace OnSiteCompanion
 
         }
 
+
+        /// <summary>
+        /// Gives us information about the age of the data cache
+        /// </summary>
+        private void UpdateCacheAgeText()
+        {
+            var cacheAgeUtc = CloudbedsSingletons.ReservationsWithRooms_CacheLastUpdatedTimeUtc;
+            if(cacheAgeUtc == null)
+            {
+                txtCacheAge.Text = "No data in local cache ...";
+                return;
+            }
+
+
+            var localTime= cacheAgeUtc.Value.ToLocalTime();
+            txtCacheAge.Text = "Cache updated: " + localTime.ToString();
+        }
+
+
+        /// <summary>
+        /// Update UI visibility and contents
+        /// </summary>
         private void ResetUiBasedOnDataAvailability()
         {
             //If we have the data cached, then generate the report...
@@ -43,6 +65,10 @@ namespace OnSiteCompanion
 
                 //Hide the query data UI
                 spQueryForDataIfNeeded.Visibility = Visibility.Collapsed;
+                //Show the CSV options
+                spGenerateCSVsOptions.Visibility = Visibility.Visible;
+                spLocalCacheInfo.Visibility = Visibility.Visible;
+
             }
             else
             {
@@ -50,8 +76,11 @@ namespace OnSiteCompanion
                 //Show the query data UI
                 spQueryForDataIfNeeded.Visibility = Visibility.Visible;
 
+                spGenerateCSVsOptions.Visibility = Visibility.Collapsed;
+                spLocalCacheInfo.Visibility = Visibility.Collapsed;
             }
 
+            UpdateCacheAgeText();
         }
 
 
@@ -108,9 +137,12 @@ namespace OnSiteCompanion
             csvReport.GenerateCSVFile(fileOutputTo);
         }
 
-//        const string QueryButtonText_ready = "Query server for data";
-//        const string QueryButtonText_queryUnderway = "(Query underway...)";
 
+        /// <summary>
+        /// Query for data (or use data from cache) and fill in the grid
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonQueryForData_Click(object sender, RoutedEventArgs e)
         {
             //Since this may run a while, show the wait cursor
@@ -127,6 +159,8 @@ namespace OnSiteCompanion
             
             this.Cursor = null;  //revert to default
 
+            //Update the UI
+            ResetUiBasedOnDataAvailability();
         }
 
         /// <summary>
@@ -158,6 +192,18 @@ namespace OnSiteCompanion
             //Generate the file output
             csvReport.GenerateCSVFile(fileOutputTo);
 
+        }
+
+
+        /// <summary>
+        /// Clear a local data cache
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnClearCache_Click(object sender, RoutedEventArgs e)
+        {
+            CloudbedsSingletons.ReservationsWithRooms_ClearCache();
+            ResetUiBasedOnDataAvailability();
         }
     }
 }
