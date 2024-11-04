@@ -6,7 +6,9 @@ using System.Text;
 /// </summary>
 partial class CloudbedsReservationRoom
 {
-    public const string RoomStatus_Cancelled = "cancelled";
+    //[2024-11-04] API docs indicate the status is "canceled" with one "l"
+    //[2024-11-04]    public const string RoomStatus_Cancelled = "cancelled";
+    public const string RoomStatus_Cancelled = "canceled";
     public const string RoomStatus_InHouse = "in_house";
     public const string RoomStatus_CheckedOut = "checked_out";
     public const string RoomStatus_NotCheckedIn = "not_checked_in";
