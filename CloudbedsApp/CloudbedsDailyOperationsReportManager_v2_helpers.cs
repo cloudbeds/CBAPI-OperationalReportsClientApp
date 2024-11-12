@@ -8,7 +8,7 @@ using System.Web;
 
 /// <summary>
 /// </summary>
-internal partial class CloudbedsDailyOperationsReportManager
+internal partial class CloudbedsDailyOperationsReportManager_v2
 {
 
     struct CheckInsInfo

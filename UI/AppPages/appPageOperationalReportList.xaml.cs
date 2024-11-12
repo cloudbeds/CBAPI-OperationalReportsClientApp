@@ -21,7 +21,7 @@ namespace OnSiteCompanion
     public partial class appPageOperationalReportList : StackPanel, IRequestUiDataRefresh
     {
 
-        readonly uiOccupancyChangesList _ctlList;
+        readonly uiOccupancyChangesList_v1 _ctlList;
         /// <summary>
         /// Constructor
         /// </summary>
@@ -29,7 +29,7 @@ namespace OnSiteCompanion
         {
             InitializeComponent();
 
-            _ctlList = new uiOccupancyChangesList(CloudbedsSingletons.GenerateDailyOperationsReports());
+            _ctlList = new uiOccupancyChangesList_v1(CloudbedsSingletons.GenerateDailyOperationsReports_v1());
             this.Children.Add(_ctlList);
         }
 
@@ -38,7 +38,7 @@ namespace OnSiteCompanion
         /// </summary>
         void IRequestUiDataRefresh.RefreshUiFromData()
         {
-            _ctlList.FillDailyReportsList(CloudbedsSingletons.GenerateDailyOperationsReports());
+            _ctlList.FillDailyReportsList(CloudbedsSingletons.GenerateDailyOperationsReports_v1());
         }
     }
 }

@@ -7,7 +7,7 @@ using System.Xml;
 /// <summary>
 /// Manages retreiving lists of Reservations from Cloudbeds
 /// </summary>
-partial class CloudbedsReservationWithRoomsManager
+partial class CloudbedsReservationWithRoomsManager_v1
 {
     private readonly CloudbedsServerConnectInfoBase _serverConnectInfo;
     private readonly TaskStatusLogs _statusLog;
@@ -20,10 +20,10 @@ partial class CloudbedsReservationWithRoomsManager
 
     internal class CachedData
     {
-        public readonly Dictionary<string, CloudbedsReservationWithRooms> Items;
+        public readonly Dictionary<string, CloudbedsReservationWithRooms_v1> Items;
         public readonly DateTime LastUpdatedUtc;
 
-        public CachedData(Dictionary<string, CloudbedsReservationWithRooms> items, DateTime updatedUtc)
+        public CachedData(Dictionary<string, CloudbedsReservationWithRooms_v1> items, DateTime updatedUtc)
         {
             this.Items = items;
             this.LastUpdatedUtc = updatedUtc;
@@ -48,7 +48,7 @@ partial class CloudbedsReservationWithRoomsManager
     }
 
     CachedData _cachedData;
-    public ICollection<CloudbedsReservationWithRooms> Reservations
+    public ICollection<CloudbedsReservationWithRooms_v1> Reservations
     {
         get 
         { 
@@ -100,7 +100,7 @@ partial class CloudbedsReservationWithRoomsManager
     /// <param name="cbServerInfo"></param>
     /// <param name="authSession"></param>
     /// <param name="statusLog"></param>
-    public CloudbedsReservationWithRoomsManager(
+    public CloudbedsReservationWithRoomsManager_v1(
         CloudbedsServerConnectInfoBase serverConnectInfo,
         TaskStatusLogs statusLog)
     {
@@ -195,10 +195,10 @@ partial class CloudbedsReservationWithRoomsManager
     /// </summary>
     /// <returns></returns>
     /// <exception cref="Exception"></exception>
-    private Dictionary<string, CloudbedsReservationWithRooms> helper_SynchronouEnsureCloudbedsData()
+    private Dictionary<string, CloudbedsReservationWithRooms_v1> helper_SynchronouEnsureCloudbedsData()
     {
         //The set to store all of our results...
-        var buildSet = new Dictionary<string, CloudbedsReservationWithRooms>();
+        var buildSet = new Dictionary<string, CloudbedsReservationWithRooms_v1>();
 
         var serverInfo = _serverConnectInfo.GetCloudbedsServerInfo();
         var authSession = _serverConnectInfo.GetCloudbedsAuthSession();
@@ -232,31 +232,58 @@ partial class CloudbedsReservationWithRoomsManager
     /// <param name="buildSet"></param>
     /// <param name="reservationStatus"></param>
     /// <exception cref="Exception"></exception>
-    private void helper_queryAndAppendReservations(Dictionary<string, CloudbedsReservationWithRooms> buildSet, string reservationStatus)
+    private void helper_queryAndAppendReservations(Dictionary<string, CloudbedsReservationWithRooms_v1> buildSet, string reservationStatus)
     {
+
+        DateTime dateToday = DateTime.Today;
+        DateTime queryDate_From = dateToday + TimeSpan.FromDays(-3); //Look a few days back
+        DateTime queryDate_To = dateToday + TimeSpan.FromDays(NumberDaysFutureReservations); //Look a # days forward
+
+        //=========================================================================================
+        //LOG IT
+        //=========================================================================================
+        _statusLog.AddStatusHeader("Starting [v1, getReservationsWithRateDetails()] query for reservations: " + queryDate_From.ToString() + " to " + queryDate_To);
+
+
         //==========================================================================
         //Query and add the reservations that have check-in dates in the range we
         //care about (some of these may overlap with checked-in reservations - that's fine)
         //==========================================================================
-        DateTime dateToday = DateTime.Today;
         var cbQueryProximateCheckIn = new
-            CloudbedsRequestReservationsWithRoomsCheckOutWindow(
+            CloudbedsRequestReservationsWithRoomsCheckOutWindow_v1(
             _serverConnectInfo.GetCloudbedsServerInfo(),
             _serverConnectInfo.GetCloudbedsAuthSession(),
             _statusLog,
-            //reservationStatus,
-            dateToday + TimeSpan.FromDays(-3), //Look a few days back
-            dateToday + TimeSpan.FromDays(NumberDaysFutureReservations)   //Look a # days forward
+            queryDate_From,
+            queryDate_To
             );
 
+        var perfQueryStartTime = DateTime.Now;
         var querySuccessProximateCheckIn = cbQueryProximateCheckIn.ExecuteRequest();
+        var perfQueryDuration = DateTime.Now - perfQueryStartTime;
+
 
         if (!querySuccessProximateCheckIn)
         {
             throw new Exception("240415-831: CloudbedsReservationWithRoomsManager, query failure for filter: " + reservationStatus);
         }
 
-        helper_appendUniqueItemsToDictionary(buildSet, cbQueryProximateCheckIn.CommandResults_Reservations);
+        var queryResults_Reservations = cbQueryProximateCheckIn.CommandResults_Reservations;
+
+        //=========================================================================================
+        //LOG IT
+        //=========================================================================================
+        _statusLog.AddStatus(
+            "Reservation query performance: "
+            + perfQueryDuration.TotalSeconds.ToString("0.00") + " seconds"
+            + ", "
+            + queryResults_Reservations.Count.ToString() + " items"
+            );
+
+        //Append it to any other results
+        helper_appendUniqueItemsToDictionary(
+            buildSet,
+            queryResults_Reservations);
     }
 
     /// <summary>
@@ -264,7 +291,7 @@ partial class CloudbedsReservationWithRoomsManager
     /// </summary>
     /// <param name="buildSet"></param>
     /// <param name="appendReservations"></param>
-    private void helper_appendUniqueItemsToDictionary(Dictionary<string, CloudbedsReservationWithRooms> buildSet, ICollection<CloudbedsReservationWithRooms> appendReservations)
+    private void helper_appendUniqueItemsToDictionary(Dictionary<string, CloudbedsReservationWithRooms_v1> buildSet, ICollection<CloudbedsReservationWithRooms_v1> appendReservations)
     {
         //Sanity test
         if(appendReservations == null)

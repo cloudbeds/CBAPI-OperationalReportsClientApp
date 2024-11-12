@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -16,12 +17,13 @@ using System.Windows.Shapes;
 namespace OnSiteCompanion
 {
     /// <summary>
-    /// Interaction logic for uiReservationListItem.xaml
+    /// Interaction logic for uiDailyOccupancyChangesListItem.xaml
     /// </summary>
-    public partial class uiReservationListItem : UserControl
+    public partial class uiDailyOccupancyChangesListItem_v2 : UserControl
     {
-        private readonly CloudbedsReservation_v1? _reservation = null;
+        private readonly CloudbedsDailyOperationsReportManager_v2.DailyReport _dailyReport = null;
 
+        /*
         bool _isSelected;
         public bool IsSelected
         {
@@ -38,12 +40,13 @@ namespace OnSiteCompanion
                 }
             }
         }
+        */
 
-        internal CloudbedsReservation_v1 Reservation
+        internal CloudbedsDailyOperationsReportManager_v2.DailyReport DailyReport
         {
             get
             {
-                return _reservation;
+                return _dailyReport;
             }
         }
 
@@ -59,21 +62,22 @@ namespace OnSiteCompanion
         /// Constructor
         /// </summary>
         /// <param name="reservation"></param>
-        internal uiReservationListItem(CloudbedsReservation_v1 reservation) : this()
+        internal uiDailyOccupancyChangesListItem_v2(CloudbedsDailyOperationsReportManager_v2.DailyReport dailyReport) : this()
         {
-            _reservation = reservation;
+            _dailyReport = dailyReport;
 
         }
 
         /// <summary>
         /// Constructor
         /// </summary>
-        public uiReservationListItem()
+        public uiDailyOccupancyChangesListItem_v2()
         {
             InitializeComponent();
-            UpdateIsSelectedUi();
+            //UpdateIsSelectedUi();
         }
 
+        /*
         private void UpdateIsSelectedUi()
         {
             if(_isSelected)
@@ -87,26 +91,26 @@ namespace OnSiteCompanion
                 areaExpandDetails.Visibility = Visibility.Collapsed;
             }
         }
+        */
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            var reservation = _reservation;
+            var dailyReport = _dailyReport;
             //Fill in the UI elements
-            if (reservation != null)
+            if (dailyReport != null)
             {
-                txtReservationName.Text = reservation.Guest_Name;
-                txtReservationStatus.Text = reservation.Reservation_Status;
-                txtReservationDateCheckIn.Text = reservation.Reservation_StartDate_Text;
-                txtReservationDateCheckOut.Text = reservation.Reservation_EndDate_Text;
-                txtReservationRoomNumber.Text = reservation.Room_Name;
-                txtReservationId.Text= reservation.Reservation_Id;
-                //txtReservationPhone.Text = reservation.Reservation_CellPhone;
+                txtDate.Text = dailyReport.Date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                txtNumberCheckIns.Text = dailyReport.NumberCheckIns.ToString();
+                txtNumberCheckOuts.Text = dailyReport.NumberCheckOuts.ToString();
+                txtNumberStayOvers.Text = dailyReport.NumberStayOvers.ToString();
+                txtUnassignedCheckins.Text = dailyReport.NumberCheckIns_RoomNotAssigned.ToString();
+                txtRoomTurnovers.Text = dailyReport.NumberRoomTurnoversRequired.ToString();
             }
-/*            else //Degenerate case
-            {
-                IwsDiagnostics.Assert(false, "1022-256: Null reservation");
-            }
-*/
+            /*            else //Degenerate case
+                        {
+                            IwsDiagnostics.Assert(false, "1022-256: Null reservation");
+                        }
+            */
         }
 
         /// <summary>
@@ -117,9 +121,10 @@ namespace OnSiteCompanion
         private void UserControl_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             //Raise the event
-            ReservationSelected(this, new ReservationSelectedEventArgs(_reservation));
+         //   ReservationSelected(this, new ReservationSelectedEventArgs(_dailyReport));
         }
 
+        /*
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
         {
             string uriReservation = "";
@@ -130,7 +135,7 @@ namespace OnSiteCompanion
             uriReservation = CloudbedsUris.UriGenerate_BrowserReservationDetailsUrl(
                             CloudbedsSingletons.CloudbedsServerInfo,
                             CloudbedsSingletons.CloudbedsHotelDetails,
-                            _reservation);
+                            _dailyReport);
             }
             catch(Exception ex)
             {
@@ -149,5 +154,6 @@ namespace OnSiteCompanion
             Process.Start(processInfo);
             e.Handled = true;
         }
+        */
     }
 }

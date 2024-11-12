@@ -84,7 +84,11 @@ namespace OnSiteCompanion
                     //NOTHING TO DO
                     return;
 
-                case AppNavigationState.ShowOperationalReport:
+                case AppNavigationState.ShowOperationalReport_v1:
+                    //NOTHING TO DO
+                    return;
+
+                case AppNavigationState.ShowOperationalReport_v2:
                     //NOTHING TO DO
                     return;
 
@@ -117,9 +121,14 @@ namespace OnSiteCompanion
                         new appPageGuestsList());
                     return;
 
-                case AppNavigationState.ShowOperationalReport:
+                case AppNavigationState.ShowOperationalReport_v1:
                     StateMachine_ReplaceActiveUIAreas(
-                        new appPageOperationalReport());
+                        new appPageOperationalReport_v1());
+                    return;
+
+                case AppNavigationState.ShowOperationalReport_v2:
+                    StateMachine_ReplaceActiveUIAreas(
+                        new appPageOperationalReport_v2());
                     return;
 
                 case AppNavigationState.ShowReservations:
@@ -394,13 +403,27 @@ CONFIGURATION TAB
         }
 
         
-        private void NavigateApp_ShowOperationalReport(object sender, RoutedEventArgs e)
+        private void NavigateApp_ShowOperationalReport_v1(object sender, RoutedEventArgs e)
         {
             try
             {
-                StateMachine_PerformTransition(AppNavigationState.ShowOperationalReport);
+                StateMachine_PerformTransition(AppNavigationState.ShowOperationalReport_v1);
             }
             catch (Exception ex) 
+            {
+                MessageBox.Show("Error: " + ex.Message, "Cloudbeds client application", MessageBoxButton.OK, MessageBoxImage.Error);
+                //Go to the status logs screen
+                StateMachine_PerformTransition(AppNavigationState.ShowStatusLogs);
+            }
+        }
+
+        private void NavigateApp_ShowOperationalReport_v2(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                StateMachine_PerformTransition(AppNavigationState.ShowOperationalReport_v2);
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show("Error: " + ex.Message, "Cloudbeds client application", MessageBoxButton.OK, MessageBoxImage.Error);
                 //Go to the status logs screen

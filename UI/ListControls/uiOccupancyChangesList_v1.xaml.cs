@@ -16,17 +16,17 @@ using System.Windows.Shapes;
 namespace OnSiteCompanion
 {
     /// <summary>
-    /// Interaction logic for uiReservationList.xaml
+    /// Interaction logic for uiOccupancyChangesList.xaml
     /// </summary>
-    public partial class uiReservationList : UserControl
+    public partial class uiOccupancyChangesList_v1 : UserControl
     {
         /// <summary>
         /// Delegate and Event for when a Reservation gets clicked/selected
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        internal delegate void ReservationSelectedEventHandler(object sender, ReservationSelectedEventArgs e);
-        internal event ReservationSelectedEventHandler ReservationSelected;
+        //internal delegate void ReservationSelectedEventHandler(object sender, ReservationSelectedEventArgs e);
+        //internal event ReservationSelectedEventHandler ReservationSelected;
 
         CloudbedsReservation_v1? _selectedReservation = null;
 
@@ -38,7 +38,7 @@ namespace OnSiteCompanion
         /// <summary>
         /// UI items for each reservation
         /// </summary>
-        List<uiReservationListItem> _ctlReservationListItems = new List<uiReservationListItem>();
+        //List<uiReservationListItem> _ctlReservationListItems = new List<uiReservationListItem>();
 
         /// <summary>
         /// True if the reservation list was filled at least once
@@ -54,17 +54,19 @@ namespace OnSiteCompanion
         /// <summary>
         /// Constructor
         /// </summary>
-        public uiReservationList()
+        public uiOccupancyChangesList_v1()
         {
             InitializeComponent();
         }
 
-        internal uiReservationList(ICollection<CloudbedsReservation_v1> reservations) : this()
+        
+        internal uiOccupancyChangesList_v1(CloudbedsDailyOperationsReportManager_v1 operationsReports) : this()
         {
-            FillReservationsList(reservations);
+            FillDailyReportsList(operationsReports);
         }
+        
 
-
+        /*
         /// <summary>
         /// Clear out any reservation selection
         /// </summary>
@@ -73,6 +75,9 @@ namespace OnSiteCompanion
             _selectedReservation = null;
             UpdateSelectedReservationUi();
         }
+        */
+
+        /*
 
         /// <summary>
         /// Called when an individual Reservation list item is selected
@@ -91,7 +96,9 @@ namespace OnSiteCompanion
                 evtReservationSelected(this, e);
             }
         }
+        */
 
+        /*
         /// <summary>
         /// Update the selected state ui for each reservation item
         /// </summary>
@@ -109,50 +116,54 @@ namespace OnSiteCompanion
                 thisCtl.IsSelected = (thisCtl.Reservation == _selectedReservation);
             }
         }
-
+        */
 
         /// <summary>
         /// Fill the visible list with controls...
         /// </summary>
         /// <param name="reservations"></param>
-        internal void FillReservationsList(ICollection<CloudbedsReservation_v1>? reservations)
+//        internal void FillReservationsList(ICollection<CloudbedsReservation>? reservations)
+        internal void FillDailyReportsList(CloudbedsDailyOperationsReportManager_v1 operationsReports)
         {
             _wasReservationListStocked.Trigger();
 
-            var uiChildren = spListOfReservations.Children;
-            _ctlReservationListItems = new List<uiReservationListItem>();
+            var uiChildren = spListOfOccupancyDates.Children;
 
+            var dailyReports = operationsReports.DailyReports;
             //Get rid of all the existing items
             uiChildren.Clear();
-            if((reservations == null) || (reservations.Count == 0))
+            if((dailyReports == null) || (dailyReports.Count == 0))
             {
 
                 //We could show a fancier custom control here to indicate
                 //that there are no controls
                 var txtCtl = new TextBlock();
-                txtCtl.Text = "No reservations in list";
+                txtCtl.Text = "No days to report";
 
                 uiChildren.Add(txtCtl);
                 return;
             }
+            
 
             //Create a header control
-            uiChildren.Add(new uiReservationListHeader());
+            uiChildren.Add(new uiDailyOccupancyChangesListHeader());
 
+            
             //==============================================
             //Add a control for each reservation
             //==============================================
-            foreach (var thisReservation in reservations)
+            foreach (var thisDayReport in dailyReports)
             {
                 //Create the control
-                var ctlReservationListItem = new uiReservationListItem(thisReservation);
+                var ctlSingleDay = new uiDailyOccupancyChangesListItem_v1(thisDayReport);
+
                 //Hook up the event to listen to it here...
-                ctlReservationListItem.ReservationSelected += EventHander_ReservationSelectedEventHandler;
+                //ctlReservationListItem.ReservationSelected += EventHander_ReservationSelectedEventHandler;
 
-                uiChildren.Add(ctlReservationListItem);
-                _ctlReservationListItems.Add(ctlReservationListItem);
+                uiChildren.Add(ctlSingleDay);
+                //_ctlReservationListItems.Add(ctlReservationListItem);
             }
-
+            
         }
 
     }

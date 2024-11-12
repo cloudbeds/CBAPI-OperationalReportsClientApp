@@ -19,19 +19,18 @@ namespace OnSiteCompanion
     /// <summary>
     /// Interaction logic for appPageReservationsList.xaml
     /// </summary>
-    public partial class appPageOperationalReport : StackPanel, IRequestUiDataRefresh
+    public partial class appPageOperationalReport_v2 : StackPanel, IRequestUiDataRefresh
     {
 
-        private uiOccupancyChangesList _ctlUiReport;
+        private uiOccupancyChangesList_v2 _ctlUiReport;
         /// <summary>
         /// Constructor
         /// </summary>
-        public appPageOperationalReport()
+        public appPageOperationalReport_v2()
         {
             InitializeComponent();
 
             ResetUiBasedOnDataAvailability();
-
         }
 
 
@@ -40,7 +39,7 @@ namespace OnSiteCompanion
         /// </summary>
         private void UpdateCacheAgeText()
         {
-            var cacheAgeUtc = CloudbedsSingletons.ReservationsWithRooms_CacheLastUpdatedTimeUtc;
+            var cacheAgeUtc = CloudbedsSingletons.ReservationsWithRooms_v2_CacheLastUpdatedTimeUtc;
             if(cacheAgeUtc == null)
             {
                 txtCacheAge.Text = "No data in local cache ...";
@@ -59,7 +58,7 @@ namespace OnSiteCompanion
         private void ResetUiBasedOnDataAvailability()
         {
             //If we have the data cached, then generate the report...
-            if (CloudbedsSingletons.IsDataAvailableForDailyOperationsReport())
+            if (CloudbedsSingletons.IsDataAvailableForDailyOperationsReport_v2())
             {
                 FillDataArea_QueryDataIfNeeded();
 
@@ -92,7 +91,9 @@ namespace OnSiteCompanion
             //========================================================================================
             //Add the occupancy changes report
             //========================================================================================
-            var ctlOccupancyChanges = new uiOccupancyChangesList(CloudbedsSingletons.GenerateDailyOperationsReports());
+            var ctlOccupancyChanges = new uiOccupancyChangesList_v2(
+                CloudbedsSingletons.GenerateDailyOperationsReports_v2());
+
             spContent.Children.Add(ctlOccupancyChanges);
 
             _ctlUiReport = ctlOccupancyChanges;
@@ -128,7 +129,7 @@ namespace OnSiteCompanion
             string fileOutputTo = fileDialog.FileName;
 
             //Generate the daily operations #s
-            var dailyOperationsReports =  CloudbedsSingletons.GenerateDailyOperationsReports();
+            var dailyOperationsReports =  CloudbedsSingletons.GenerateDailyOperationsReports_v2();
 
             //Turn it into a CSV file
             var csvReport = dailyOperationsReports.GenerateCsvReport();
@@ -184,7 +185,7 @@ namespace OnSiteCompanion
             string fileOutputTo = fileDialog.FileName;
 
             //Generate the daily operations #s
-            var dailyOperationsReports = CloudbedsSingletons.GenerateDailyOperationsReports_ResRoomDetails();
+            var dailyOperationsReports = CloudbedsSingletons.GenerateDailyOperationsReports_ResRoomDetails_v2();
 
             //Turn it into a CSV file
             var csvReport = dailyOperationsReports.GenerateCsvReport();
@@ -202,7 +203,7 @@ namespace OnSiteCompanion
         /// <param name="e"></param>
         private void btnClearCache_Click(object sender, RoutedEventArgs e)
         {
-            CloudbedsSingletons.ReservationsWithRooms_ClearCache();
+            CloudbedsSingletons.ReservationsWithRooms_v2_ClearCache();
             ResetUiBasedOnDataAvailability();
         }
     }

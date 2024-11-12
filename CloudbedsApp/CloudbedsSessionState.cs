@@ -16,9 +16,11 @@ internal partial class CloudbedsSessionState
     private readonly CloudbedsAppConfig _currentServerInfo_appConfig;
     private ICloudbedsAuthSessionBase _currentAuthSession;
     private CloudbedsGuestManager _guestManager;
-    private CloudbedsReservationManager _reservationManager;
-    private CloudbedsReservationWithRoomsManager _reservationWithRoomsManager;
-//    private static CloudbedsDataRefreshScheduler _refreshScheduler;
+    private CloudbedsReservationManager_v1 _reservationManager_v1;
+    private CloudbedsReservationWithRoomsManager_v1 _reservationWithRoomsManager_v1;
+    private CloudbedsReservationWithRoomsManager_v2 _reservationWithRoomsManager_v2;
+
+    //    private static CloudbedsDataRefreshScheduler _refreshScheduler;
     private CloudbedsHotelDetails _hotelDetails;
 
     /// <summary>
@@ -42,21 +44,26 @@ internal partial class CloudbedsSessionState
             return _currentServerInfo.Name;
         }
     }
-    public  bool IsDataAvailableForDailyOperationsReport()
+    public  bool IsDataAvailableForDailyOperationsReport_v1()
     {
-        var reservationsManager = EnsureReservationWithRoomsManager();
+        var reservationsManager = EnsureReservationWithRoomsManager_v1();
         return reservationsManager.IsDataCached();
     }
 
+    public bool IsDataAvailableForDailyOperationsReport_v2()
+    {
+        var reservationsManager = EnsureReservationWithRoomsManager_v2();
+        return reservationsManager.IsDataCached();
+    }
 
     /// <summary>
     /// The time the cache was last updated
     /// </summary>
-    public DateTime? ReservationsWithRooms_CacheLastUpdatedTimeUtc
+    public DateTime? ReservationsWithRooms_v1_CacheLastUpdatedTimeUtc
     {
         get
         {
-            var resCache = _reservationWithRoomsManager;
+            var resCache = _reservationWithRoomsManager_v1;
             if (resCache == null)
             {
                 return null;
@@ -67,34 +74,29 @@ internal partial class CloudbedsSessionState
     }
 
     /// <summary>
-    /// Genrate the daily operations report
+    /// The time the cache was last updated
     /// </summary>
-    /// <returns></returns>
-    public CloudbedsDailyOperationsReportManager GenerateDailyOperationsReports()
+    public DateTime? ReservationsWithRooms_v2_CacheLastUpdatedTimeUtc
     {
-        var reservationsManager = EnsureReservationWithRoomsManager();
-        reservationsManager.EnsureCachedData();
+        get
+        {
+            var resCache = _reservationWithRoomsManager_v2;
+            if (resCache == null)
+            {
+                return null;
+            }
 
-        //=============================================================
-        //UNDONE: We will want this function to take a DATE-RANGE in
-        //to ensure we have data for the known dates.
-        //=============================================================
-        DateTime dateReportStart = DateTime.Today;
-        DateTime dateReportEnd = dateReportStart.AddDays(60);
-
-
-        var reservationsSet = reservationsManager.Reservations;
-
-        return new CloudbedsDailyOperationsReportManager(dateReportStart, dateReportEnd, reservationsSet);
+            return resCache.CacheLastUpdatedTimeUtc;
+        }
     }
 
     /// <summary>
-    /// Genrate the daily operations report
+    /// Generate the daily operations report
     /// </summary>
     /// <returns></returns>
-    public CloudbedsDailyOperationsReportManager_ResRoomDetails GenerateDailyOperationsReports_ResRoomDetails()
+    public CloudbedsDailyOperationsReportManager_v1 GenerateDailyOperationsReports_v1()
     {
-        var reservationsManager = EnsureReservationWithRoomsManager();
+        var reservationsManager = EnsureReservationWithRoomsManager_v1();
         reservationsManager.EnsureCachedData();
 
         //=============================================================
@@ -107,7 +109,73 @@ internal partial class CloudbedsSessionState
 
         var reservationsSet = reservationsManager.Reservations;
 
-        return new CloudbedsDailyOperationsReportManager_ResRoomDetails(dateReportStart, dateReportEnd, reservationsSet);
+        return new CloudbedsDailyOperationsReportManager_v1(dateReportStart, dateReportEnd, reservationsSet);
+    }
+
+    /// <summary>
+    /// Generate the daily operations report
+    /// </summary>
+    /// <returns></returns>
+    public CloudbedsDailyOperationsReportManager_v2 GenerateDailyOperationsReports_v2()
+    {
+        var reservationsManager = EnsureReservationWithRoomsManager_v2();
+        reservationsManager.EnsureCachedData();
+
+        //=============================================================
+        //UNDONE: We will want this function to take a DATE-RANGE in
+        //to ensure we have data for the known dates.
+        //=============================================================
+        DateTime dateReportStart = DateTime.Today;
+        DateTime dateReportEnd = dateReportStart.AddDays(60);
+
+
+        var reservationsSet = reservationsManager.Reservations;
+
+        return new CloudbedsDailyOperationsReportManager_v2(dateReportStart, dateReportEnd, reservationsSet);
+    }
+
+    /// <summary>
+    /// Generate the daily operations report
+    /// </summary>
+    /// <returns></returns>
+    public CloudbedsDailyOperationsReportManager_v1_ResRoomDetails GenerateDailyOperationsReports_ResRoomDetails_v1()
+    {
+        var reservationsManager = EnsureReservationWithRoomsManager_v1();
+        reservationsManager.EnsureCachedData();
+
+        //=============================================================
+        //UNDONE: We will want this function to take a DATE-RANGE in
+        //to ensure we have data for the known dates.
+        //=============================================================
+        DateTime dateReportStart = DateTime.Today;
+        DateTime dateReportEnd = dateReportStart.AddDays(60);
+
+
+        var reservationsSet = reservationsManager.Reservations;
+
+        return new CloudbedsDailyOperationsReportManager_v1_ResRoomDetails(dateReportStart, dateReportEnd, reservationsSet);
+    }
+
+    /// <summary>
+    /// Generate the daily operations report
+    /// </summary>
+    /// <returns></returns>
+    public CloudbedsDailyOperationsReportManager_v2_ResRoomDetails GenerateDailyOperationsReports_ResRoomDetails_v2()
+    {
+        var reservationsManager = EnsureReservationWithRoomsManager_v2();
+        reservationsManager.EnsureCachedData();
+
+        //=============================================================
+        //UNDONE: We will want this function to take a DATE-RANGE in
+        //to ensure we have data for the known dates.
+        //=============================================================
+        DateTime dateReportStart = DateTime.Today;
+        DateTime dateReportEnd = dateReportStart.AddDays(60);
+
+
+        var reservationsSet = reservationsManager.Reservations;
+
+        return new CloudbedsDailyOperationsReportManager_v2_ResRoomDetails(dateReportStart, dateReportEnd, reservationsSet);
     }
 
     /*
@@ -203,11 +271,11 @@ internal partial class CloudbedsSessionState
     /// <summary>
     /// The cached list of reservations...
     /// </summary>
-    public CloudbedsReservationManager CloudbedsReservationManager
+    public CloudbedsReservationManager_v1 CloudbedsReservationManager_v1
     {
         get
         {
-            return EnsureReservationManager();
+            return EnsureReservationManager_v1();
         }
     }
 
@@ -232,7 +300,7 @@ internal partial class CloudbedsSessionState
 
         oldestTimeSoFar = helper_useOldestCacheTime(
             oldestTimeSoFar,
-            CloudbedsSingletons.CloudbedsReservationManager.CacheLastUpdatedTimeUtc);
+            CloudbedsSingletons.CloudbedsReservationManager_v1.CacheLastUpdatedTimeUtc);
 
         if (oldestTimeSoFar == null)
         {
@@ -440,18 +508,26 @@ internal partial class CloudbedsSessionState
     /// <summary>
     /// Clear a cache...
     /// </summary>
-    public void ReservationsWithRooms_ClearCache()
+    public void ReservationsWithRooms_v1_ClearCache()
     {
-        _reservationWithRoomsManager = null;
+        _reservationWithRoomsManager_v1 = null;
+    }
+
+    /// <summary>
+    /// Clear a cache...
+    /// </summary>
+    public void ReservationsWithRooms_v2_ClearCache()
+    {
+        _reservationWithRoomsManager_v2 = null;
     }
 
     /// <summary>
     /// Creates a reservation manager object if necessary
     /// </summary>
     /// <returns></returns>
-    public CloudbedsReservationWithRoomsManager EnsureReservationWithRoomsManager()
+    public CloudbedsReservationWithRoomsManager_v1 EnsureReservationWithRoomsManager_v1()
     {
-        var reservationManager = _reservationWithRoomsManager;
+        var reservationManager = _reservationWithRoomsManager_v1;
         if (reservationManager != null)
         {
             return reservationManager;
@@ -460,11 +536,11 @@ internal partial class CloudbedsSessionState
         EnsureAuthSessionAndSeverInfo();
         var taskStatus = TaskStatusLogsSingleton.Singleton;
 
-        reservationManager = new CloudbedsReservationWithRoomsManager(
+        reservationManager = new CloudbedsReservationWithRoomsManager_v1(
             GenerateServerConnectionWrapper(),
             taskStatus);
 
-        _reservationWithRoomsManager = reservationManager;
+        _reservationWithRoomsManager_v1 = reservationManager;
         return reservationManager;
     }
 
@@ -473,9 +549,9 @@ internal partial class CloudbedsSessionState
     /// Creates a reservation manager object if necessary
     /// </summary>
     /// <returns></returns>
-    public CloudbedsReservationManager EnsureReservationManager()
+    public CloudbedsReservationWithRoomsManager_v2 EnsureReservationWithRoomsManager_v2()
     {
-        var reservationManager = _reservationManager;
+        var reservationManager = _reservationWithRoomsManager_v2;
         if (reservationManager != null)
         {
             return reservationManager;
@@ -484,10 +560,34 @@ internal partial class CloudbedsSessionState
         EnsureAuthSessionAndSeverInfo();
         var taskStatus = TaskStatusLogsSingleton.Singleton;
 
-        reservationManager = new CloudbedsReservationManager(
+        reservationManager = new CloudbedsReservationWithRoomsManager_v2(
             GenerateServerConnectionWrapper(),
             taskStatus);
-        _reservationManager = reservationManager;
+
+        _reservationWithRoomsManager_v2 = reservationManager;
+        return reservationManager;
+    }
+
+
+    /// <summary>
+    /// Creates a reservation manager object if necessary
+    /// </summary>
+    /// <returns></returns>
+    public CloudbedsReservationManager_v1 EnsureReservationManager_v1()
+    {
+        var reservationManager = _reservationManager_v1;
+        if (reservationManager != null)
+        {
+            return reservationManager;
+        }
+
+        EnsureAuthSessionAndSeverInfo();
+        var taskStatus = TaskStatusLogsSingleton.Singleton;
+
+        reservationManager = new CloudbedsReservationManager_v1(
+            GenerateServerConnectionWrapper(),
+            taskStatus);
+        _reservationManager_v1 = reservationManager;
         return reservationManager;
     }
 

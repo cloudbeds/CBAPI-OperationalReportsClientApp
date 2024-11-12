@@ -1,28 +1,24 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 
 /// <summary>
 /// Cloudbeds Reservation
 /// </summary>
-class CloudbedsReservation
+class CloudbedsReservationWithRooms_v2
 {
     public readonly string Guest_Id;
     public readonly string Guest_Name;
-    //public readonly string Guest_Email;
-    //public readonly string Guest_CellPhone;
     public readonly string Reservation_Id;
     public readonly string Reservation_Status;
-    public readonly decimal Reservation_Balance;
     public readonly string PropertyId;
-    public readonly int Reservation_Adults;
-    public readonly int Reservation_Children;
     public readonly string Reservation_StartDate_Text;
     public readonly DateTime Reservation_StartDate;
     public readonly DateTime Reservation_EndDate;
     public readonly string Reservation_EndDate_Text;
-    public readonly string Room_Name;
-    public readonly string Room_Id;
+    public readonly IReadOnlyCollection<CloudbedsReservationRoom_v2> ReservationRooms;
+
     const string CB_DATE_FORMAT = "yyyy-MM-dd";
 
     /// <summary>
@@ -31,30 +27,26 @@ class CloudbedsReservation
     private readonly string _cannonicalTextSearchString;
     public override string ToString()
     {
-        return "Reservation: " + this.Guest_Name + ", Room: " + this.Room_Name;
+        return "Reservation: " + this.Guest_Name; // + ", Room: " + this.Room_Name;
     }
 
-    public CloudbedsReservation(
+    public CloudbedsReservationWithRooms_v2(
         string reservationId,
         string reservationStatus,
-        decimal reservationBalance,
         string propertyId,
-        int reservationAdults,
-        int reservationChildren,
         string reservationStartDate,
         string reservationEndDate,
         string guestId,
-        string guestName, 
-        string roomId, 
-        string roomName
+        string guestName,
+        ICollection<CloudbedsReservationRoom_v2> reservationRooms
         )
     {
         this.Reservation_Id = reservationId;
         this.Reservation_Status = reservationStatus;
-        this.Reservation_Balance = reservationBalance;
+//        this.Reservation_Balance = reservationBalance;
         this.PropertyId = propertyId;
-        this.Reservation_Adults = reservationAdults;
-        this.Reservation_Children = reservationChildren;
+//        this.Reservation_Adults = reservationAdults;
+//        this.Reservation_Children = reservationChildren;
         this.Reservation_StartDate_Text = reservationStartDate;
         Reservation_StartDate = DateTime.ParseExact(reservationStartDate, CB_DATE_FORMAT, CultureInfo.InvariantCulture);
 
@@ -63,10 +55,9 @@ class CloudbedsReservation
 
         this.Guest_Id = guestId;
         this.Guest_Name = guestName;
-        //this.Guest_Email = guestEmail;
-        //this.Guest_CellPhone = guestCellPhone;
-        this.Room_Id = roomId;
-        this.Room_Name = roomName;
+
+        this.ReservationRooms = new List<CloudbedsReservationRoom_v2>(reservationRooms).AsReadOnly();
+
 
         _cannonicalTextSearchString = helper_CreateCannonicalSearchTerm();
         
@@ -84,7 +75,7 @@ class CloudbedsReservation
         helper_appendSearchTerm(sb, this.Guest_Name);
         //helper_appendSearchTerm(sb, this.Guest_Email);
         //helper_appendSearchTerm(sb, this.Guest_CellPhone);
-        helper_appendSearchTerm(sb, this.Room_Name);
+//        helper_appendSearchTerm(sb, this.Room_Name);
 
         return sb.ToString().Trim().ToLower();
     }

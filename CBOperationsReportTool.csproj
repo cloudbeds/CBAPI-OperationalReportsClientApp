@@ -26,7 +26,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="UI\AppPages\appPageOperationalReport.xaml">
+    <Page Update="UI\AppPages\appPageOperationalReport_v2.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="UI\AppPages\appPageOperationalReport_v1.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="UI\AppPages\appPageOperationalReportList.xaml">
@@ -54,13 +57,19 @@
     <Page Update="UI\ListControls\uiCBPropertyPicker.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="UI\ListControls\uiOccupancyChangesList.xaml">
+    <Page Update="UI\ListControls\uiDailyOccupancyChangesListItem_v2.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="UI\ListControls\uiOccupancyChangesList_v2.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="UI\ListControls\uiOccupancyChangesList_v1.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="UI\ListControls\uiDailyOccupancyChangesListHeader.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="UI\ListControls\uiDailyOccupancyChangesListItem.xaml">
+    <Page Update="UI\ListControls\uiDailyOccupancyChangesListItem_v1.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="UI\ListControls\uiReservationListItem.xaml">

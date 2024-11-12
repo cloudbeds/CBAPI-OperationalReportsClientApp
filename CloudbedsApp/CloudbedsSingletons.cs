@@ -19,13 +19,18 @@ static internal partial class CloudbedsSingletons
     private static System.Random s_randomizer;
 
 
-    public static bool IsDataAvailableForDailyOperationsReport()
+    public static bool IsDataAvailableForDailyOperationsReport_v1()
     {
         EnsureServerInfo();
 
-        return s_selectedCBSessionState.IsDataAvailableForDailyOperationsReport();
-        //var reservationsManager = EnsureReservationWithRoomsManager();
-        //return reservationsManager.IsDataCached();
+        return s_selectedCBSessionState.IsDataAvailableForDailyOperationsReport_v1();
+    }
+
+    public static bool IsDataAvailableForDailyOperationsReport_v2()
+    {
+        EnsureServerInfo();
+
+        return s_selectedCBSessionState.IsDataAvailableForDailyOperationsReport_v2();
     }
 
     /// <summary>
@@ -55,19 +60,31 @@ static internal partial class CloudbedsSingletons
     /// <summary>
     /// Clear a cache
     /// </summary>
-    public static void ReservationsWithRooms_ClearCache()
+    public static void ReservationsWithRooms_v1_ClearCache()
     {
         var session = s_selectedCBSessionState;
         if(session != null) 
         {
-            session.ReservationsWithRooms_ClearCache();
+            session.ReservationsWithRooms_v1_ClearCache();
+        }
+    }
+
+    /// <summary>
+    /// Clear a cache
+    /// </summary>
+    public static void ReservationsWithRooms_v2_ClearCache()
+    {
+        var session = s_selectedCBSessionState;
+        if (session != null)
+        {
+            session.ReservationsWithRooms_v2_ClearCache();
         }
     }
 
     /// <summary>
     /// The time the cache was last updated
     /// </summary>
-    public static DateTime? ReservationsWithRooms_CacheLastUpdatedTimeUtc
+    public static DateTime? ReservationsWithRooms_v1_CacheLastUpdatedTimeUtc
     {
         get
         {
@@ -77,31 +94,71 @@ static internal partial class CloudbedsSingletons
                 return null;
             }
 
-            return session.ReservationsWithRooms_CacheLastUpdatedTimeUtc;
+            return session.ReservationsWithRooms_v1_CacheLastUpdatedTimeUtc;
         }
     }
 
     /// <summary>
-    /// Genrate the daily operations report
+    /// The time the cache was last updated
+    /// </summary>
+    public static DateTime? ReservationsWithRooms_v2_CacheLastUpdatedTimeUtc
+    {
+        get
+        {
+            var session = s_selectedCBSessionState;
+            if (session == null)
+            {
+                return null;
+            }
+
+            return session.ReservationsWithRooms_v2_CacheLastUpdatedTimeUtc;
+        }
+    }
+
+    /// <summary>
+    /// Generate the daily operations report
     /// </summary>
     /// <returns></returns>
-    public static CloudbedsDailyOperationsReportManager GenerateDailyOperationsReports()
+    public static CloudbedsDailyOperationsReportManager_v1 GenerateDailyOperationsReports_v1()
     {
         EnsureServerInfo();
 
-        return s_selectedCBSessionState.GenerateDailyOperationsReports();
+        return s_selectedCBSessionState.GenerateDailyOperationsReports_v1();
     }
 
 
     /// <summary>
-    /// Genrate the daily operations report
+    /// Generate the daily operations report
     /// </summary>
     /// <returns></returns>
-    public static CloudbedsDailyOperationsReportManager_ResRoomDetails GenerateDailyOperationsReports_ResRoomDetails()
+    public static CloudbedsDailyOperationsReportManager_v2 GenerateDailyOperationsReports_v2()
     {
         EnsureServerInfo();
 
-        return s_selectedCBSessionState.GenerateDailyOperationsReports_ResRoomDetails();
+        return s_selectedCBSessionState.GenerateDailyOperationsReports_v2();
+    }
+
+
+
+    /// <summary>
+    /// Generate the daily operations report
+    /// </summary>
+    /// <returns></returns>
+    public static CloudbedsDailyOperationsReportManager_v1_ResRoomDetails GenerateDailyOperationsReports_ResRoomDetails_v1()
+    {
+        EnsureServerInfo();
+
+        return s_selectedCBSessionState.GenerateDailyOperationsReports_ResRoomDetails_v1();
+    }
+    /// <summary>
+    /// Generate the daily operations report
+    /// </summary>
+    /// <returns></returns>
+    public static CloudbedsDailyOperationsReportManager_v2_ResRoomDetails GenerateDailyOperationsReports_ResRoomDetails_v2()
+    {
+        EnsureServerInfo();
+
+        return s_selectedCBSessionState.GenerateDailyOperationsReports_ResRoomDetails_v2();
     }
     /// <summary>
     /// Refresh scheduler
@@ -193,12 +250,12 @@ static internal partial class CloudbedsSingletons
     /// <summary>
     /// The cached list of reservations...
     /// </summary>
-    public static CloudbedsReservationManager CloudbedsReservationManager
+    public static CloudbedsReservationManager_v1 CloudbedsReservationManager_v1
     {
         get
         {
             EnsureServerInfo();
-            return s_selectedCBSessionState.CloudbedsReservationManager;
+            return s_selectedCBSessionState.CloudbedsReservationManager_v1;
         }
     }
 
@@ -334,10 +391,10 @@ static internal partial class CloudbedsSingletons
     /// Creates a reservation manager object if necessary
     /// </summary>
     /// <returns></returns>
-    private static CloudbedsReservationWithRoomsManager EnsureReservationWithRoomsManager()
+    private static CloudbedsReservationWithRoomsManager_v1 EnsureReservationWithRoomsManager_v1()
     {
         EnsureServerInfo();
-        return s_selectedCBSessionState.EnsureReservationWithRoomsManager();
+        return s_selectedCBSessionState.EnsureReservationWithRoomsManager_v1();
     }
 
 
@@ -345,10 +402,10 @@ static internal partial class CloudbedsSingletons
     /// Creates a reservation manager object if necessary
     /// </summary>
     /// <returns></returns>
-    private static CloudbedsReservationManager EnsureReservationManager()
+    private static CloudbedsReservationManager_v1 EnsureReservationManager_v1()
     {
         EnsureServerInfo();
-        return s_selectedCBSessionState.EnsureReservationManager();
+        return s_selectedCBSessionState.EnsureReservationManager_v1();
 
     }
 
@@ -450,7 +507,7 @@ private static void ForceRefreshOfCloudbedsDataCache_inner()
    //----------------------------------------------------------
    try
    {
-       EnsureReservationManager().ForceRefreshOfCachedData();
+       EnsureReservationManager_v1().ForceRefreshOfCachedData();
    }
    catch (Exception exReservationsManager)
    {

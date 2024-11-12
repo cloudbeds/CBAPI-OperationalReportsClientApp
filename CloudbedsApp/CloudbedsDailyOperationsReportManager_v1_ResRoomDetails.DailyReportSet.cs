@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 /// <summary>
 /// </summary>
-internal partial class CloudbedsDailyOperationsReportManager_ResRoomDetails
+internal partial class CloudbedsDailyOperationsReportManager_v1_ResRoomDetails
 {
 
     /// <summary>
@@ -21,13 +21,13 @@ internal partial class CloudbedsDailyOperationsReportManager_ResRoomDetails
         /// <summary>
         /// The sub reservations active on this date
         /// </summary>
-        readonly IReadOnlyCollection<CloudbedsReservationRoom> _resRoomsForDate;
+        readonly IReadOnlyCollection<CloudbedsReservationRoom_v1> _resRoomsForDate;
 
 
         /// <summary>
         /// All the sub reservations that intersect with this date
         /// </summary>
-        public IReadOnlyCollection<CloudbedsReservationRoom> SubReservations
+        public IReadOnlyCollection<CloudbedsReservationRoom_v1> SubReservations
         {
             get
             {
@@ -42,10 +42,10 @@ internal partial class CloudbedsDailyOperationsReportManager_ResRoomDetails
         /// <param name="reservationRoomsForDate"></param>
         public DailyReportSet(
             DateTime date,
-            ICollection<CloudbedsReservationRoom> reservationRoomsForDate)
+            ICollection<CloudbedsReservationRoom_v1> reservationRoomsForDate)
         {
             this.Date = date;
-            _resRoomsForDate = new List<CloudbedsReservationRoom>(reservationRoomsForDate).AsReadOnly();
+            _resRoomsForDate = new List<CloudbedsReservationRoom_v1>(reservationRoomsForDate).AsReadOnly();
         }
     }
 }

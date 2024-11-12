@@ -45,7 +45,7 @@ namespace OnSiteCompanion
         public void RefreshText()
         {
 
-            var cbReservationMgr = CloudbedsSingletons.CloudbedsReservationManager;
+            var cbReservationMgr = CloudbedsSingletons.CloudbedsReservationManager_v1;
             //txtNumberReservations.Text =  cbReservationMgr.ReservationCount.ToString() + " Reservations";
 
             var uiItems = spLineItems.Children;

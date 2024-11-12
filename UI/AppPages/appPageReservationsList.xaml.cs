@@ -30,7 +30,7 @@ namespace OnSiteCompanion
             InitializeComponent();
 
             //this.Children.Clear();
-            _ctlUiReservationsList = new uiReservationList(CloudbedsSingletons.CloudbedsReservationManager.Reservations);
+            _ctlUiReservationsList = new uiReservationList(CloudbedsSingletons.CloudbedsReservationManager_v1.Reservations);
             this.Children.Add(_ctlUiReservationsList);
         }
 
@@ -39,7 +39,7 @@ namespace OnSiteCompanion
         /// </summary>
         void IRequestUiDataRefresh.RefreshUiFromData()
         {
-            _ctlUiReservationsList.FillReservationsList(CloudbedsSingletons.CloudbedsReservationManager.Reservations);
+            _ctlUiReservationsList.FillReservationsList(CloudbedsSingletons.CloudbedsReservationManager_v1.Reservations);
         }
     }
 }

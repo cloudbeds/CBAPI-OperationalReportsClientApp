@@ -4,7 +4,7 @@ using System.Text;
 /// <summary>
 /// Cloudbeds CloudbedsReservationRoom
 /// </summary>
-partial class CloudbedsReservationRoom
+partial class CloudbedsReservationRoom_v2
 {
     public readonly string Room_TypeId;
     public readonly string Room_TypeName;
@@ -33,7 +33,7 @@ partial class CloudbedsReservationRoom
     /// <param name="roomTypeId"></param>
     /// <param name="dateCheckIn"></param>
     /// <param name="dateCheckOut"></param>
-    public CloudbedsReservationRoom(
+    public CloudbedsReservationRoom_v2(
         string parentReservationId,
         string subReservationId,
         string roomTypeId,
@@ -50,7 +50,7 @@ partial class CloudbedsReservationRoom
         //Sanity test...
         if (!IsRoomStatusKnownState(roomStatus)) 
         {
-            IwsDiagnostics.Assert(false, "240327-240: Unknown room status: " + roomStatus + ", sub-reservation: " + subReservationId);
+            IwsDiagnostics.Assert(false, "241111-240: Unknown room status: " + roomStatus + ", sub-reservation: " + subReservationId);
             CloudbedsSingletons.StatusLogs.AddError("Unknown room status: " + roomStatus + ", sub-reservation: " + subReservationId);
         }
 

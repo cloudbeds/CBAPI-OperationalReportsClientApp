@@ -66,6 +66,10 @@ static partial class CloudbedsUris
     const string TemplateUrl_ReservationsWithRates_GetDateWindow =
         "{{iwsServerUrl}}/api/v1.1/getReservationsWithRateDetails?{{iwsPropertyIdSegment}}reservationCheckOutFrom={{iwsCheckOutFrom}}&reservationCheckOutTo={{iwsCheckOutTo}}&pageNumber={{iwsPageNumber}}&pageSize={{iwsPageSize}}";
 
+
+    const string TemplateUrl_ReservationsWithRooms_GetDateWindow =
+        "{{iwsServerUrl}}/api/v1.2/getReservations?{{iwsPropertyIdSegment}}checkOutFrom={{iwsCheckOutFrom}}&checkOutTo={{iwsCheckOutTo}}&includeAllRooms=true&pageNumber={{iwsPageNumber}}&pageSize={{iwsPageSize}}";
+
     /// <summary>
     /// 2023-02-06: Interestingly the URL for showing a reservations details DOES NOT use the ReservationId that is returned in JSON,
     ///             instead it looks up some other (internal?) ID.  We should see if we can get a URL endpoint created that taked in 
@@ -151,6 +155,47 @@ static partial class CloudbedsUris
         return outText;
     }
 
+    /// <summary>
+    /// Get the current set of reservations
+    /// https://hotels.cloudbeds.com/api/docs/#api-Reservation-getReservations
+    /// 
+    /// </summary>
+    /// <param name="cbServerInfo"></param>
+    /// <returns></returns>
+    internal static string GetRoomReservationsWithRooms(
+        ICloudbedsServerInfo cbServerInfo,
+        //string reservationStatus,
+        DateTime checkOutStartWindow,
+        DateTime checkOutEndWindow,
+        int pageNumber,
+        int pageSize)
+    {
+        StringBuilder sb;
+        sb = new StringBuilder(TemplateUrl_ReservationsWithRooms_GetDateWindow);
+
+        //===================================================================
+        //Perform the replacements
+        //===================================================================
+        sb.Replace("{{iwsServerUrl}}", cbServerInfo.ServerUrl);
+        sb.Replace("{{iwsCheckOutFrom}}", helper_UrlDateText(checkOutStartWindow));
+        sb.Replace("{{iwsCheckOutTo}}", helper_UrlDateText(checkOutEndWindow));
+
+        sb.Replace("{{iwsPageNumber}}", pageNumber.ToString());
+        sb.Replace("{{iwsPageSize}}", pageSize.ToString());
+
+        //===================================================================================
+        //If there is a Property ID we explicitly have, put it in...
+        //===================================================================================
+        sb.Replace("{{iwsPropertyIdSegment}}",
+            UrlSegment_PropertyIdOrBlank(cbServerInfo));
+
+
+        //Make sure we replaced all the tokens
+        var outText = sb.ToString();
+        AssertTemplateCompleted(outText);
+        return outText;
+    }
+
 
     /// <summary>
     /// Called to broker an access token
@@ -180,7 +225,7 @@ static partial class CloudbedsUris
     /// <param name="cbAppConfig"></param>
     /// <param name="oauthCode"></param>
     /// <returns></returns>
-    public static string UriGenerate_BrowserReservationDetailsUrl(ICloudbedsServerInfo serverInfo, CloudbedsHotelDetails hotelDetails, CloudbedsReservation reservation)
+    public static string UriGenerate_BrowserReservationDetailsUrl(ICloudbedsServerInfo serverInfo, CloudbedsHotelDetails hotelDetails, CloudbedsReservation_v1 reservation)
     {
         var sb = new StringBuilder(TemplateUrl_BrowserReservationDetailsUrl);
 

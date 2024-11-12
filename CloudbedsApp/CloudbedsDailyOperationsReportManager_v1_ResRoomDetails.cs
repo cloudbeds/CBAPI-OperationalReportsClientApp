@@ -9,13 +9,13 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Web;
-using static CloudbedsDailyOperationsReportManager;
+using static CloudbedsDailyOperationsReportManager_v1;
 
 /// <summary>
 /// Produces a more detailed report showing every reservation that intersects with a given date
 /// Has a row for every [date]x[sub-reservation]
 /// </summary>
-internal partial class CloudbedsDailyOperationsReportManager_ResRoomDetails
+internal partial class CloudbedsDailyOperationsReportManager_v1_ResRoomDetails
 {
     private readonly ReadOnlyCollection<DailyReportSet> _dateRangeReportSet;
 
@@ -26,8 +26,8 @@ internal partial class CloudbedsDailyOperationsReportManager_ResRoomDetails
     /// <param name="dateStart"></param>
     /// <param name="dateEnd"></param>
     /// <param name="reservationSet"></param>
-    public CloudbedsDailyOperationsReportManager_ResRoomDetails(DateTime dateStart, DateTime dateEnd,
-        ICollection<CloudbedsReservationWithRooms> reservationSet)
+    public CloudbedsDailyOperationsReportManager_v1_ResRoomDetails(DateTime dateStart, DateTime dateEnd,
+        ICollection<CloudbedsReservationWithRooms_v1> reservationSet)
     {
         _dateRangeReportSet = GenerateDateRangeReportSet(dateStart, dateEnd, reservationSet).AsReadOnly();
     }
@@ -97,7 +97,7 @@ internal partial class CloudbedsDailyOperationsReportManager_ResRoomDetails
     /// <param name="date"></param>
     /// <param name="subReservation"></param>
     /// <returns></returns>
-    private static string helper_GenerateStateStateForDate(DateTime date, CloudbedsReservationRoom subReservation)
+    private static string helper_GenerateStateStateForDate(DateTime date, CloudbedsReservationRoom_v1 subReservation)
     {
         if (date < subReservation.Room_CheckIn)
         {
@@ -129,7 +129,7 @@ internal partial class CloudbedsDailyOperationsReportManager_ResRoomDetails
     /// <param name="dateEnd"></param>
     /// <param name="reservationSet"></param>
     /// <returns></returns>
-    private List<DailyReportSet> GenerateDateRangeReportSet(DateTime dateStart, DateTime dateEnd, ICollection<CloudbedsReservationWithRooms> reservationSet)
+    private List<DailyReportSet> GenerateDateRangeReportSet(DateTime dateStart, DateTime dateEnd, ICollection<CloudbedsReservationWithRooms_v1> reservationSet)
     {
         var outSet = new List<DailyReportSet>();
         var dateCurrent = dateStart.Date;
@@ -156,9 +156,9 @@ internal partial class CloudbedsDailyOperationsReportManager_ResRoomDetails
     /// <param name="dateCurrent"></param>
     /// <param name="reservationSet"></param>
     /// <returns></returns>
-    private DailyReportSet GenerateDailyReportSet_SingleDate(DateTime dateTarget, ICollection<CloudbedsReservationWithRooms> reservationSet)
+    private DailyReportSet GenerateDailyReportSet_SingleDate(DateTime dateTarget, ICollection<CloudbedsReservationWithRooms_v1> reservationSet)
     {
-        List<CloudbedsReservationRoom> outputSetOfSubReservation = new List<CloudbedsReservationRoom>();
+        List<CloudbedsReservationRoom_v1> outputSetOfSubReservation = new List<CloudbedsReservationRoom_v1>();
         //============================================================================
         //Look at each reservation in the set and see if it effects this date.
         //Reservations may have multiple rooms with different check in/out dates
@@ -182,7 +182,7 @@ internal partial class CloudbedsDailyOperationsReportManager_ResRoomDetails
     /// <param name="appendTo_subReservations"></param>
     /// <param name="thisReservation"></param>
     /// <exception cref="NotImplementedException"></exception>
-    private void helper_addSubReservationsWithIntersectingDates(DateTime dateTarget, List<CloudbedsReservationRoom> appendTo_subReservations, CloudbedsReservationWithRooms thisReservation)
+    private void helper_addSubReservationsWithIntersectingDates(DateTime dateTarget, List<CloudbedsReservationRoom_v1> appendTo_subReservations, CloudbedsReservationWithRooms_v1 thisReservation)
     {
         foreach(var thisSubReservation in thisReservation.ReservationRooms)
         {
@@ -196,7 +196,7 @@ internal partial class CloudbedsDailyOperationsReportManager_ResRoomDetails
     /// <param name="dateTarget"></param>
     /// <param name="thisSubReservation"></param>
     /// <param name="appendTo_subReservations"></param>
-    private void helper_addSubReservationsWithIntersectingDates_subReservation(DateTime dateTarget, CloudbedsReservationRoom thisSubReservation, List<CloudbedsReservationRoom> appendTo_subReservations)
+    private void helper_addSubReservationsWithIntersectingDates_subReservation(DateTime dateTarget, CloudbedsReservationRoom_v1 thisSubReservation, List<CloudbedsReservationRoom_v1> appendTo_subReservations)
     {
         //If sub reservation is BEFORE the date, do nothing
         if(dateTarget < thisSubReservation.Room_CheckIn)

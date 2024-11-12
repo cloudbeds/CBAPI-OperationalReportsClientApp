@@ -8,6 +8,7 @@ internal enum AppNavigationState
     ShowCurrentGuests,
     ShowReservations,
     ShowStatusLogs,
-    ShowOperationalReport,
+    ShowOperationalReport_v1,
+    ShowOperationalReport_v2,
     ShowSetup,
 }

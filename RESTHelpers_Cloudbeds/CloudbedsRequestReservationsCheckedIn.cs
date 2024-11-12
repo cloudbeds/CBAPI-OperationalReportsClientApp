@@ -10,7 +10,7 @@ using System.ComponentModel;
 /// <summary>
 /// A request to get the reservations data from Cloudbeds
 /// </summary>
-class CloudbedsRequestReservationsCheckedIn : CloudbedsRequestReservationsBase
+class CloudbedsRequestReservationsCheckedIn : CloudbedsRequestReservationsBase_v1
 {
 
     /// <summary>

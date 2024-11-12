@@ -79,7 +79,7 @@ abstract class CloudbedsRequestBase
     /// </summary>
     /// <param name="response"></param>
     /// <returns></returns>
-    private static Stream GetResponseStreamFromHttoResponseMessage(HttpResponseMessage response)
+    private static Stream GetResponseStreamFromHttpResponseMessage(HttpResponseMessage response)
     {
         //var responseStream = response.Content.ReadAsStream();
         //Use the "Async" call (so we can use this same code on Xamarin/Andriod/iPhone, which does not have the synchronous API (2022-10)
@@ -103,7 +103,7 @@ abstract class CloudbedsRequestBase
 
         string streamText = "";
 
-        var responseStream = GetResponseStreamFromHttoResponseMessage(response);
+        var responseStream = GetResponseStreamFromHttpResponseMessage(response);
         using (responseStream)
         {
             var streamReader = new StreamReader(responseStream);
@@ -133,7 +133,7 @@ abstract class CloudbedsRequestBase
     protected static System.Xml.XmlDocument GetWebResponseAsXml(HttpResponseMessage response)
     {
         string streamText = "";
-        var responseStream = GetResponseStreamFromHttoResponseMessage(response);
+        var responseStream = GetResponseStreamFromHttpResponseMessage(response);
         using (responseStream)
         {
             var streamReader = new StreamReader(responseStream);
@@ -156,7 +156,7 @@ abstract class CloudbedsRequestBase
     protected static string GetWebResponseAsText(HttpResponseMessage response)
     {
         string streamText = "";
-        var responseStream = GetResponseStreamFromHttoResponseMessage(response);
+        var responseStream = GetResponseStreamFromHttpResponseMessage(response);
         using (responseStream)
         {
             var streamReader = new StreamReader(responseStream);

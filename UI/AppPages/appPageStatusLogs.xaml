@@ -17,14 +17,14 @@
         
         <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left">Status logs</TextBlock>
         <ScrollViewer Grid.Row="1" Grid.Column="0" VerticalScrollBarVisibility="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#ffffff">
-            <TextBlock HorizontalAlignment="Stretch" TextWrapping="Wrap"  x:Name="txtStatusLogs"></TextBlock>
+            <TextBox HorizontalAlignment="Stretch" TextWrapping="Wrap" IsReadOnly="True"   x:Name="txtStatusLogs"></TextBox>
         </ScrollViewer>
 
         <Border Grid.Row="0" Grid.Column="1" Background="#ffc0c0"  HorizontalAlignment="Stretch">
             <TextBlock HorizontalAlignment="Left" >Error logs</TextBlock>
         </Border>
         <ScrollViewer Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#ffc0c0">
-            <TextBlock HorizontalAlignment="Stretch" TextWrapping="Wrap" x:Name="txtErrorLogs"></TextBlock>
+            <TextBox HorizontalAlignment="Stretch" TextWrapping="Wrap" IsReadOnly="True" x:Name="txtErrorLogs"></TextBox>
         </ScrollViewer>
 
         </Grid>

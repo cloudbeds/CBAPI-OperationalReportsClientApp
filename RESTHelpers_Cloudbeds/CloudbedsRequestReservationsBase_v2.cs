@@ -10,7 +10,7 @@ using System.ComponentModel;
 /// <summary>
 /// A request to get the Reservations data from Cloudbeds
 /// </summary>
-abstract class CloudbedsRequestReservationsWithRoomRatesBase : CloudbedsAuthenticatedRequestBase
+abstract class CloudbedsRequestReservationsBase_v2 : CloudbedsAuthenticatedRequestBase
 {
     /// <summary>
     /// Derrived classes must implement this to return the necessary query URL
@@ -23,7 +23,7 @@ abstract class CloudbedsRequestReservationsWithRoomRatesBase : CloudbedsAuthenti
 
     protected readonly ICloudbedsServerInfo _cbServerInfo;
     private JsonDocument _commandResultJson = null;
-    private ReadOnlyCollection<CloudbedsReservationWithRooms_v1> _jsonResult_reservations = null;
+    private ReadOnlyCollection<CloudbedsReservationWithRooms_v2> _jsonResult_reservations = null;
 
     /// <summary>
     /// 
@@ -31,7 +31,7 @@ abstract class CloudbedsRequestReservationsWithRoomRatesBase : CloudbedsAuthenti
     /// <param name="cbServerInfo"></param>
     /// <param name="oauthRefreshToken"></param>
     /// <param name="statusLog"></param>
-    public CloudbedsRequestReservationsWithRoomRatesBase(
+    public CloudbedsRequestReservationsBase_v2(
         ICloudbedsServerInfo cbServerInfo, 
         ICloudbedsAuthSessionId authSession, 
         TaskStatusLogs statusLog)
@@ -43,7 +43,7 @@ abstract class CloudbedsRequestReservationsWithRoomRatesBase : CloudbedsAuthenti
     /// <summary>
     /// The list of reservations returned by the server
     /// </summary>
-    public ReadOnlyCollection<CloudbedsReservationWithRooms_v1> CommandResults_Reservations
+    public ReadOnlyCollection<CloudbedsReservationWithRooms_v2> CommandResults_Reservations
     {
         get
         {
@@ -101,7 +101,7 @@ abstract class CloudbedsRequestReservationsWithRoomRatesBase : CloudbedsAuthenti
     private bool ExecuteRequest_inner()
     {
         const int queryResults_pageSize = 100; //This is the # of results expects
-        var allReservations = new List<CloudbedsReservationWithRooms_v1>();
+        var allReservations = new List<CloudbedsReservationWithRooms_v2>();
         var latchAllGuestsReturned = new SimpleLatch();
 
         //============================================================
@@ -144,7 +144,7 @@ abstract class CloudbedsRequestReservationsWithRoomRatesBase : CloudbedsAuthenti
     /// https://hotels.cloudbeds.com/api/docs/#api-Reservation-getReservations
     /// </summary>
     /// 
-    public List<CloudbedsReservationWithRooms_v1> ExecuteRequest_SinglePage(int pageNumber, int pageSize)
+    public List<CloudbedsReservationWithRooms_v2> ExecuteRequest_SinglePage(int pageNumber, int pageSize)
     {
         string url = GenerateQueryPageUrl(pageNumber, pageSize);
 
@@ -160,16 +160,11 @@ abstract class CloudbedsRequestReservationsWithRoomRatesBase : CloudbedsAuthenti
         //========================================================================
         //Get the response
         //========================================================================
-        var response = GetWebResponseLogErrors(httpRequest, "request hotel reservations list, page #" + pageNumber.ToString());
+        var response = GetWebResponseLogErrors(httpRequest, "request hotel reservations list");
 
         //https://docs.microsoft.com/en-us/dotnet/standard/serialization/system-text-json-use-dom-utf8jsonreader-utf8jsonwriter?pivots=dotnet-6-0
         using (response)
         {
-            if(response.StatusCode == HttpStatusCode.Unauthorized)
-            {
-                throw new Exception("0415-833: Server request returned 'unauthorized' for " + url);
-            }
-
             var jsonOut = GetWebResponseAsJson(response, false);
             _commandResultJson = jsonOut;
 
@@ -181,7 +176,7 @@ abstract class CloudbedsRequestReservationsWithRoomRatesBase : CloudbedsAuthenti
             JsonElement jsonResult_dataNode;
             if (!jsonOut.RootElement.TryGetProperty("data", out jsonResult_dataNode))
             {
-                throw new Exception("0223-1015: No Json 'data' node found");
+                throw new Exception("241111-1015: No Json 'data' node found");
             }
 
             return ExecuteRequest_ParseReservationsFromResponse(jsonResult_dataNode);
@@ -194,32 +189,33 @@ abstract class CloudbedsRequestReservationsWithRoomRatesBase : CloudbedsAuthenti
     /// </summary>
     /// <param name="jsonResult_dataNode"></param>
     /// <returns></returns>
-    private List<CloudbedsReservationWithRooms_v1> ExecuteRequest_ParseReservationsFromResponse(JsonElement jsonResult_dataNode)
+    private List<CloudbedsReservationWithRooms_v2> ExecuteRequest_ParseReservationsFromResponse(JsonElement jsonResult_dataNode)
     {
-        var listOut = new List<CloudbedsReservationWithRooms_v1>();
+        var listOut = new List<CloudbedsReservationWithRooms_v2>();
         if(jsonResult_dataNode.ValueKind != JsonValueKind.Array)
         {
-            throw new Exception("0205-1016: Expected Json Array");
+            throw new Exception("241111-1016: Expected Json Array");
         }
 
         var reservationSet = jsonResult_dataNode.EnumerateArray();
         foreach (var jsonSingleReservation in reservationSet)
         {
-            CloudbedsReservationWithRooms_v1 thisItem = ExecuteRequest_ParseGuestsFromResponse_SingleReservation(jsonSingleReservation);
+            CloudbedsReservationWithRooms_v2 thisItem = 
+                ExecuteRequest_ParseGuestsFromResponse_SingleReservation(jsonSingleReservation);
             if(thisItem != null)
             {
                 listOut.Add(thisItem);
             }
             else //Unxpected -- we did not parse a guest?
             {
-                this.StatusLog.AddError("0205-1021: NULL reservation parse");
+                this.StatusLog.AddError("241111-1021: NULL reservation parse");
             }
         }
         
         return listOut;
     }
 
-    private CloudbedsReservationWithRooms_v1 ExecuteRequest_ParseGuestsFromResponse_SingleReservation(JsonElement jsonSingleGuest)
+    private CloudbedsReservationWithRooms_v2 ExecuteRequest_ParseGuestsFromResponse_SingleReservation(JsonElement jsonSingleGuest)
     {
         try
         {
@@ -227,12 +223,12 @@ abstract class CloudbedsRequestReservationsWithRoomRatesBase : CloudbedsAuthenti
         }
         catch(Exception ex)
         {
-            this.StatusLog.AddError("0205-1022: Error parsing reservation: " + ex.Message);
+            this.StatusLog.AddError("241111-1022: Error parsing reservation: " + ex.Message);
             return null;
         }
     }
 
-    private CloudbedsReservationWithRooms_v1 ExecuteRequest_ParseGuestsFromResponse_SingleReservation_inner(JsonElement jsonSingleReservation)
+    private CloudbedsReservationWithRooms_v2 ExecuteRequest_ParseGuestsFromResponse_SingleReservation_inner(JsonElement jsonSingleReservation)
     {
         string reservationId =
             JsonParseHelpers.FindJasonAttributeValue_String(jsonSingleReservation, "reservationID");
@@ -242,37 +238,54 @@ abstract class CloudbedsRequestReservationsWithRoomRatesBase : CloudbedsAuthenti
 
         string reservationStatus =
         JsonParseHelpers.FindJasonAttributeValue_String(jsonSingleReservation, "status");
+/*
+        int reservationAdults =
+            JsonParseHelpers.FindJasonAttributeValue_IntegerOrNull(jsonSingleReservation, "adults").Value;
 
+        int reservationChildren =
+            JsonParseHelpers.FindJasonAttributeValue_IntegerOrNull(jsonSingleReservation, "children").Value;
 
+        decimal reservationBalance =
+            JsonParseHelpers.FindJasonAttributeValue_DecimalOrNull(jsonSingleReservation, "balance").Value;
+*/
 
         string reservationStartDate_text =
-            JsonParseHelpers.FindJasonAttributeValue_String(jsonSingleReservation, "reservationCheckIn");
+            JsonParseHelpers.FindJasonAttributeValue_String(jsonSingleReservation, "startDate");
         string reservationEndDate_text =
-            JsonParseHelpers.FindJasonAttributeValue_String(jsonSingleReservation, "reservationCheckOut");
+            JsonParseHelpers.FindJasonAttributeValue_String(jsonSingleReservation, "endDate");
         string guestId =
             JsonParseHelpers.FindJasonAttributeValue_String(jsonSingleReservation, "guestID");
         string guestName = 
             JsonParseHelpers.FindJasonAttributeValue_String(jsonSingleReservation, "guestName");
-
+//        string guestEmail =
+//            JsonParseHelpers.FindJasonAttributeValue_String(jsonSingleGuest, "guestEmail");
+//        string guestCellPhone =
+//            JsonParseHelpers.FindJasonAttributeValue_String(jsonSingleGuest, "guestCellPhone");
+ /*       string roomId =
+            JsonParseHelpers.FindJasonAttributeValue_String(jsonSingleGuest, "roomID");
+        string roomName =
+            JsonParseHelpers.FindJasonAttributeValue_String(jsonSingleGuest, "roomName");
+*/
+        //=====================================================================
         //Get the list of ROOMS in the reservation
+        //=====================================================================
         var jsonResRooms = jsonSingleReservation.GetProperty("rooms");
         var jsonArrRooms = jsonResRooms.EnumerateArray();
-        var resRooms = new List<CloudbedsReservationRoom_v1>();
-        foreach(var jsonSingleRoom in jsonArrRooms)
+        var resRooms = new List<CloudbedsReservationRoom_v2>();
+        foreach (var jsonSingleRoom in jsonArrRooms)
         {
             var parsedSingleRooms = ParseSingleRoomFromJSon(jsonSingleRoom, reservationId);
             resRooms.Add(parsedSingleRooms);
         }
 
 
-        return new CloudbedsReservationWithRooms_v1(
-            reservationId
-            , reservationStatus
-            , propertyId
-            , reservationStartDate_text, reservationEndDate_text
-            , guestId, guestName
-            , resRooms
-            );
+        return new CloudbedsReservationWithRooms_v2(
+            reservationId,
+            reservationStatus,
+            propertyId,
+            reservationStartDate_text, reservationEndDate_text,
+            guestId, guestName, 
+            resRooms);
     }
 
     /// <summary>
@@ -280,7 +293,7 @@ abstract class CloudbedsRequestReservationsWithRoomRatesBase : CloudbedsAuthenti
     /// </summary>
     /// <param name="jsonRoom"></param>
     /// <returns></returns>
-    private CloudbedsReservationRoom_v1 ParseSingleRoomFromJSon(JsonElement jsonRoom, string reservationId)
+    private CloudbedsReservationRoom_v2 ParseSingleRoomFromJSon(JsonElement jsonRoom, string reservationId)
     {
         string roomTypeId =
             JsonParseHelpers.FindJasonAttributeValue_String(jsonRoom, "roomTypeID");
@@ -300,7 +313,7 @@ abstract class CloudbedsRequestReservationsWithRoomRatesBase : CloudbedsAuthenti
         string guestId =
             JsonParseHelpers.FindJasonAttributeValue_String(jsonRoom, "guestID");
 
-        string guestName=
+        string guestName =
             JsonParseHelpers.FindJasonAttributeValue_String(jsonRoom, "guestName");
 
         string roomId =
@@ -319,12 +332,13 @@ abstract class CloudbedsRequestReservationsWithRoomRatesBase : CloudbedsAuthenti
 
         IwsDiagnostics.Assert(!string.IsNullOrWhiteSpace(roomStatus), "240327-225: no sub-reservation id found" + jsonRoom.ToString());
 
-        return new CloudbedsReservationRoom_v1(
+        return new CloudbedsReservationRoom_v2(
             reservationId,
-            subReservationId, 
-            roomTypeId, roomTypeName, 
-            checkInDate, checkOutDate, 
+            subReservationId,
+            roomTypeId, roomTypeName,
+            checkInDate, checkOutDate,
             guestId, guestName,
             roomId, roomName, roomStatus);
     }
+
 }

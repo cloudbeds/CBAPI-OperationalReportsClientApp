@@ -4,7 +4,7 @@ using System.Text;
 /// <summary>
 /// Cloudbeds CloudbedsReservationRoom
 /// </summary>
-partial class CloudbedsReservationRoom
+partial class CloudbedsReservationRoom_v2
 {
     //[2024-11-04] API docs indicate the status is "canceled" with one "l"
     //[2024-11-04]    public const string RoomStatus_Cancelled = "cancelled";
@@ -13,7 +13,7 @@ partial class CloudbedsReservationRoom
     public const string RoomStatus_CheckedOut = "checked_out";
     public const string RoomStatus_NotCheckedIn = "not_checked_in";
 
-    public static bool IsRoomStatusKnownState(CloudbedsReservationRoom reservationRoom)
+    public static bool IsRoomStatusKnownState(CloudbedsReservationRoom_v2 reservationRoom)
     {
         return IsRoomStatusKnownState(reservationRoom.Room_Status);
     }

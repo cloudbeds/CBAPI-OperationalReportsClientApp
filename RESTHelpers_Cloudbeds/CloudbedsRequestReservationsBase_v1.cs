@@ -10,7 +10,7 @@ using System.ComponentModel;
 /// <summary>
 /// A request to get the Reservations data from Cloudbeds
 /// </summary>
-abstract class CloudbedsRequestReservationsBase : CloudbedsAuthenticatedRequestBase
+abstract class CloudbedsRequestReservationsBase_v1 : CloudbedsAuthenticatedRequestBase
 {
     /// <summary>
     /// Derrived classes must implement this to return the necessary query URL
@@ -23,7 +23,7 @@ abstract class CloudbedsRequestReservationsBase : CloudbedsAuthenticatedRequestB
 
     protected readonly ICloudbedsServerInfo _cbServerInfo;
     private JsonDocument _commandResultJson = null;
-    private ReadOnlyCollection<CloudbedsReservation> _jsonResult_reservations = null;
+    private ReadOnlyCollection<CloudbedsReservation_v1> _jsonResult_reservations = null;
 
     /// <summary>
     /// 
@@ -31,7 +31,7 @@ abstract class CloudbedsRequestReservationsBase : CloudbedsAuthenticatedRequestB
     /// <param name="cbServerInfo"></param>
     /// <param name="oauthRefreshToken"></param>
     /// <param name="statusLog"></param>
-    public CloudbedsRequestReservationsBase(
+    public CloudbedsRequestReservationsBase_v1(
         ICloudbedsServerInfo cbServerInfo, 
         ICloudbedsAuthSessionId authSession, 
         TaskStatusLogs statusLog)
@@ -43,7 +43,7 @@ abstract class CloudbedsRequestReservationsBase : CloudbedsAuthenticatedRequestB
     /// <summary>
     /// The list of reservations returned by the server
     /// </summary>
-    public ReadOnlyCollection<CloudbedsReservation> CommandResults_Reservations
+    public ReadOnlyCollection<CloudbedsReservation_v1> CommandResults_Reservations
     {
         get
         {
@@ -101,7 +101,7 @@ abstract class CloudbedsRequestReservationsBase : CloudbedsAuthenticatedRequestB
     private bool ExecuteRequest_inner()
     {
         const int queryResults_pageSize = 100; //This is the # of results expects
-        var allReservations = new List<CloudbedsReservation>();
+        var allReservations = new List<CloudbedsReservation_v1>();
         var latchAllGuestsReturned = new SimpleLatch();
 
         //============================================================
@@ -144,7 +144,7 @@ abstract class CloudbedsRequestReservationsBase : CloudbedsAuthenticatedRequestB
     /// https://hotels.cloudbeds.com/api/docs/#api-Reservation-getReservations
     /// </summary>
     /// 
-    public List<CloudbedsReservation> ExecuteRequest_SinglePage(int pageNumber, int pageSize)
+    public List<CloudbedsReservation_v1> ExecuteRequest_SinglePage(int pageNumber, int pageSize)
     {
         string url = GenerateQueryPageUrl(pageNumber, pageSize);
 
@@ -176,7 +176,7 @@ abstract class CloudbedsRequestReservationsBase : CloudbedsAuthenticatedRequestB
             JsonElement jsonResult_dataNode;
             if (!jsonOut.RootElement.TryGetProperty("data", out jsonResult_dataNode))
             {
-                throw new Exception("0223-1015: No Json 'data' node found");
+                throw new Exception("241111-1015: No Json 'data' node found");
             }
 
             return ExecuteRequest_ParseReservationsFromResponse(jsonResult_dataNode);
@@ -189,32 +189,33 @@ abstract class CloudbedsRequestReservationsBase : CloudbedsAuthenticatedRequestB
     /// </summary>
     /// <param name="jsonResult_dataNode"></param>
     /// <returns></returns>
-    private List<CloudbedsReservation> ExecuteRequest_ParseReservationsFromResponse(JsonElement jsonResult_dataNode)
+    private List<CloudbedsReservation_v1> ExecuteRequest_ParseReservationsFromResponse(JsonElement jsonResult_dataNode)
     {
-        var listOut = new List<CloudbedsReservation>();
+        var listOut = new List<CloudbedsReservation_v1>();
         if(jsonResult_dataNode.ValueKind != JsonValueKind.Array)
         {
-            throw new Exception("0205-1016: Expected Json Array");
+            throw new Exception("241111-1016: Expected Json Array");
         }
 
         var reservationSet = jsonResult_dataNode.EnumerateArray();
         foreach (var jsonSingleReservation in reservationSet)
         {
-            CloudbedsReservation thisItem = ExecuteRequest_ParseGuestsFromResponse_SingleReservation(jsonSingleReservation);
+            CloudbedsReservation_v1 thisItem = 
+                ExecuteRequest_ParseGuestsFromResponse_SingleReservation(jsonSingleReservation);
             if(thisItem != null)
             {
                 listOut.Add(thisItem);
             }
             else //Unxpected -- we did not parse a guest?
             {
-                this.StatusLog.AddError("0205-1021: NULL reservation parse");
+                this.StatusLog.AddError("241111-1021: NULL reservation parse");
             }
         }
         
         return listOut;
     }
 
-    private CloudbedsReservation ExecuteRequest_ParseGuestsFromResponse_SingleReservation(JsonElement jsonSingleGuest)
+    private CloudbedsReservation_v1 ExecuteRequest_ParseGuestsFromResponse_SingleReservation(JsonElement jsonSingleGuest)
     {
         try
         {
@@ -222,12 +223,12 @@ abstract class CloudbedsRequestReservationsBase : CloudbedsAuthenticatedRequestB
         }
         catch(Exception ex)
         {
-            this.StatusLog.AddError("0205-1022: Error parsing reservation: " + ex.Message);
+            this.StatusLog.AddError("241111-1022: Error parsing reservation: " + ex.Message);
             return null;
         }
     }
 
-    private CloudbedsReservation ExecuteRequest_ParseGuestsFromResponse_SingleReservation_inner(JsonElement jsonSingleGuest)
+    private CloudbedsReservation_v1 ExecuteRequest_ParseGuestsFromResponse_SingleReservation_inner(JsonElement jsonSingleGuest)
     {
         string reservationId =
             JsonParseHelpers.FindJasonAttributeValue_String(jsonSingleGuest, "reservationID");
@@ -266,7 +267,7 @@ abstract class CloudbedsRequestReservationsBase : CloudbedsAuthenticatedRequestB
             JsonParseHelpers.FindJasonAttributeValue_String(jsonSingleGuest, "roomName");
 
 
-        return new CloudbedsReservation(
+        return new CloudbedsReservation_v1(
             reservationId,
             reservationStatus,
             reservationBalance,

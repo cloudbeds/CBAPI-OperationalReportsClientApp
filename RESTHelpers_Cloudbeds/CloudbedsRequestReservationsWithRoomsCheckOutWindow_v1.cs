@@ -10,7 +10,7 @@ using System.ComponentModel;
 /// <summary>
 /// A request to get the reservations data from Cloudbeds
 /// </summary>
-class CloudbedsRequestReservationsWithRoomsCheckOutWindow : CloudbedsRequestReservationsWithRoomRatesBase
+class CloudbedsRequestReservationsWithRoomsCheckOutWindow_v1 : CloudbedsRequestReservationsWithRoomRatesBase
 {
 
     public const string ReservationStatusFilter_All = "";
@@ -29,7 +29,7 @@ class CloudbedsRequestReservationsWithRoomsCheckOutWindow : CloudbedsRequestRese
     /// <param name="cbServerInfo"></param>
     /// <param name="oauthRefreshToken"></param>
     /// <param name="statusLog"></param>
-    public CloudbedsRequestReservationsWithRoomsCheckOutWindow(
+    public CloudbedsRequestReservationsWithRoomsCheckOutWindow_v1(
         ICloudbedsServerInfo cbServerInfo, 
         ICloudbedsAuthSessionId authSession, 
         TaskStatusLogs statusLog,

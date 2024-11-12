@@ -10,7 +10,8 @@ using System.ComponentModel;
 /// <summary>
 /// A request to get the reservations data from Cloudbeds
 /// </summary>
-class CloudbedsRequestReservationsCheckInWindow : CloudbedsRequestReservationsBase_v1
+class CloudbedsRequestReservationsWithRoomsCheckOutWindow_v2 : 
+                                CloudbedsRequestReservationsBase_v2
 {
 
     public const string ReservationStatusFilter_All = "";
@@ -29,18 +30,16 @@ class CloudbedsRequestReservationsCheckInWindow : CloudbedsRequestReservationsBa
     /// <param name="cbServerInfo"></param>
     /// <param name="oauthRefreshToken"></param>
     /// <param name="statusLog"></param>
-    public CloudbedsRequestReservationsCheckInWindow(
+    public CloudbedsRequestReservationsWithRoomsCheckOutWindow_v2(
         ICloudbedsServerInfo cbServerInfo, 
         ICloudbedsAuthSessionId authSession, 
         TaskStatusLogs statusLog,
-        string reservationStatusFilter,
         DateTime startDateCheckIn,
         DateTime endDateCheckIn)
         : base(cbServerInfo, authSession, statusLog)
     {
         _startDateCheckIn = startDateCheckIn;
         _endDateCheckIn = endDateCheckIn;
-        _reservationStatusFilter = reservationStatusFilter;
     }
 
 
@@ -52,8 +51,8 @@ class CloudbedsRequestReservationsCheckInWindow : CloudbedsRequestReservationsBa
     /// <returns></returns>
     protected override string GenerateQueryPageUrl(int pageNumber, int pageSize)
     {
-        return CloudbedsUris.GetCheckedInDateWindowReservationsList(
-            _cbServerInfo, _reservationStatusFilter, _startDateCheckIn, _endDateCheckIn, pageNumber, pageSize);
+        return CloudbedsUris.GetRoomReservationsWithRooms(
+            _cbServerInfo, _startDateCheckIn, _endDateCheckIn, pageNumber, pageSize);
     }
 
 }

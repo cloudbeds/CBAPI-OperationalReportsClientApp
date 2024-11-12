@@ -5,8 +5,8 @@ using System.Xml;
 
 internal class ReservationSelectedEventArgs : EventArgs
 {
-    public readonly CloudbedsReservation Reservation;
-    public ReservationSelectedEventArgs(CloudbedsReservation reservation) : base()
+    public readonly CloudbedsReservation_v1 Reservation;
+    public ReservationSelectedEventArgs(CloudbedsReservation_v1 reservation) : base()
     {
         this.Reservation = reservation;
     }

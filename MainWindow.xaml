@@ -56,10 +56,11 @@
             </Grid.ColumnDefinitions>
             <Border Grid.Row="0" Grid.Column="0" BorderThickness="0,0,1,0" BorderBrush="#c0c0c0">
                 <StackPanel Orientation="Vertical" Background="#ffffff">
-                    <Button Style="{StaticResource MenuButton}"  Click="NavigateApp_ShowHome" >&#x1F3E0; Home</Button>
-                    <Button Style="{StaticResource MenuButton}"  Click="NavigateApp_ShowOperationalReport" >&#x1F4C1; Operational Report</Button>
-                    <Button Style="{StaticResource MenuButton}" Click="NavigateApp_ShowStatusLogs">&#x1F527; Status Logs</Button>
-                    <Button Style="{StaticResource MenuButton}" Click="NavigateApp_ShowSetup">&#x2699; Setup</Button>
+                    <Button Style="{StaticResource MenuButton}" Click="NavigateApp_ShowHome" Cursor="Hand" >&#x1F3E0; Home</Button>
+                    <Button Style="{StaticResource MenuButton}" Click="NavigateApp_ShowOperationalReport_v2"  Cursor="Hand" >&#x1F4C1; Operational Report (v2)</Button>
+                    <Button Style="{StaticResource MenuButton}" Click="NavigateApp_ShowOperationalReport_v1" Cursor="Hand" >&#x1F4C1; Operational Report (v1)</Button>
+                    <Button Style="{StaticResource MenuButton}" Click="NavigateApp_ShowStatusLogs" Cursor="Hand" >&#x1F527; Status Logs</Button>
+                    <Button Style="{StaticResource MenuButton}" Click="NavigateApp_ShowSetup" Cursor="Hand" >&#x2699; Setup</Button>
 
                 </StackPanel>
 

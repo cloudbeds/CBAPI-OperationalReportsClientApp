@@ -1,0 +1,39 @@
+﻿<StackPanel x:Class="OnSiteCompanion.appPageOperationalReport_v2"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:OnSiteCompanion"
+             Orientation="Vertical" HorizontalAlignment="Stretch" Background="#ffffff">
+
+    <Border Margin="0 5 0 5" Background="#f0f0f0">
+        <StackPanel Orientation="Vertical">
+            <local:uiCBPropertyPicker></local:uiCBPropertyPicker>
+        </StackPanel>    
+    </Border>
+
+    <StackPanel Orientation="Vertical" Name="spQueryForDataIfNeeded" Margin="0 10 0 10">
+        <TextBlock>Note: Querying for data may take a few seconds (UI will be unresponsive during query)</TextBlock>
+        <Button Background="#2020ff"  Foreground="#ffffff" Padding="2" HorizontalAlignment="Left" Width="170" Click="ButtonQueryForData_Click" Name="btnRunQuery">Query server for data</Button>
+    </StackPanel>
+
+    <StackPanel Orientation="Vertical" Margin="0 10 0 10" Name="spLocalCacheInfo">
+        <TextBlock x:Name="txtCacheAge">Fill me: Cache age goes here...</TextBlock>
+        <Button Background="#ff2020"  Foreground="#ffffff" Padding="2" HorizontalAlignment="Left" Width="170" Click="btnClearCache_Click" Name="btnClearCache">Clear Cache</Button>
+    </StackPanel>
+
+    <StackPanel Orientation="Horizontal" x:Name="spGenerateCSVsOptions">
+        <Button Click="ButtonGenerateOperationalReportCsv_Click" Width="180" Margin="0 0 10 0" Padding="2" Background="#7070ff"  Foreground="#ffffff" BorderThickness="0" HorizontalAlignment="Left">
+            <TextBlock>Save Daily Summary CSV...</TextBlock>
+        </Button>
+
+        <Button Click="ButtonGenerateOperationalReportWithReservationDetailsCsv_Click" Width="180" Margin="0 0 10 0" Background="#7070ff"  Foreground="#ffffff" BorderThickness="0" HorizontalAlignment="Left">
+            <TextBlock>Save Daily/Reservations CSV...</TextBlock>
+        </Button>
+    </StackPanel>
+
+    <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" Background="#ffffff" Name="spContent">
+        <TextBlock Foreground="#a0a0a0" FontStyle="Italic">Query results shown here...</TextBlock>
+    </StackPanel>
+
+</StackPanel>

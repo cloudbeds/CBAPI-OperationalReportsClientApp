@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 /// <summary>
 /// </summary>
-internal partial class CloudbedsDailyOperationsReportManager
+internal partial class CloudbedsDailyOperationsReportManager_v1
 {
     /// <summary>
     /// Daily report for operations 

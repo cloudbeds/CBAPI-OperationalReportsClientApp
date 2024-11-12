@@ -19,9 +19,9 @@ namespace OnSiteCompanion
     /// <summary>
     /// Interaction logic for uiDailyOccupancyChangesListItem.xaml
     /// </summary>
-    public partial class uiDailyOccupancyChangesListItem : UserControl
+    public partial class uiDailyOccupancyChangesListItem_v1 : UserControl
     {
-        private readonly CloudbedsDailyOperationsReportManager.DailyReport _dailyReport = null;
+        private readonly CloudbedsDailyOperationsReportManager_v1.DailyReport _dailyReport = null;
 
         /*
         bool _isSelected;
@@ -42,7 +42,7 @@ namespace OnSiteCompanion
         }
         */
 
-        internal CloudbedsDailyOperationsReportManager.DailyReport DailyReport
+        internal CloudbedsDailyOperationsReportManager_v1.DailyReport DailyReport
         {
             get
             {
@@ -62,7 +62,7 @@ namespace OnSiteCompanion
         /// Constructor
         /// </summary>
         /// <param name="reservation"></param>
-        internal uiDailyOccupancyChangesListItem(CloudbedsDailyOperationsReportManager.DailyReport dailyReport) : this()
+        internal uiDailyOccupancyChangesListItem_v1(CloudbedsDailyOperationsReportManager_v1.DailyReport dailyReport) : this()
         {
             _dailyReport = dailyReport;
 
@@ -71,7 +71,7 @@ namespace OnSiteCompanion
         /// <summary>
         /// Constructor
         /// </summary>
-        public uiDailyOccupancyChangesListItem()
+        public uiDailyOccupancyChangesListItem_v1()
         {
             InitializeComponent();
             //UpdateIsSelectedUi();

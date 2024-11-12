@@ -18,7 +18,7 @@ namespace OnSiteCompanion
     /// <summary>
     /// Interaction logic for uiOccupancyChangesList.xaml
     /// </summary>
-    public partial class uiOccupancyChangesList : UserControl
+    public partial class uiOccupancyChangesList_v2 : UserControl
     {
         /// <summary>
         /// Delegate and Event for when a Reservation gets clicked/selected
@@ -28,7 +28,7 @@ namespace OnSiteCompanion
         //internal delegate void ReservationSelectedEventHandler(object sender, ReservationSelectedEventArgs e);
         //internal event ReservationSelectedEventHandler ReservationSelected;
 
-        CloudbedsReservation? _selectedReservation = null;
+        CloudbedsReservation_v2? _selectedReservation = null;
 
         /// <summary>
         /// True if the reservation list was filled at least once
@@ -54,13 +54,13 @@ namespace OnSiteCompanion
         /// <summary>
         /// Constructor
         /// </summary>
-        public uiOccupancyChangesList()
+        public uiOccupancyChangesList_v2()
         {
             InitializeComponent();
         }
 
         
-        internal uiOccupancyChangesList(CloudbedsDailyOperationsReportManager operationsReports) : this()
+        internal uiOccupancyChangesList_v2(CloudbedsDailyOperationsReportManager_v2 operationsReports) : this()
         {
             FillDailyReportsList(operationsReports);
         }
@@ -123,7 +123,7 @@ namespace OnSiteCompanion
         /// </summary>
         /// <param name="reservations"></param>
 //        internal void FillReservationsList(ICollection<CloudbedsReservation>? reservations)
-        internal void FillDailyReportsList(CloudbedsDailyOperationsReportManager operationsReports)
+        internal void FillDailyReportsList(CloudbedsDailyOperationsReportManager_v2 operationsReports)
         {
             _wasReservationListStocked.Trigger();
 
@@ -155,7 +155,7 @@ namespace OnSiteCompanion
             foreach (var thisDayReport in dailyReports)
             {
                 //Create the control
-                var ctlSingleDay = new uiDailyOccupancyChangesListItem(thisDayReport);
+                var ctlSingleDay = new uiDailyOccupancyChangesListItem_v2(thisDayReport);
 
                 //Hook up the event to listen to it here...
                 //ctlReservationListItem.ReservationSelected += EventHander_ReservationSelectedEventHandler;

@@ -13,7 +13,7 @@ using System.Web;
 /// <summary>
 /// Manages daily operations report items
 /// </summary>
-internal  partial class CloudbedsDailyOperationsReportManager
+internal  partial class CloudbedsDailyOperationsReportManager_v1
 {
     public ICollection<DailyReport> DailyReports 
     { get { 
@@ -29,8 +29,8 @@ internal  partial class CloudbedsDailyOperationsReportManager
     /// <param name="dateStart"></param>
     /// <param name="dateEnd"></param>
     /// <param name="reservationSet"></param>
-    public CloudbedsDailyOperationsReportManager(DateTime dateStart, DateTime dateEnd, 
-        ICollection<CloudbedsReservationWithRooms> reservationSet)
+    public CloudbedsDailyOperationsReportManager_v1(DateTime dateStart, DateTime dateEnd, 
+        ICollection<CloudbedsReservationWithRooms_v1> reservationSet)
     {
         _dailyReports = GenerateDailyReportSet(dateStart, dateEnd, reservationSet).AsReadOnly();
     }
@@ -81,7 +81,7 @@ internal  partial class CloudbedsDailyOperationsReportManager
     /// <param name="dateEnd"></param>
     /// <param name="reservationSet"></param>
     /// <returns></returns>
-    private List<DailyReport> GenerateDailyReportSet (DateTime dateStart, DateTime dateEnd, ICollection<CloudbedsReservationWithRooms> reservationSet)
+    private List<DailyReport> GenerateDailyReportSet (DateTime dateStart, DateTime dateEnd, ICollection<CloudbedsReservationWithRooms_v1> reservationSet)
     {
         var outSet = new List<DailyReport>();
         var dateCurrent = dateStart.Date;
@@ -104,7 +104,7 @@ internal  partial class CloudbedsDailyOperationsReportManager
     /// <param name="dateCurrent"></param>
     /// <param name="reservationSet"></param>
     /// <returns></returns>
-    private DailyReport GenerateDailyReportSet_SingleDate(DateTime dateTarget, ICollection<CloudbedsReservationWithRooms> reservationSet)
+    private DailyReport GenerateDailyReportSet_SingleDate(DateTime dateTarget, ICollection<CloudbedsReservationWithRooms_v1> reservationSet)
     {
         int numCheckIns = 0;
         int numCheckInsWithUnassignedRooms = 0;
@@ -165,7 +165,7 @@ internal  partial class CloudbedsDailyOperationsReportManager
     /// <param name="thisReservation"></param>
     /// <returns></returns>
     /// <exception cref="NotImplementedException"></exception>
-    private CheckInsInfo DateCheck_CalculateNumberForReservation_CheckIns(DateTime dateTarget, CloudbedsReservationWithRooms thisReservation)
+    private CheckInsInfo DateCheck_CalculateNumberForReservation_CheckIns(DateTime dateTarget, CloudbedsReservationWithRooms_v1 thisReservation)
     {
 
         //If it is canceleld, ignore it
@@ -181,7 +181,7 @@ internal  partial class CloudbedsDailyOperationsReportManager
         foreach(var thisRoom in thisReservation.ReservationRooms)
         {
 
-            if(thisRoom.Room_Status != CloudbedsReservationRoom.RoomStatus_Cancelled)
+            if(thisRoom.Room_Status != CloudbedsReservationRoom_v1.RoomStatus_Cancelled)
             {
                 if (thisRoom.Room_CheckIn == dateTarget)
                 {
@@ -212,7 +212,7 @@ internal  partial class CloudbedsDailyOperationsReportManager
     /// <param name="thisReservation"></param>
     /// <returns></returns>
     /// <exception cref="NotImplementedException"></exception>
-    private CheckOutsInfo DateCheck_CalculateNumberForReservation_CheckOuts(DateTime dateTarget, CloudbedsReservationWithRooms thisReservation)
+    private CheckOutsInfo DateCheck_CalculateNumberForReservation_CheckOuts(DateTime dateTarget, CloudbedsReservationWithRooms_v1 thisReservation)
     {
         //If it is canceleld, ignore it
         if (thisReservation.Reservation_Status == CloudbedsReservationStatus.STATUS_CANCELED)
@@ -225,7 +225,7 @@ internal  partial class CloudbedsDailyOperationsReportManager
         var listRoomIds = new List<string>();
         foreach (var thisRoom in thisReservation.ReservationRooms)
         {
-            if (thisRoom.Room_Status != CloudbedsReservationRoom.RoomStatus_Cancelled)
+            if (thisRoom.Room_Status != CloudbedsReservationRoom_v1.RoomStatus_Cancelled)
             {
 
                 if (thisRoom.Room_CheckOut == dateTarget)
@@ -257,7 +257,7 @@ internal  partial class CloudbedsDailyOperationsReportManager
     /// <param name="thisReservation"></param>
     /// <returns></returns>
     /// <exception cref="NotImplementedException"></exception>
-    private int DateCheck_CalculateNumberForReservation_Stayovers(DateTime compareDate, CloudbedsReservationWithRooms thisReservation)
+    private int DateCheck_CalculateNumberForReservation_Stayovers(DateTime compareDate, CloudbedsReservationWithRooms_v1 thisReservation)
     {
         //If it is canceleld, ignore it
         if (thisReservation.Reservation_Status == CloudbedsReservationStatus.STATUS_CANCELED)
@@ -270,7 +270,7 @@ internal  partial class CloudbedsDailyOperationsReportManager
         foreach (var thisRoom in thisReservation.ReservationRooms)
         {
             //If it is NOT a cacelled reservation
-            if (thisRoom.Room_Status != CloudbedsReservationRoom.RoomStatus_Cancelled)
+            if (thisRoom.Room_Status != CloudbedsReservationRoom_v1.RoomStatus_Cancelled)
             {
 
                 //if ((compareDate > thisRoom.Room_CheckIn) &&
